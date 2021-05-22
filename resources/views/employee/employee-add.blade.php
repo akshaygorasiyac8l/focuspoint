@@ -3,6 +3,9 @@
 @endsection
 @section('add_layout')
    @parent
+   
+   <link rel="stylesheet" type="text/css" href="{{ asset('js/css/jquery-ui.css') }}">
+
 @endsection
 @section('listing_layout')
 @endsection
@@ -110,8 +113,10 @@
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add supervisor" name="supervisor">
                                              <option value="0" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Supervisor 1</option>
-                                             <option value="2">Supervisor 2</option>
+                                             @foreach ($supervisors as $supervisor)
+                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
+                                             @endforeach
+                                             
                                           </select>
                                        </div>
                                     </div>
@@ -771,7 +776,7 @@ $(function () {
             var zipcode = $('.zipcode').val();
             var country = $('.country').val();
             
-            var dob = $('.date-of-birth').val();
+            var dob_2 = $('.date-of-birth').val();
             var ssn = $('.ssn').val();
             var hire_date = $('.hire-date').val();
             
@@ -912,7 +917,7 @@ $(function () {
                               state: state,
                               zipcode: zipcode,
                               country: country,
-                              dob: dob,
+                              dob_2: dob_2,
                               ssn: ssn,
                               hire_date: hire_date,
                               termination_date: termination_date,
@@ -945,7 +950,14 @@ $(function () {
                 contentType: false,
                 dataType    : 'json',
                 success: function (data) {
-                          
+                          console.log(data);
+                          if(data.class='success'){
+                              window.location.href= "{{ url('employee-listing') }}";
+                          }else{
+                              alert('Something wrong');
+                              return false;
+                          }
+
 
                 },
                 error: function (data) {

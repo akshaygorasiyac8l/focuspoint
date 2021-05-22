@@ -100,6 +100,9 @@ Route::any('/servicebyid/{id}', [App\Http\Controllers\ServiceController::class, 
 Route::any('/serviceedit', [App\Http\Controllers\ServiceController::class, 'editService'])->name('serviceedit');
 
 
+Route::any('/deletefile/{id}', [App\Http\Controllers\GeneralController::class, 'deleteFile'])->name('deletefile');
+
+
 
 
 Route::get('/consumers-listing', [App\Http\Controllers\ConsumerController::class, 'index'])->name('consumers-listing');
@@ -138,10 +141,10 @@ Route::get('/employee-listing', [App\Http\Controllers\EmployeeController::class,
 Route::any('/getemployees', [App\Http\Controllers\EmployeeController::class, 'getEmployees'])->name('getemployees');
 Route::any('/employee-add', [App\Http\Controllers\EmployeeController::class, 'addEmployee'])->name('employee-add');
 Route::get('/employee-details/{id}', [App\Http\Controllers\EmployeeController::class, 'employeeDetail'])->name('employee-details');
-Route::get('/employee-edit/{id}', [App\Http\Controllers\EmployeeController::class, 'editEmployee'])->name('employee-edit');
-
-
-
+Route::any('/employee-edit/{id}', [App\Http\Controllers\EmployeeController::class, 'editEmployee'])->name('employee-edit');
+Route::any('/employee-mail/{id}', [App\Http\Controllers\EmployeeController::class, 'mailEmployee'])->name('employee-mail');
+Route::any('/employee-pdf/{id}', [App\Http\Controllers\EmployeeController::class, 'pdfEmployee'])->name('employee-pdf');
+Route::any('/employee-ban/{id}', [App\Http\Controllers\EmployeeController::class, 'banEmployee'])->name('employee-ban');
 
 
 

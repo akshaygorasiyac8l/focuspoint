@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use DB;
 use Hash;
 use DataTables;
+use Illuminate\Support\Facades\Mail;
+use PDF;
+
 
 class EmployeeController extends Controller
 {
@@ -46,8 +49,12 @@ class EmployeeController extends Controller
                 $status = '';
                 if($data->status=='0'){
                     $status = 'Disable';
-                }else{
+                }else if($data->status=='3'){
+                    $status = 'Ban';
+                }else if($data->status=='1'){
                     $status = 'Enable';
+                }else{
+                    $status = '';
                 }
                 
                 $name = $data->fname.' '.$data->lname;
@@ -129,6 +136,7 @@ class EmployeeController extends Controller
             
             $country = $d->country;
             $time = '12';
+            $dob_2 = $d->dob_2;
             
             
             $ssn = $d->ssn;
@@ -173,6 +181,7 @@ class EmployeeController extends Controller
                 'state' => $state,
                 'zipcode' => $zipcode,
                 'country' => $country,
+                'dob_2' => $dob_2,
                 'ssn' => $ssn,
                 'hire_date' => $hire_date,
                 'termination_date' => $termination_date,
@@ -189,6 +198,7 @@ class EmployeeController extends Controller
                 'status' => 1,
             ]);
             
+            $date = date('Y-m-d');
             
             if($id){
             
@@ -252,9 +262,11 @@ class EmployeeController extends Controller
                             DB::table('employee_certifications')
                                 ->insert([
                                     'employee_id' => $id,
-                                    'certfication_type_id' => $certificate_type,
+                                    'certification_type_id' => $certificate_type,
                                     'receive_date' => $received_date,
                                     'expiry_date' => $expiry_date,
+                                    'created_date' => $date,
+                                    
                                    
                                     
                                 ]);
@@ -313,6 +325,7 @@ class EmployeeController extends Controller
             $data['relations'] = DB::table('relations')->get();
             $data['countries'] = DB::table('countries')->get();
             $data['states'] = DB::table('states')->get();
+            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
             return view('employee/employee-add',$data);
         }
         
@@ -322,9 +335,8 @@ class EmployeeController extends Controller
     public function editEmployee(Request $request,$id)
     {
         if($request->isMethod('post')){
-            $d = json_decode($request->options);
             
-            //dd($request->TotalFiles);
+            $d = json_decode($request->options);
             
             
             
@@ -340,10 +352,9 @@ class EmployeeController extends Controller
             $supervisor = $d->supervisor;
             
             $address = $d->address;
-            $login = $d->login;
             
-            $password = $d->password;
-            $confirmpassword = $d->confirmpassword;
+            
+            $password = $d->password;         
             
             
             $final_password = Hash::make($password);
@@ -356,6 +367,7 @@ class EmployeeController extends Controller
             
             
             $country = $d->country;
+            $dob_2 = $d->dob_2;
             $time = '12';
             
             
@@ -378,11 +390,15 @@ class EmployeeController extends Controller
             if($dl_expiration==''){
                 $dl_expiration = NULL;
             }
-            $dl_state = $d->dl_state;        
+            $dl_state = $d->dl_state;     
+
+
+        
             
             
-            $id = DB::table('users')
-            ->insertGetId([
+            $response =  DB::table('users')
+            ->where('id',$id)
+            ->update([
                 'salutation' => $salution,
                 'fname' => $fname,
                 'lname' => $lname,
@@ -394,13 +410,13 @@ class EmployeeController extends Controller
                 'role_id' => $role_id,
                 'supervisor' => $supervisor,
                 'address' => $address,
-                'login' => $login,
                 'password' => $final_password,
                 'address_1' => $address_1,
                 'city' => $city,
                 'state' => $state,
                 'zipcode' => $zipcode,
                 'country' => $country,
+                'dob_2' => $dob_2,
                 'ssn' => $ssn,
                 'hire_date' => $hire_date,
                 'termination_date' => $termination_date,
@@ -413,13 +429,13 @@ class EmployeeController extends Controller
                 'dl_expiration' => $dl_expiration,
                 'dl_state' => $dl_state,
                 'time' => $time,
-
-                'status' => 1,
             ]);
+            
+            $date = date('Y-m-d');
             
             
             if($id){
-            
+                /*
                 $contact_type_array = $d->contact_type_array;
                 //dd($contact_type_array[0]->contact_type);
                 $count_contact_type = sizeof($contact_type_array);
@@ -460,11 +476,38 @@ class EmployeeController extends Controller
                         }
                     }
                 }
+                */
+
+
+                $editpersons_arrays = $d->editpersons_array;
+                $get_existing_certificates = DB::table('employee_certifications')->where('employee_id',$id)->get();
+                $certs = array();            
+                foreach($get_existing_certificates as $get_existing_certificate){
+                    
+                    array_push($certs,$get_existing_certificate->id);
+                    
+                }
                 
+                $new_certs = array();  
+                foreach($editpersons_arrays as $editpersons_array){
+                    array_push($new_certs,$editpersons_array->editpersons);
+                }
+                $delete_certi = array_diff($certs,$new_certs);
+                $delete_certi = array_values($delete_certi);
+                $total_del_cert = sizeof($delete_certi);
+                if($total_del_cert > 0 ){
+                    for($cr=0;$cr<$total_del_cert;$cr++){
+                        DB::table('employee_certifications')->where('id',$delete_certi[$cr])->delete();
+                    }
+                    
+                }
+
+
                 $certificate_type_array = $d->certificate_type_array;
                 $count_certificate_type = sizeof($certificate_type_array);
                 if($count_certificate_type > 0 ){
                     for($i=0;$i<$count_certificate_type;$i++){
+                        
                         $certificate_type = $certificate_type_array[$i]->certificate_type;
                         $received_date = $certificate_type_array[$i]->received_date;
                         if($received_date==''){
@@ -475,21 +518,43 @@ class EmployeeController extends Controller
                         if($expiry_date==''){
                             $expiry_date = NULL;
                         }
-
-                        if($certificate_type!=''){
+                        
+                        
+                        if(isset($certificate_type_array[$i]->id)){
+                            
                             DB::table('employee_certifications')
-                                ->insert([
-                                    'employee_id' => $id,
-                                    'certfication_type_id' => $certificate_type,
-                                    'receive_date' => $received_date,
-                                    'expiry_date' => $expiry_date,
-                                   
-                                    
-                                ]);
+                            ->where('id',$certificate_type_array[$i]->id)
+                                    ->update([
+                                        'employee_id' => $id,
+                                        'certification_type_id' => $certificate_type,
+                                        'receive_date' => $received_date,
+                                        'expiry_date' => $expiry_date,
+                                        'updated_date' => $date,
+                                       
+                                        
+                                    ]);
+
+                            
+                        }else{
+                            
+                            if($certificate_type!=''){
+                                DB::table('employee_certifications')
+                                    ->insert([
+                                        'employee_id' => $id,
+                                        'certification_type_id' => $certificate_type,
+                                        'receive_date' => $received_date,
+                                        'expiry_date' => $expiry_date,
+                                        'created_date' => $date,
+                                       
+                                        
+                                    ]);
+                            }
                         }
+                        
                         
                     }
                 }
+                
                 
                 if($request->TotalFiles > 0)
                 {
@@ -525,7 +590,7 @@ class EmployeeController extends Controller
             
             
             
-                return response()->json(['message' => 'Added Successfully!','class' => 'success']);
+                return response()->json(['message' => 'Updated Successfully!','class' => 'success']);
             }else{
                 return response()->json(['message' => 'Something Wrong!','class' => 'danger']);
             }
@@ -543,6 +608,8 @@ class EmployeeController extends Controller
             $data['states'] = DB::table('states')->get();
             
             $data['contacts'] = DB::table('employee_emergency_contact')->where('employee_id',$id)->get();
+            $data['certificates'] = DB::table('employee_certifications')->where('employee_id',$id)->get();
+            $data['documents'] = DB::table('user_documents')->where('user_id',$id)->get();
             
             $employeedata = DB::table('users')->where('id',$id)->first();
             $employeedata->qualification = unserialize($employeedata->qualification);
@@ -550,9 +617,99 @@ class EmployeeController extends Controller
             $employeedata->termination_date  = date("Y-m-d",strtotime($employeedata->termination_date));
             $employeedata->dl_expiration  = date("Y-m-d",strtotime($employeedata->dl_expiration));
             $data['employee'] = $employeedata;
+            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->where('id','!=',$id)->get();
             return view('employee/employee-edit',$data);
         }
         
+    }
+    
+    public function banEmployee(Request $request,$id)
+    {
+        $employeedata = DB::table('users')->where('id',$id)->first();
+        if($employeedata){
+            if($employeedata->status=='3'){
+                $status = 1;
+            }else{
+                $status = 3;
+            }
+            
+            DB::table('users')
+            ->where('id',$id)
+            ->update([
+                'status' => $status,
+            ]);
+            
+            return response()->json(['message' => 'Updated Successfully!','class' => 'success','show' => $status]);
+        }else{
+            return response()->json(['message' => 'No User Found!','class' => 'danger']);
+        }
+    }
+    
+    public function mailEmployee(Request $request,$id)
+    {
+        $data = array();
+        $data['roles'] = DB::table('roles')->get();
+        $data['services'] = DB::table('services')->get();
+        $data['qualifications'] = DB::table('qualifications')->get();
+        $data['certfication_types'] = DB::table('certfication_types')->get();
+        $data['relations'] = DB::table('relations')->get();
+        $data['countries'] = DB::table('countries')->get();
+        $data['states'] = DB::table('states')->get();
+        
+        $data['contacts'] = DB::table('employee_emergency_contact')->where('employee_id',$id)->get();
+        $data['certificates'] = DB::table('employee_certifications')->where('employee_id',$id)->get();
+        $data['documents'] = DB::table('user_documents')->where('user_id',$id)->get();
+        
+        $employeedata = DB::table('users')->where('id',$id)->first();
+        $employeedata->qualification = unserialize($employeedata->qualification);
+        $employeedata->hire_date = date("Y-m-d",strtotime($employeedata->hire_date));
+        $employeedata->termination_date  = date("Y-m-d",strtotime($employeedata->termination_date));
+        $employeedata->dl_expiration  = date("Y-m-d",strtotime($employeedata->dl_expiration));
+        $data['employee'] = $employeedata;
+        
+       $mailsend =  Mail::send('mails.employee',
+           $data, function($message)
+               {
+                   $message->from('sarvesh.patel@cre8ivelabs.com');
+                   $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('Employee ');
+               });
+               
+               
+
+        
+        dd($mailsend);
+        
+        
+    }
+    
+    public function pdfEmployee(Request $request,$id)
+    {
+    
+        $data = array();
+        $data['roles'] = DB::table('roles')->get();
+        $data['services'] = DB::table('services')->get();
+        $data['qualifications'] = DB::table('qualifications')->get();
+        $data['certfication_types'] = DB::table('certfication_types')->get();
+        $data['relations'] = DB::table('relations')->get();
+        $data['countries'] = DB::table('countries')->get();
+        $data['states'] = DB::table('states')->get();
+        
+        $data['contacts'] = DB::table('employee_emergency_contact')->where('employee_id',$id)->get();
+        $data['certificates'] = DB::table('employee_certifications')->where('employee_id',$id)->get();
+        $data['documents'] = DB::table('user_documents')->where('user_id',$id)->get();
+        
+        $employeedata = DB::table('users')->where('id',$id)->first();
+        $employeedata->qualification = unserialize($employeedata->qualification);
+        $employeedata->hire_date = date("Y-m-d",strtotime($employeedata->hire_date));
+        $employeedata->termination_date  = date("Y-m-d",strtotime($employeedata->termination_date));
+        $employeedata->dl_expiration  = date("Y-m-d",strtotime($employeedata->dl_expiration));
+        $data['employee'] = $employeedata;
+        
+        
+              
+        $pdf = PDF::loadView('pdfs/employee', $data);
+
+        return  $pdf->download('Employee.pdf');
     }
 
 
@@ -567,7 +724,9 @@ class EmployeeController extends Controller
         $country_data = DB::table('countries')->where('id',$employeeData->country)->first();
         $employeeData->country = $country_data->name;
         
-        $employeeData->supervisor_name = $employeeData->supervisor;        
+        $employeeData->hire_date = date('Y-m-d',strtotime($employeeData->hire_date));     
+        $employeeData->termination_date = date('Y-m-d',strtotime($employeeData->termination_date));
+        $employeeData->dl_expiration = date('Y-m-d',strtotime($employeeData->dl_expiration));
         $data['employee'] = $employeeData;
         
         
@@ -601,12 +760,12 @@ class EmployeeController extends Controller
         $certificationsData =  array();
         $j=0;
         foreach($certifications  as $certification){
-            $certfication_types = DB::table('certfication_types')->where('id',$certification->certfication_type_id)->first();
+            $certfication_types = DB::table('certfication_types')->where('id',$certification->certification_type_id)->first();
             
             $certificationsData[$j] = array(
                 'id' =>$certification->id,
                 'employee_id' =>$certification->employee_id,
-                'certfication_type_id' =>$certfication_types->title,
+                'certification_type_id' =>$certfication_types->title,
                 'receive_date' =>$certification->receive_date,
                 'expiry_date' =>$certification->expiry_date,
                 'certificate_file' =>$certification->certificate_file,

@@ -196,6 +196,7 @@
     table#table-general1 tr td,table#table-general1 tr th{padding: 8px;}
     .fade{opacity: 1;}
     .modal-dialog{margin: 15% auto !important;}
+    .dataTables_filter{display:none;}
     
     </style> 
     

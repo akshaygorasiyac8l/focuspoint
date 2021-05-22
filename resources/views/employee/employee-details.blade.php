@@ -24,7 +24,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-6 page-background">
-                              <h1 class="page-title">Employee-{{$employee->id}}</h1>
+                              <h1 class="page-title">{{$employee->fname}} {{$employee->lname}}</h1>
                            </div>
                            <div class="col-md-6 new-attach-sec">
                               <div class="form-group new-image">
@@ -44,6 +44,7 @@
                   <section class="edit-section">
                      <div class="container-fluid">
                         <div class="row">
+                           
                            <div class="col-md-8">
                               <div class="btn-box">
                                  <div class="edit">
@@ -51,18 +52,26 @@
                                     <a href="{{route('employee-edit',$employee->id)}}" class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</a>
                                  </div>
                                  <div class="mail">
-                                    <button class="btn-edit-print"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
+                                    <button type="button" class="btn-edit-print empprint"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
                                  </div>
                                  <div class="pdf">
-                                    <button class="btn-edit-print"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</button>
+                                    <a target="blank" href="{{ url('employee-pdf') }}/{{$employee->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-4">
                               <div class="form-group ban-btn-sec">
-                                 <a class="btn-ban" id="ban-add">Ban</a>
-                                 <a class="btn-ban unban" id="unban-add">Unban</a>
+                              
+                                 
+                                     <a class="btn-ban userforban " data="{{$employee->id}}" id="unban-add">Unban</a>
+                                 
+                                 
+                                    <a class="btn-ban userforban" data="{{$employee->id}}" id="ban-add">Ban</a>
+                                 
                               </div>
+                           </div>
+                           <div class="col-md-12" style="margin-top:10px;">
+                              <div class="messages"></div>
                            </div>
                         </div>
                      </div>
@@ -70,6 +79,7 @@
                   <section class="content" id="employee-details">
                      <div class="container-fluid">
                         <div class="row">
+                           
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">                                    
@@ -227,7 +237,16 @@
                            </div>
                            <div class="col-md-12">
                               <label class="emp-label-details">Qualification : </label>
-                              <label class="emp-label-details">{{$employee->qualification}} </label>
+                              <label class="emp-label-details">
+                              <?php
+                                 $qualificatios = unserialize($employee->qualification);
+                                 //dd($qualificatios);
+                              ?>
+                              
+                              
+                              {{ implode(",",$qualificatios)}} 
+                              
+                              </label>
                            </div>
                            <div class="col-md-12">
                               <label class="emp-label-details">NPI # : </label>
@@ -322,7 +341,7 @@
                                  @for($j=0;$j<count($certifications);$j++)
                                  <tr>
                                     
-                                    <td>{{$certifications[$j]['certfication_type_id']}}</td>
+                                    <td>{{$certifications[$j]['certification_type_id']}}</td>
                                     <td>{{$certifications[$j]['receive_date']}}</td>
                                     <td>{{$certifications[$j]['expiry_date']}}</td>
                                     
@@ -437,5 +456,128 @@ a.btn-edit-print {
     font-weight: 400;
 }
 </style>
+
+<script>
+$(document).ready(function() {
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('#csrf_token').val()
+          }
+        });
+        
+        $('html').on('click', '.empprint', function (e) {
+            
+            
+            var url = "{{ url('employee-mail') }}/{{$employee->id}}";
+            var empId = '{{$employee->id}}';
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {id: empId},
+                success: function (data) {
+                          console.log(data);
+                          if(data.class='success'){
+                              window.location.href= "{{ url('employee-listing') }}";
+                          }else{
+                              alert('Something wrong');
+                              return false;
+                          }
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });
+        
+         @if ($employee->status  == '3')
+            $('#unban-add').show();
+            $('#ban-add').hide();
+         @else
+            $('#ban-add').show();
+            $('#unban-add').hide();
+         @endif
+
+        $('html').on('click', '.userforban', function (e) {
+            var url = "{{ url('employee-ban') }}/{{$employee->id}}";
+            var empId = '{{$employee->id}}';
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {id: empId},
+                success: function (data) {
+                          if(data.show=='3'){
+                              $('#unban-add').show();
+                              $('#ban-add').hide();
+                          }else{
+                              $('#ban-add').show();
+                              $('#unban-add').hide();
+                          }
+                          displayMessage(data.class,data.message);
+                          
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+        
+        /*
+        $('html').on('click', '.emppdf', function (e) {
+            
+            
+            var url = "{{ url('employee-pdf') }}/{{$employee->id}}";
+            var empId = '{{$employee->id}}';
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {id: empId},
+                success: function (data) {
+                          //console.log(data);
+                          
+                          var blob = new Blob([data], { type: "application/octetstream" });
+                          var fileName = "Employee.pdf";
+                          //Check the Browser type and download the File.
+                          var isIE = false || !!document.documentMode;
+                          if (isIE) {
+                              window.navigator.msSaveBlob(blob, fileName);
+                          } else {
+                              var url = window.URL || window.webkitURL;
+                              link = url.createObjectURL(blob);
+                              var a = $("<a />");
+                              a.attr("download", fileName);
+                              a.attr("href", link);
+                              $("body").append(a);
+                              a[0].click();
+                              $("body").remove(a);
+                          }
+                          
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });
+        */
+        function displayMessage(classname,message){
+            var messages = $('.messages');
+            var successHtml = '<div class="alert alert-'+ classname +' alert-block">'+
+            '<button type="button" class="close" data-dismiss="alert">&times;</button>'+ message +
+            '</div>';
+
+            $(messages).html(successHtml);
+            setTimeout(function() {
+                $('.alert-block').fadeOut('slow');
+            }, 4000);
+        }
+        
+        
+});
+
+</script>
 
 @endsection

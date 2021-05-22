@@ -3,6 +3,7 @@
 @endsection
 @section('add_layout')
    @parent
+   <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
 @endsection
 @section('listing_layout')
 @endsection
@@ -110,8 +111,10 @@
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add supervisor" name="supervisor">
                                              <option value="0" selected="selected" disabled="disabled">Select</option>
-                                             <option {{ $employee->supervisor =='1'  ? 'selected' : ''}} value="1">Supervisor 1</option>
-                                             <option {{ $employee->supervisor =='2'  ? 'selected' : ''}} value="2">Supervisor 2</option>
+                                             @foreach ($supervisors as $supervisor)
+                                                <option {{ $employee->supervisor ==$supervisor->id  ? 'selected' : ''}} value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
+                                             @endforeach
+                                             
                                           </select>
                                        </div>
                                     </div>
@@ -233,12 +236,14 @@
                                        <label class="col-md-4 col-form-label">New Password</label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="password" name="newpass" class="form-control newpass"  placeholder="" id="newpassword">
+                                          <p style="color:#f00;" class="passworddata"></p>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Confirm Password</label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="password" name="confirmpass" class="form-control confirmpass"  placeholder="">
+                                          <p style="color:#f00;" class="confirmpassworddata"></p>
                                        </div>
                                     </div>
                                  </div>
@@ -505,7 +510,7 @@
                                        <th>Expiry Date</th>
                                      </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="addcertificateList">
                                        <tr class="tr-certification-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new certificate_type" name="certification">
@@ -546,10 +551,33 @@
                                     <div class="col-md-6">
                                        <div id="uploadPreview" class="employee-image"></div>
                                     </div>
+                                    
+                                    
                                  </div>
                               </div>   
                            </div>
                            <div class="col-md-5"></div>
+                           
+                           
+                        </div>
+                        <div class="row">
+                           @foreach($documents as $document)
+                              <?php
+                                 $varpath = 'public/files/'.$document->document;
+                              ?>
+                              @if(file_exists($varpath)) 
+                                <div class="col-md-3">
+                                    
+                                    <span><img src="{{url('/public/files')}}/{{$document->document}}" style="width:100%;" /></span>
+                                    <p><a href="javascript:;" class="removeimg" data="{{$document->id}}">Remove</a></p>
+                                    
+                                 </div>
+                              @else
+                                
+                              @endif
+                              
+                                    
+                           @endforeach
                         </div>
                      </div>
                   </section>
@@ -736,13 +764,11 @@ $(function () {
             var role_id = $('.role_id').val();
             var supervisor = $('.supervisor').val();
             
-            var login = $('.emailaddress').val();
-            var password = $('.password').val();
-            var confirmpassword = $('.confirmpassword').val();
             
-            //var oldpass = $('.oldpass').val();
-            //var newpass = $('.newpass').val();
-            //var confirmpass = $('.confirmpass').val();
+            
+            var oldpass = $('.oldpass').val();
+            var newpass = $('.newpass').val();
+            var confirmpass = $('.confirmpass').val();
             
             
             var address = $('.address').val();
@@ -752,7 +778,7 @@ $(function () {
             var zipcode = $('.zipcode').val();
             var country = $('.country').val();
             
-            var dob = $('.date-of-birth').val();
+            var dob_2 = $('.date-of-birth').val();
             var ssn = $('.ssn').val();
             var hire_date = $('.hire-date').val();
             
@@ -797,6 +823,18 @@ $(function () {
                   certificate_type: $(this).val(), 
                   received_date: $(this).closest('tr').find('.received_date').val(),
                   expiry_date: $(this).closest('tr').find('.expiry_date').val(),
+                  id: $(this).closest('tr').find('.editpersons').val(),
+                  
+                  
+              });
+            });
+            
+            var editpersons_array= [];
+            $(".editpersons").each(function(i, value) {
+               
+               editpersons_array.push({
+                  editpersons: $(this).val(), 
+                  
                   
               });
             });
@@ -823,38 +861,41 @@ $(function () {
             }
             $('.role_id').css('border','0.5px solid #ced4da');
             
-            if(IsEmail(login)==false || login=='' || login==null){
-               $('.emailaddress').css('border','1px solid #f00');
-               
+            
+            if(oldpass!=null && oldpass!=''){
+            
+                
+                
                $('.tabs').removeClass('active');               
                $('#custom-content-below-home-tab2').addClass('active');
                $('.contentsection').hide();
                $('#logins').show();
-               return false;
-            } 
-            $('.emailaddress').css('border','0.5px solid #ced4da');
-            
-            var pswlen = password.length;
-            if (pswlen < 8) {
-                $('.password').css('border','1px solid #f00');
-                $('.passworddata').html('password length should be 8');
-                return false;
                 
-            }
-            else {
-               $('.password').css('border','0.5px solid #ced4da');
-               $('.passworddata').html('');
-               if (password != confirmpassword) {
-                    $('.confirmpassword').css('border','1px solid #f00');
-                    $('.confirmpassworddata').html('confirm password does not match');
-                    return false;
-                }               
+               var pswlen = newpass.length;
+               if (pswlen < 8) {
+                   $('.newpass').css('border','1px solid #f00');
+                   $('.passworddata').html('new password length should be 8');
+                   return false;
+                   
+               }else {
+                  $('.newpass').css('border','0.5px solid #ced4da');
+                  $('.passworddata').html('');
+                  if (newpass != confirmpass) {
+                       $('.confirmpass').css('border','1px solid #f00');
+                       $('.confirmpassworddata').html('confirm password does not match');
+                       return false;
+                   }               
 
+               }
+               
+               
             }
+            $('.newpass').css('border','0.5px solid #ced4da');
+            $('.passworddata').html('');
             $('.confirmpassworddata').html('');
-            $('.confirmpassword').css('border','0.5px solid #ced4da');
+            $('.confirmpass').css('border','0.5px solid #ced4da');
          
-         
+            
             
             var file_upload = $('#file-upload').val();
 
@@ -882,18 +923,14 @@ $(function () {
                               mobile: mobile,
                               role_id: role_id,
                               supervisor: supervisor,
-                              address: address,
-                              login: login,
-                              password: password,
-                              confirmpassword: confirmpassword,
-                              
+                              password:newpass,
                               address: address,
                               address_1: address_1,
                               city: city,
                               state: state,
                               zipcode: zipcode,
                               country: country,
-                              dob: dob,
+                              dob_2: dob_2,
                               ssn: ssn,
                               hire_date: hire_date,
                               termination_date: termination_date,
@@ -908,6 +945,7 @@ $(function () {
                               contact_type_array:contact_type_array,
                               certificate_type_array:certificate_type_array,
                               //file_upload:file_array,
+                              editpersons_array:editpersons_array,
                               
                               
                            };
@@ -917,7 +955,7 @@ $(function () {
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('employee-add') }}";
+            var url = "{{ url('employee-edit') }}/{{$employee->id}}";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -926,7 +964,13 @@ $(function () {
                 contentType: false,
                 dataType    : 'json',
                 success: function (data) {
-                          
+                          console.log(data);
+                          if(data.class='success'){
+                              window.location.href= "{{ url('employee-listing') }}";
+                          }else{
+                              alert('Something wrong');
+                              return false;
+                          }
 
                 },
                 error: function (data) {
@@ -1095,6 +1139,40 @@ $(function () {
    
 
        $(document).ready(function() {
+           
+           var certData = '';
+       @if(count($certificates) > 0 )
+       @foreach($certificates as $certificate)
+            certData += '<tr class="tr-problems-person common-tr-info">'+
+                     '<td> <input type="hidden"  class="editpersons" value="{{$certificate->id}}" />'+
+                     '<select class="form-control droupdown custom-contact-field common-text-box-new certificate_type" name="place"> '
+                     '<option value="">Select</option>';
+                     @foreach ($certfication_types as $certfication_type)      
+                     certData += '<option {{ $certfication_type->id == $certificate->certification_type_id ? 'selected' : ''}} value="{{$certfication_type->id}}">{{$certfication_type->title}}</option> ';
+                     @endforeach
+                     certData += '</select>'+ 
+                     '</td>'+
+                     '<td>'+ 
+                     '<input type="text" name="strength" value="{{$certificate->receive_date}}" class="form-control custom-problems-field common-text-box-new received_date" placeholder="">'+ 
+                     '</td>'+
+                     '<td>'+
+                     '<input type="text" name="score" value="{{$certificate->expiry_date}}" class="form-control custom-problems-field common-text-box-new expiry_date" placeholder="">'+ 
+                     '</td>'+
+                     '<td class="delete-section"><i class="fa fa-close delete-button deletedatacert"></i></td>'+
+                     '</tr>';
+                     $(wrapper).append(certData);
+                     
+          @endforeach
+       $('.addcertificateList').html(certData);
+       @endif
+       
+       $('html').on("click",".deletedatacert", function(e){ 
+           e.preventDefault(); 
+           $(this).parent().parent().remove();
+       })           
+                     
+                     
+                     
           var max_fields      = 100;
           var wrapper         = $(".table-contact-certification"); 
 
@@ -1121,7 +1199,7 @@ $(function () {
                      '<td>'+
                      '<input type="text" name="score" class="form-control custom-problems-field common-text-box-new expiry_date" placeholder="">'+ 
                      '</td>'+
-                     '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>'+
+                     '<td class="delete-section"><i class="fa fa-close delete-button deletedatacert"></i></td>'+
                      '</tr>';
                      $(wrapper).append(htmlData); //add input box
                }
@@ -1134,6 +1212,27 @@ $(function () {
           $(wrapper).on("click",".delete", function(e){ 
               e.preventDefault(); $(this).parent().parent().remove(); x--;
           })
+          
+          $('html').on("click",".removeimg", function(e){ 
+               var delid= $(this).attr('data');
+               if(confirm("Are You sure want to delete !")){
+                  var url = "{{ url('deletefile') }}/"+delid;
+                  $.ajax({
+                      url: url,
+                      type: "POST",
+                      data: {delid:delid},
+                      success: function (data) {
+                                console.log(data.message);
+
+                      },
+                      error: function (data) {
+                          console.log('Error:', data);
+                      }
+                  });
+               }
+          })
+          
+          
           
           
       });

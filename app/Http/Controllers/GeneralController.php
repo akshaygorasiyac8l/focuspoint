@@ -11,6 +11,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\File; 
 
 class GeneralController extends Controller
 {
@@ -85,5 +86,26 @@ class GeneralController extends Controller
     {
         $role = DB::table('roles')->where('id', $role_id)->first();
         return $role->role;
+    }
+    
+    public static function deleteFile($fileid)
+    {
+        $file = DB::table('user_documents')->where('id', $fileid)->first();
+        if($file){
+            $path = public_path('files/'.$file->document);
+            $isExists = file_exists($path);
+            if($isExists){
+                File::delete($path);
+                DB::table('user_documents')->where('id', $fileid)->delete();
+                return response()->json(['message' => 'Deleted Successfully!','class' => 'success']);
+            }else{
+                DB::table('user_documents')->where('id', $fileid)->delete();
+                return response()->json(['message' => 'File Not Exist!','class' => 'success']);
+            }
+            
+            
+        }else{
+            return response()->json(['message' => 'Something Wrong!','class' => 'danger']);
+        }
     }
 }

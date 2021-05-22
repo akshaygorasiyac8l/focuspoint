@@ -421,6 +421,15 @@
                   
                   
                   <?php } ?>
+                  
+                  <li class="nav-item has-treeview">
+                     <a href="{{ route('employee-listing') }}" class="nav-link">
+                        <i class="fa fa-user"></i>
+                        <p>Employees</p>
+                     </a>
+                  </li>
+                  
+                  <!--
                   <li class="nav-item has-treeview">
                      <a href="{{ route('consumers-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
@@ -451,6 +460,7 @@
                         <p>Consumer Notes</p>
                      </a>
                   </li>
+                  -->
                   <!--
                   <li class="nav-item has-treeview">
                      <a href="#" class="nav-link">
@@ -459,12 +469,7 @@
                      </a>
                   </li>
                   -->
-                  <li class="nav-item has-treeview">
-                     <a href="{{ route('employee-listing') }}" class="nav-link">
-                        <i class="fa fa-user"></i>
-                        <p>Employees</p>
-                     </a>
-                  </li>
+                  
                   <!--
                   <li class="nav-item has-treeview">
                      <a href="#" class="nav-link">
