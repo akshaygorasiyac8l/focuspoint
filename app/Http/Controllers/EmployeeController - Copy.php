@@ -94,11 +94,11 @@ class EmployeeController extends Controller
             foreach($datas as $data){
                 $status = '';
                 if($data->status=='0'){
-                    $status = 'Inactive';
+                    $status = 'Disable';
                 }else if($data->status=='3'){
-                    $status = 'Suspend';
+                    $status = 'Ban';
                 }else if($data->status=='1'){
-                    $status = 'Active';
+                    $status = 'Enable';
                 }else{
                     $status = '';
                 }
@@ -129,54 +129,10 @@ class EmployeeController extends Controller
     public function searchEmployees(Request $request)
     {
         if(request()->ajax()) {
-            /*
             $datas = DB::table('users')
             ->where('fname', 'like', '%'.$request->fname.'%')
-            ->where('lname', 'like', '%'.$request->lname.'%');
-            
-            
-            $datas->where('status', $request->status);
-            $datas->where('supervisor', $request->supervisor);
-            $datas->where('role_id','!=',0)->get();
-            */
-            
-            $fname_query = '';
-            if($request->fname!=''){
-                $fname_query = " and `fname` like "."'%".$request->fname."%'";
-            }
-            
-            $lname_query = '';
-            if($request->lname!=''){
-                $lname_query = " and `lname` like "."'%".$request->lname."%'";
-            }
-            
-            $status_query = '';
-            if($request->status!=''){
-                $status_query = " and status= '".$request->status."' ";
-            }
-            
-            $role_query = '';
-            if($request->role_id!=''){
-                $role_query = " and role_id= '".$request->role_id."' ";
-            }
-            
-            $supervisor_query = '';
-            if($request->supervisor!=''){
-                $supervisor_query = " and supervisor= '".$request->supervisor."' ";
-            }
-            
-            $sql = "select * from users where 1=1 
-            ".$fname_query."
-            ".$lname_query."
-           
-            ".$status_query."
-            ".$supervisor_query."
-            ".$role_query."
-            
-            and role_id!='0'
-            ";
-            //echo $sql;
-            $datas = DB::select($sql);
+            ->where('lname', 'like', '%'.$request->lname.'%')
+            ->where('role_id','!=',0)->get();
 
             $dataarray =  array();
             $i=0;
@@ -184,11 +140,11 @@ class EmployeeController extends Controller
             foreach($datas as $data){
                 $status = '';
                 if($data->status=='0'){
-                    $status = 'Inactive';
+                    $status = 'Disable';
                 }else if($data->status=='3'){
-                    $status = 'Suspend';
+                    $status = 'Ban';
                 }else if($data->status=='1'){
-                    $status = 'Active';
+                    $status = 'Enable';
                 }else{
                     $status = '';
                 }
@@ -232,11 +188,11 @@ class EmployeeController extends Controller
             foreach($datas as $data){
                 $status = '';
                 if($data->status=='0'){
-                    $status = 'Inactive';
+                    $status = 'Disable';
                 }else if($data->status=='3'){
-                    $status = 'Suspend';
+                    $status = 'Ban';
                 }else if($data->status=='1'){
-                    $status = 'Active';
+                    $status = 'Enable';
                 }else{
                     $status = '';
                 }
@@ -305,7 +261,7 @@ class EmployeeController extends Controller
             $lname = $d->lname;
             $gender = $d->gender;
             
-            
+            $dob = $this->changeDateformate($d->dob);
             $email = $d->email;
             $workphone = $d->workphone;
             $mobile = $d->mobile;
@@ -330,36 +286,27 @@ class EmployeeController extends Controller
             
             $country = $d->country;
             $time = '12';
-            $dob_2 = NULL;
-            if($d->dob_2!=''){
-                
-                $dob_2 = $this->changeDateformate($d->dob_2);
-            }
-            
+            $dob_2 = $this->changeDateformate($d->dob_2);
             
             
             $ssn = $d->ssn;
-            $hire_date = NULL;
-            if($d->hire_date!=''){
-                $hire_date = $this->changeDateformate($d->hire_date);
+            $hire_date = $this->changeDateformate($d->hire_date);
+            if($hire_date==''){
+                $hire_date = NULL;
             }
-            
-            $termination_date = NULL;
-            if($d->termination_date!=''){
-                $termination_date = $this->changeDateformate($d->termination_date);
+            $termination_date = $this->changeDateformate($d->termination_date);
+            if($termination_date==''){
+                $termination_date = NULL;
             }
-            
-            $qualification = serialize($d->qualification_array);
+            $qualification = serialize($d->qualification);
             $npi = $d->npi;
             $taxonomy = $d->taxonomy;
             $back_check = $d->back_check;
             $last_tb_shot = $d->back_check;
             $dl = $d->dl;
-            
-            $dl_expiration = NULL;
-            if($d->dl_expiration!=''){
-                $dl_expiration = $this->changeDateformate($d->dl_expiration);
-                          
+            $dl_expiration = $this->changeDateformate($d->dl_expiration);
+            if($dl_expiration==''){
+                $dl_expiration = NULL;
             }
             $dl_state = $d->dl_state;
 
@@ -372,7 +319,7 @@ class EmployeeController extends Controller
                 'fname' => $fname,
                 'lname' => $lname,
                 'gender' => $gender,
-                'bod' => $dob_2,
+                'bod' => $dob,
                 'email' => $email,
                 'phone' => $workphone,
                 'mobile' => $mobile,
@@ -386,7 +333,7 @@ class EmployeeController extends Controller
                 'state' => $state,
                 'zipcode' => $zipcode,
                 'country' => $country,
-                
+                'dob_2' => $dob_2,
                 'ssn' => $ssn,
                 'hire_date' => $hire_date,
                 'termination_date' => $termination_date,
@@ -421,7 +368,11 @@ class EmployeeController extends Controller
                         $phonenumber = $contact_type_array[$i]->phonenumber;
                         $mobilenumber = $contact_type_array[$i]->mobilenumber;
                         $emailid = $contact_type_array[$i]->emailid;
-                        
+                        $address_1 = $contact_type_array[$i]->address_1;
+                        $address_2 = $contact_type_array[$i]->address_2;
+                        $city_id = $contact_type_array[$i]->city_id;
+                        $state_id = $contact_type_array[$i]->state_id;
+                        $country_id = $contact_type_array[$i]->country_id;
 
                         if($firstname!=''  && $lastname!=''){
                         
@@ -434,7 +385,12 @@ class EmployeeController extends Controller
                                     'relation' => $relationship,
                                     'phone' => $phonenumber,
                                     'mobile' => $mobilenumber,
-                                    'email' => $emailid,                                    
+                                    'email' => $emailid,
+                                    'address1' => $address_1,
+                                    'address2' => $address_2,
+                                    'city' => $city_id,
+                                    'state_id' => $state_id,
+                                    'country_id' => $country_id,
                                     'created_date' => $date,
                                     
                                 ]);
@@ -548,7 +504,7 @@ class EmployeeController extends Controller
             $fname = $d->fname;
             $lname = $d->lname;
             $gender = $d->gender;
-            
+            $dob = $d->dob;
             $email = $d->email;
             $workphone = $d->workphone;
             $mobile = $d->mobile;
@@ -571,35 +527,28 @@ class EmployeeController extends Controller
             
             
             $country = $d->country;
-            $dob_2 = NULL;
-            if($d->dob_2!=''){
-                
-                $dob_2 = $this->changeDateformate($d->dob_2);
-            }
-            
+            $dob_2 = $d->dob_2;
             $time = '12';
             
             
             $ssn = $d->ssn;
-            $hire_date = NULL;
-            if($d->hire_date!=''){
-                $hire_date = $this->changeDateformate($d->hire_date);
+            $hire_date = $d->hire_date;
+            if($hire_date==''){
+                $hire_date = NULL;
             }
-            $termination_date = NULL;
-            if($d->termination_date!=''){
-                $termination_date = $this->changeDateformate($d->termination_date);
+            $termination_date = $d->termination_date;
+            if($termination_date==''){
+                $termination_date = NULL;
             }
-            
-            $qualification = serialize($d->qualification_array);
+            $qualification = serialize($d->qualification);
             $npi = $d->npi;
             $taxonomy = $d->taxonomy;
             $back_check = $d->back_check;
             $last_tb_shot = $d->back_check;
             $dl = $d->dl;
-            $dl_expiration = NULL;
-            if($d->dl_expiration!=''){
-                $dl_expiration = $this->changeDateformate($d->dl_expiration);
-                          
+            $dl_expiration = $d->dl_expiration;
+            if($dl_expiration==''){
+                $dl_expiration = NULL;
             }
             $dl_state = $d->dl_state;     
 
@@ -614,7 +563,7 @@ class EmployeeController extends Controller
                 'fname' => $fname,
                 'lname' => $lname,
                 'gender' => $gender,
-                'bod' => $dob_2,
+                'bod' => $dob,
                 'email' => $email,
                 'phone' => $workphone,
                 'mobile' => $mobile,
@@ -627,7 +576,7 @@ class EmployeeController extends Controller
                 'state' => $state,
                 'zipcode' => $zipcode,
                 'country' => $country,
-                
+                'dob_2' => $dob_2,
                 'ssn' => $ssn,
                 'hire_date' => $hire_date,
                 'termination_date' => $termination_date,
@@ -687,7 +636,11 @@ class EmployeeController extends Controller
                         $phonenumber = $contact_type_array[$i]->phonenumber;
                         $mobilenumber = $contact_type_array[$i]->mobilenumber;
                         $emailid = $contact_type_array[$i]->emailid;
-                        
+                        $address_1 = $contact_type_array[$i]->address_1;
+                        $address_2 = $contact_type_array[$i]->address_2;
+                        $city_id = $contact_type_array[$i]->city_id;
+                        $state_id = $contact_type_array[$i]->state_id;
+                        $country_id = $contact_type_array[$i]->country_id;
                         
                         if(isset($contact_type_array[$i]->id)){
                             DB::table('employee_emergency_contact')
@@ -701,7 +654,11 @@ class EmployeeController extends Controller
                                         'phone' => $phonenumber,
                                         'mobile' => $mobilenumber,
                                         'email' => $emailid,
-                                        
+                                        'address1' => $address_1,
+                                        'address2' => $address_2,
+                                        'city' => $city_id,
+                                        'state_id' => $state_id,
+                                        'country_id' => $country_id,
                                         'updated_date' => $date,
                                         
                                     ]);
@@ -719,7 +676,11 @@ class EmployeeController extends Controller
                                         'phone' => $phonenumber,
                                         'mobile' => $mobilenumber,
                                         'email' => $emailid,
-                                        
+                                        'address1' => $address_1,
+                                        'address2' => $address_2,
+                                        'city' => $city_id,
+                                        'state_id' => $state_id,
+                                        'country_id' => $country_id,
                                         'created_date' => $date,
                                         
                                     ]);
@@ -870,7 +831,10 @@ class EmployeeController extends Controller
             
             
             $employeedata = DB::table('users')->where('id',$id)->first();
-            
+            $employeedata->qualification = unserialize($employeedata->qualification);
+            if($employeedata->qualification==null){
+                $employeedata->qualification =  array();
+            }
             $data['services'] = DB::table('services')->get();
             
             
@@ -885,38 +849,11 @@ class EmployeeController extends Controller
             
             $data['serviceData'] = $serviceData;
             
-            
-            $qualifications = unserialize($employeedata->qualification);
-            //dd($qualifications);
-            $qualificationData = array();
-            if($qualifications){
-                foreach($qualifications as $qualification){
-                    
-                    array_push($qualificationData,$qualification->qualification);
-                }
-            }
-            
-            $data['qualificationData'] = $qualificationData;
-            
-            
-            
-            if($employeedata->bod!=NULL){
-                $employeedata->bod = date("m-d-Y",strtotime($employeedata->bod));
-            }
-
-            
-            if($employeedata->hire_date!=NULL){
-                $employeedata->hire_date = date("m-d-Y",strtotime($employeedata->hire_date));
-            }
-
-            
-            if($employeedata->termination_date!=NULL){
-                $employeedata->termination_date  = date("m-d-Y",strtotime($employeedata->termination_date));
-            }
-            
-            if($employeedata->dl_expiration!=NULL){
-                $employeedata->dl_expiration  = date("m-d-Y",strtotime($employeedata->dl_expiration));
-            }
+            $employeedata->bod = date("m-d-Y",strtotime($employeedata->bod));
+            $employeedata->dob_2 = date("m-d-Y",strtotime($employeedata->dob_2));
+            $employeedata->hire_date = date("m-d-Y",strtotime($employeedata->hire_date));
+            $employeedata->termination_date  = date("m-d-Y",strtotime($employeedata->termination_date));
+            $employeedata->dl_expiration  = date("m-d-Y",strtotime($employeedata->dl_expiration));
             $data['employee'] = $employeedata;
             $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->where('id','!=',$id)->get();
             return view('employee/employee-edit',$data);
@@ -1041,39 +978,15 @@ class EmployeeController extends Controller
         }
 
         $employeeData->serviceData = $serviceData;
-        
-        
-        
-        $qualifications = unserialize($employeeData->qualification);
-        //dd($qualifications);
-        $qualificationData = array();
-        if($qualifications){
-            foreach($qualifications as $qualification){
-                
-                array_push($qualificationData,$qualification->qualification);
-            }
-        }
-        $employeeData->qualificationData = $qualificationData;
-        
         $supervisor = DB::table('users')->where('id',$employeeData->supervisor)->first();
         $employeeData->supervisor_name = $supervisor->fname.' '.$supervisor->lname;
             
         
         $employeeData->hire_date = date('m-d-Y',strtotime($employeeData->hire_date));     
-        $employeeData->termination_date = '';
-        if($employeeData->termination_date!=NULL){
-            $employeeData->termination_date = date('m-d-Y',strtotime($employeeData->termination_date));
-        }
-        $employeeData->dl_expiration = '';
-        if($employeeData->dl_expiration!=NULL){
-            $employeeData->dl_expiration = date('m-d-Y',strtotime($employeeData->dl_expiration));
-        }
-
-        $employeeData->bod = '';
-        if($employeeData->bod!=NULL){
-            $employeeData->bod = date('m-d-Y',strtotime($employeeData->bod));   
-        }
-        //$employeeData->dob_2 = date('m-d-Y',strtotime($employeeData->dob_2)); 
+        $employeeData->termination_date = date('m-d-Y',strtotime($employeeData->termination_date));
+        $employeeData->dl_expiration = date('m-d-Y',strtotime($employeeData->dl_expiration));
+        $employeeData->bod = date('m-d-Y',strtotime($employeeData->bod));   
+        $employeeData->dob_2 = date('m-d-Y',strtotime($employeeData->dob_2)); 
         
         $data['employee'] = $employeeData;
         
@@ -1084,7 +997,8 @@ class EmployeeController extends Controller
         $i=0;
         foreach($persons  as $person){
             $relations = DB::table('relations')->where('id',$person->relation)->first();
-            
+            $states = DB::table('states')->where('id',$person->state_id)->first();
+            $countries = DB::table('countries')->where('id',$person->country_id)->first();
             $personsData[$i] = array(
                 'id' =>$person->id,
                 'salutation' =>$person->salutation,
@@ -1095,7 +1009,11 @@ class EmployeeController extends Controller
                 'phone' =>$person->phone,
                 'mobile' =>$person->mobile,
                 'email' =>$person->email,
-                
+                'address1' =>$person->address1,
+                'address2' =>$person->address2,
+                'city' =>$person->city,
+                'state_id' =>$states->name,
+                'country_id' =>$countries->name,
             );
             $i++;
         }

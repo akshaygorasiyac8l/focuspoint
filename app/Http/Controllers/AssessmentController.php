@@ -24,11 +24,19 @@ class AssessmentController extends Controller
      */
     public function index()
     {
-        return view('assessment/assessments-listing');
+        $data = array();        
+        $data['assessments'] = DB::table('assessments')->get();        
+        return view('assessment/assessments-listing',$data);
     }
     public function addAssessment()
     {
-        return view('assessment/assessments-add');
+        $data = array();        
+        $data['assessment_types'] = DB::table('assessment_types')->get();
+        $data['consumers'] = DB::table('consumers')->get();
+        $data['services'] = DB::table('services')->get();
+        $data['relations'] = DB::table('relations')->get();
+        $data['users'] = DB::table('users')->where('role_id','!=',0)->get();
+        return view('assessment/assessments-add',$data);
     }
     public function assessmentDetail()
     {

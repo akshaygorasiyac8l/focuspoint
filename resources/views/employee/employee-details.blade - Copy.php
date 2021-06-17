@@ -27,7 +27,6 @@
                               <h1 class="page-title">{{$employee->fname}} {{$employee->lname}}</h1>
                            </div>
                            <div class="col-md-6 new-attach-sec">
-                              <!--
                               <div class="form-group new-image">
                                 <div class="form-group" id="name-display">
                                    <input type="" name="file-name" class="form-control attch-name" id="form-group-add" value="" placeholder="Attach Files">
@@ -38,7 +37,6 @@
                                    <label for="file-attach"><span class="archive-name"></span></label>
                                 </div>
                              </div>
-                             -->
                            </div>
                         </div>
                      </div>
@@ -65,10 +63,10 @@
                               <div class="form-group ban-btn-sec">
                               
                                  
-                                     <a class="btn-ban userforban " data="{{$employee->id}}" id="unban-add">Reactivate</a>
+                                     <a class="btn-ban userforban " data="{{$employee->id}}" id="unban-add">Unban</a>
                                  
                                  
-                                    <a class="btn-ban userforban" data="{{$employee->id}}" id="ban-add">Suspend</a>
+                                    <a class="btn-ban userforban" data="{{$employee->id}}" id="ban-add">Ban</a>
                                  
                               </div>
                            </div>
@@ -94,7 +92,10 @@
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Gender</label>
                                        <label class="col-md-9 col-form-label-assessment">{{$employee->gender}}</label>
                                     </div>
-                                    
+                                    <div class="form-group row common-row">
+                                       <label class="col-md-3 col-form-label-assessment common-title-label">Date of Birth</label>
+                                       <label class="col-md-9 col-form-label-assessment">{{$employee->bod}}</label>
+                                    </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Email Address</label>
                                        <label class="col-md-9 col-form-label-assessment">{{$employee->email}}</label>
@@ -156,16 +157,15 @@
                   </section>
                   <section class="contentsection" id="services-employee">
                      <div class="container-fluid">
-                        <div class="row">
-                           @for($ij=0; $ij<count($employee->serviceData);$ij++)
-                              
-                                 <div class="col-md-4">
-                                    
-                                    <label class="emp-label-details">{{$employee->serviceData[$ij]}}</label>
-                                 </div>
-                              
-                           @endfor
-                        </div> 
+                        @for($ij=0; $ij<count($employee->serviceData);$ij++)
+                           <div class="row">
+                              <div class="col-md-12">
+                                 
+                                 <label class="emp-label-details">{{$employee->serviceData[$ij]}}</label>
+                              </div>
+                           </div>
+                        @endfor
+                        
                      </div>
                   </section>
                   <section class="contentsection" id="login-employee">
@@ -212,7 +212,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <label class="emp-label-details">Date of Birth : </label>
-                              <label class="emp-label-details">{{$employee->bod}} </label>
+                              <label class="emp-label-details">{{$employee->dob_2}} </label>
                            </div>
                            <div class="col-md-12">
                               <label class="emp-label-details">SSN : </label>
@@ -229,17 +229,17 @@
                            <div class="col-md-12">
                               <label class="emp-label-details">Qualification : </label>
                               <label class="emp-label-details">
+                              <?php
+                                 if($employee->qualification=='' || $employee->qualification=='N;' ){
+                                 }else{
+                                    $qualificatios = unserialize($employee->qualification);
+                                 
+                                 //dd($qualificatios);
+                              ?>
                               
-                              @for($ij=0; $ij<count($employee->qualificationData);$ij++)
                               
-                                 <div class="col-md-4">
-                                    
-                                    <label class="emp-label-details">{{$employee->qualificationData[$ij]}}</label>
-                                 </div>
-                              
-                              @endfor
-                           
-                              
+                              {{ implode(",",$qualificatios)}} 
+                                 <?php } ?>
                               
                               </label>
                            </div>
@@ -290,7 +290,10 @@
                                     <th>Phone</th>
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    
+                                    <th>Address</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Country</th>
                                  </tr>
                                  @for($i=0;$i<count($persons);$i++)
                                  <tr>
@@ -300,7 +303,10 @@
                                     <td>{{$persons[$i]['phone']}}</td>
                                     <td>{{$persons[$i]['mobile']}}</td>
                                     <td>{{$persons[$i]['email']}}</td>
-                                    
+                                    <td>{{$persons[$i]['address1']}} {{$persons[$i]['address2']}}</td>
+                                    <td>{{$persons[$i]['city']}}</td>
+                                    <td>{{$persons[$i]['state_id']}}</td>
+                                    <td>{{$persons[$i]['country_id']}}</td>
                                  </tr>
                                  @endfor
 

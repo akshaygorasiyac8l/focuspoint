@@ -126,11 +126,29 @@
               <div class="col-md-6 search-box">
                   <form class="form-inline ml-3">
                      <div class="input-group input-group-sm">                     
-                       <i class="fa fa-caret-down"></i>
-                       <input class="form-control form-control-navbar" type="text" name="search" placeholder="Search" aria-label="Search">
+                       <i class="fa fa-caret-down search-box-arrow"></i>
+                       <input onkeyup="livesearch();" id="search-auto" autocomplete="off" class="search form-control form-control-navbar" type="text" name="search" placeholder="Search" aria-label="Search">
                      </div>
+                       <!--  <select class="form-control search-box-dropdown serchfordata" name="role">
+                           <option value="">Select</option>
+                           <option value="employee">Employees</option>
+                           <option value="consumer">Consumers</option>
+                         </select> -->
+                         <ul class="selectbox-tag search-box-dropdown">
+                            <li class="selectedvalue">Select</li>
+                            <li data-value="value 1"><i class="fa fa-check check-icons"></i>Employees</li>
+                            <li data-value="value 2"><i class="fa fa-check check-icons"></i>Consumers</li>
+                        </ul>
+                         <ul id="live-search" class="search-fill-data">
+                           
+                           
+                         </ul>
                    </form>
+                   
+                   
                </div>
+               
+               
                <div class="col-md-6 drop-box">
                   <ul class="droup-down-box">
                      <li class="drop-item-box">
@@ -429,19 +447,22 @@
                      </a>
                   </li>
                   
-                  <!--
+                  
                   <li class="nav-item has-treeview">
                      <a href="{{ route('consumers-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Consumers</p>
                      </a>
                   </li>
+                  
+                  
                   <li class="nav-item has-treeview">
                      <a href="{{ route('assessments-listing') }}" class="nav-link">
                         <i class="fa fa-anchor"></i>
                         <p>Assessments</p>
                      </a>
-                  </li>                  
+                  </li> 
+                  <!--                  
                   <li class="nav-item has-treeview">
                      <a href="{{ route('authorizations-listing') }}" class="nav-link">
                         <i class="fa fa-check-square-o"></i>
@@ -982,8 +1003,99 @@ $(function () {
       });
    });
 })( jQuery, window, document );
+
+
+      
+
+
+function livesearch() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("search-auto");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("live-search");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "";
+      } else {
+          li[i].style.display = "none";
+      }
+  }
+}
+
+// Dropdown JS
+$(".selectbox-tag").on("click", ".selectedvalue", function() {
+    $(this).closest(".selectbox-tag").children('li:not(.selectedvalue)').toggle();
+});
+
+var allOptions = $(".selectbox-tag").children('li:not(.selectedvalue)');
+$(".selectbox-tag").on("click", "li:not(.selectedvalue)", function() {
+    allOptions.removeClass('selected');
+    $(this).addClass('selected');
+    $(".selectbox-tag").children('.selectedvalue').html($(this).html());
+    allOptions.toggle();
+});
+
+
 </script>
 @show
+<script>
+$(document).ready(function() {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('#csrf_token').val()
+          }
+        });
+     
+      $("html").on("click","#search-auto",function(){
+       $(".search-fill-data").toggleClass("open-livesearchbox");
+       $(".search-box-dropdown").removeClass("open-selectbox");
+     });
+     $("html").on('change',".search-box-dropdown", function(){
+       $(".search-box-dropdown").removeClass("open-selectbox");
+     });
+     $("html").on("click",".search-box-arrow",function(){
+       $(".search-box-dropdown").toggleClass("open-selectbox");
+       $(".search-fill-data").removeClass("open-livesearchbox");
+     }); 
+     $("html").on("click",".selected",function(){
+      $(".search-box-dropdown").removeClass("open-selectbox");
+     });  
+     $("html").on('change',".serchfordata", function(){
+         var  selecttype = $(this).val();
+         if(selecttype=='employee'){
+             var urlredirect = "{{ url('') }}/employee-details/";
+         }else if(selecttype=='consumer'){
+             var urlredirect = "{{ url('') }}/consumers-details/";
+         }
 
+         var url = "{{ url('') }}/"+selecttype+'-list';
+         $.ajax({
+             url: url,
+             type: "POST",
+             data: {selecttype:selecttype},
+             success: function (data) {
+                 console.log(data);
+                 var htmlData = '';
+                 $('.search-fill-data').html('');
+                 for(var i=0;i<data.length;i++){
+                     htmlData += '<li><a href="'+urlredirect+data[i].id+'">'+data[i].fname+' '+data[i].lname+'</a></li>';
+                 }
+                 $('.search-fill-data').html(htmlData);
+
+             },
+             error: function (data) {
+                 console.log('Error:', data);
+             }
+         });
+         
+     
+           
+     });
+     
+});
+</script>
 </body>
 </html>

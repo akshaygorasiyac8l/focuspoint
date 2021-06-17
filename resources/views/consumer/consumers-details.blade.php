@@ -24,12 +24,12 @@
                   <div class="container-fluid">
                      <div class="row">
                         <div class="col-md-4 page-background">
-                           <h1 class="page-title">Christopher Hua</h1>
+                           <h1 class="page-title">{{$consumer->fname}} {{$consumer->lname}}</h1>
                         </div>
                         <div class="col-md-8 drop-down-sec">
                            <div class="row">
                               <div class="col-md-4 drop-box-control">
-                                 <button class="btn-edit">Edit</button>
+                                 <button onclick="window.location.href='{{ route('consumers-edit', $consumer->id) }}'" class="btn-edit">Edit</button>
                               </div>
                               <div class="col-md-4 drop-box-control">
                                  <div class="form-group new-transaction">                           

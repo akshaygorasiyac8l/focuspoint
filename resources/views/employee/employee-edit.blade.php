@@ -34,6 +34,8 @@
                   <section class="content">
                      <div class="container-fluid">
                         <div class="row">
+                           <div class="col-md-12 errorclass">
+                           </div>
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -70,12 +72,7 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Date of Birth</label>
-                                       <div class="col-md-9 time-add">
-                                          <input type="text" name="dob" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="yyyy-mm-dd" value="{{$employee->bod}}">
-                                       </div>
-                                    </div>
+                                    
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Email Address</label>
                                        <div class="col-md-9 common-text short-col">
@@ -155,58 +152,29 @@
                   </section>
                   <section class="contentsection" id="services-employee-add">
                      <div class="container-fluid">
-                        <a href="#myModal" class="btn btn-primary add-service" data-toggle="modal">Add New Service</a>
-                        <div class="modal fade add-new-services" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                           <form id="service-form" action="" name="service-form">
-                              <div class="modal-dialog service-dialog">
-                                 <div class="modal-content">
-                                   <div class="modal-header">
-                                     <i class="fa fa-close button-close" data-dismiss="modal" aria-hidden="true"></i>
-                                     <h4 class="modal-title">Add New Service</h4>
-                                   </div>
-                                   <div class="modal-body content-body">
-                                       <div class="header-top">
-                                          <div class="user-sec">
-                                             <div class="user-icons">
-                                                <i class="fa fa-user user-icon-client"></i>
-                                             </div>
-                                             <div class="client-title">
-                                                <h2>Client Name</h2>
-                                                <h6>Record No.</h6>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="section-service">
-                                          <div class="container-fluid">
-                                             <div class="row">
-                                                <div class="col-md-12">
-                                                   @foreach($services as $service)
-                                                   <div class="checkbox-parts">
-                                                      <input type="checkbox" name="service-{{$service->id}}" class="" value="{{$service->id}} : {{$service->title}}">
-                                                      <label class="emp-label-add">{{$service->id}} : {{$service->title}}</label>
-                                                   </div>
-                                                   @endforeach
-                                                   
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                   </div>
-                                   <div class="modal-footer footer-button">
-                                      <button class="btn btn-info add-new-service" data-dismiss="modal">Save</button>
-                                      <button class="btn btn-default float-right" data-dismiss="modal">Cancel</button>
-                                   </div>
-                                 </div>
-                              </div>
-                           </form>
-                        </div>
+                        
                         <div class="row">
                            <div class="col-md-4">
-                           
-                              <div class="checkbox-parts">
-                                 <input type="checkbox" name="" class="">
-                                 <label class="emp-label-add">90785 : Interactive Complexity Add-On</label>
-                              </div>
+                              <?php $ic = 0;?>
+                              @foreach ($services as $service)
+                                               
+                                 <div class="checkbox-parts">
+                                    <label for="services{{$service->id}}" class="emp-label-add">
+                                    <input style="margin-right:10px;"
+                                    @if(in_array($service->id,$serviceData))
+                                        checked
+                                    @endif
+                                    type="checkbox" name="services" class="services" id="services{{$service->id}}" value="{{$service->id}}">
+                                    {{$service->title}}</label>
+                                 </div>
+                                 <?php 
+                              $ic++;
+                              if($ic%16 == 0){
+                                  echo '</div><div class="col-md-4">';
+                              }else{
+                              }
+                              ?>
+                              @endforeach
                               
                    
                            
@@ -321,7 +289,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Date of Birth</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="dob-other" class="form-control date-of-birth" placeholder="" value="{{$employee->dob_2}}">
+                                          <input type="text" name="dob-other" class="form-control date-of-birth" placeholder="" value="{{$employee->bod}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -346,15 +314,19 @@
                                        <label class="col-md-4 col-form-label">Qualification</label>
                                        
                                        <div class="col-md-8 common-textbox">
-                                          <select id="multiple-checkboxes" class="qualification" multiple="multiple">
-                                          @foreach ($qualifications as $qualification)
-                                             <option 
-                                             @if (in_array($qualification->title, $employee->qualification)) 
-                                                 selected
+                                       
+                                          <div class="checkbox-group">
+                                             @foreach ($qualifications as $qualification)
+                                             <label class="qualification-title">
+                                             <input 
+                                             @if(in_array($qualification->title,$qualificationData))
+                                                 checked
                                              @endif
-                                             value="{{$qualification->title}}">{{$qualification->title}}</option>
-                                          @endforeach
-                                          </select> 
+                                             type="checkbox" id="multiple-checkboxes" class="qualification" value="{{$qualification->title}}">
+                                             {{$qualification->title}}</label>
+                                             @endforeach
+                                          </div> 
+                                          
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -420,11 +392,7 @@
                                        <th>Phone</th>
                                        <th>Mobile</th>
                                        <th>Email Address</th>
-                                       <th>Address 1</th>
-                                       <th>Address 2</th>
-                                       <th>City</th>
-                                       <th>State</th>
-                                       <th>Country</th>
+                                       
                                      </tr>
                                     </thead>
                                     <tbody class="addemployeeList">
@@ -463,31 +431,7 @@
                                           <td>
                                              <input type="email" name="emailperson" class="form-control custom-contact-field common-text-box-new emailid" placeholder="">
                                           </td>
-                                          <td>
-                                             <input type="text" name="address-1" class="form-control custom-contact-field common-text-box-new address_1" placeholder="">
-                                          </td>
-                                          <td>
-                                             <input type="text" name="address-2" class="form-control custom-contact-field common-text-box-new address_2" placeholder="">
-                                          </td>
-                                          <td>
-                                             <input type="text" name="city" class="form-control custom-contact-field common-text-box-new city_id" placeholder="">
-                                          </td>
-                                          <td>
-                                             <select class="form-control droupdown custom-contact-field common-text-box-new state_id" name="state">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
-                                                @foreach ($states as $state)
-                                                <option value="{{$state->id}}">{{$state->name}}</option>
-                                                @endforeach
-                                             </select>
-                                          </td>
-                                          <td>
-                                             <select class="form-control droupdown custom-contact-field common-text-box-new country_id" name="country">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
-                                                @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
-                                                @endforeach
-                                             </select>
-                                          </td>
+                                          
                                        </tr>
                                     </tbody>
                                  </table>
@@ -545,11 +489,21 @@
                                        <label class="attach-file-lbl attach-file-label">Attach Files</label>
                                        <div class="file-upload-multiple">
                                           <label class="lbl-multiple-files">Select Multiple Files</label>
-                                          <input type="file" name="filenames[]" class="form-control multiple-image-upload" id="file-upload" multiple="">
+                                          <input type="file" name="filenames[]" class="form-control multiple-image-upload" id="file-upload" multiple="" accept=".jpg, .jpeg, .png, .txt">
                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                       <div id="uploadPreview" class="employee-image"></div>
+                                       <div id="uploadPreview" class="employee-image">
+                                       @foreach($documents as $document)
+                                       <?php
+                                             $varpath = 'public/files/'.$document->document;
+                                          ?>
+                                          @if(file_exists($varpath)) 
+                                              <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image">{{$document->document}}</p></div><div class="col-md-2"><span class="delete-image removeimg"  data="{{$document->id}}"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
+                                          @else                                
+                                          @endif
+                                       @endforeach
+                                       </div>
                                     </div>
                                     
                                     
@@ -561,10 +515,9 @@
                            
                         </div>
                         <div class="row">
+                           <!--
                            @foreach($documents as $document)
-                              <?php
-                                 $varpath = 'public/files/'.$document->document;
-                              ?>
+                              
                               @if(file_exists($varpath)) 
                                 <div class="col-md-3">
                                     
@@ -578,6 +531,7 @@
                               
                                     
                            @endforeach
+                           -->
                         </div>
                      </div>
                   </section>
@@ -677,21 +631,33 @@ $("#end-time").timepicker();
 function readImage(file) {
   var reader = new FileReader();
   var image  = new Image();
-
+  
+   //var totalfiles = document.getElementById('file-upload').files[0].name;
+   //console.log(document.getElementById('file-upload').files[0]);
+   //console.log(file);
   reader.readAsDataURL(file);  
   reader.onload = function(_file) {
+      
+    
     image.src = _file.target.result;
-    image.onload = function() {
+    //console.log(file.name);
+    //image.onload = function() {
+      //console.log(file.size);
+      if(file.size > 5242880){
+          return alert('You can upload file size maximum of 5MB.');
+      }         
       var n = file.name;
-      $('#uploadPreview').append('<div class="image-section"><div class="row"><div class="col-md-8"><p class="file-name-image">' + n + '</p></div><div class="col-md-4"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i>Delete</span></div></div></div>');
+      
+      $('#uploadPreview').append('<div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image">' + n + '</p></div><div class="col-md-2"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
       $('.delete-image').click(function(){
         $(this).parent().parent().parent().remove();
       });
-    };
-
-    image.onerror= function() {
-      alert('Invalid file type: '+ file.type);
-    };    
+    ///};
+      /*
+      image.onerror= function() {
+         alert('Invalid file type: '+ file.type);
+      };    
+      */
   };
 }
 $("#file-upload").change(function (e) {
@@ -700,9 +666,13 @@ $("#file-upload").change(function (e) {
   }
   var F = this.files;
   if (F && F[0]) {
-    for (var i = 0; i < F.length; i++) {
-      readImage(F[i]);
-    }
+      if(F.length > 5){
+         return alert('You can upload a maximum of 5 files.');
+      }else{
+          for (var i = 0; i < F.length; i++) {
+            readImage(F[i]);
+          }
+      }
   }
 });
 
@@ -736,18 +706,28 @@ $(function () {
           }
         });
         
-        $('.dob').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.date-of-birth').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.hire-date').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.termination-date').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.dl-expiration').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.expiry_date').datepicker({ dateFormat: "yy-mm-dd" });
-        $('.received_date').datepicker({ dateFormat: "yy-mm-dd" });
+        $('.dob').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.date-of-birth').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.hire-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.termination-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.dl-expiration').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
         
         $('html').on('focus', '.custom-problems-field', function (e) {
-            $('.expiry_date').datepicker({ dateFormat: "yy-mm-dd" });
-            $('.received_date').datepicker({ dateFormat: "yy-mm-dd" });
+            $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+            $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
         });
+        
+        
+        function  renderData(validation_array){
+           var errorhtmldata = '<ul>';
+            $(validation_array).each(function(key,val){
+                errorhtmldata += '<li>'+val+'</li>';
+            });
+            errorhtmldata += '</ul>';
+            $('.errorclass').html(errorhtmldata);
+       }
         
         
         $('html').on('click', '.saveemp', function (e) {
@@ -757,7 +737,7 @@ $(function () {
             var fname = $('.fname').val();
             var lname = $('.lname').val();
             var gender = $('.gender').val();
-            var dob = $('.dob').val();
+           
             var email = $('.email').val();
             var workphone = $('.workphone').val();
             var mobile = $('.mobile').val();
@@ -807,12 +787,8 @@ $(function () {
                   relationship: $(this).closest('tr').find('.relationship').val(),
                   phonenumber: $(this).closest('tr').find('.phonenumber').val(),
                   mobilenumber: $(this).closest('tr').find('.mobilenumber').val(),
-                  emailid: $(this).closest('tr').find('.emailid').val(),
-                  address_1: $(this).closest('tr').find('.address_1').val(),
-                  address_2: $(this).closest('tr').find('.address_2').val(),
-                  city_id: $(this).closest('tr').find('.city_id').val(),
-                  state_id: $(this).closest('tr').find('.state_id').val(),
-                  country_id: $(this).closest('tr').find('.country_id').val(),
+                  emailid: $(this).closest('tr').find('.emailid').val(),                  
+                  id: $(this).closest('tr').find('.editcontacts').val(),
               });
             });
             
@@ -829,37 +805,90 @@ $(function () {
               });
             });
             
-            var editpersons_array= [];
-            $(".editpersons").each(function(i, value) {
+            
+            var services_array= [];
+            $('.services:checked').each(function(i, value) {
                
-               editpersons_array.push({
-                  editpersons: $(this).val(), 
+               services_array.push({
+                  services: $(this).val(), 
                   
                   
               });
             });
             
-            function IsEmail(email) {
-               var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-               if(!regex.test(email)) {
-                  return false;
-               }else{
-                  return true;
-               }
+            var qualification_array= [];
+            $('.qualification:checked').each(function(i, value) {
+               
+               qualification_array.push({
+                  qualification: $(this).val(), 
+                  
+                  
+              });
+            });
+            
+            
+            
+            var editpersons_array= [];
+            $(".editpersons").each(function(i, value) {
+               
+               editpersons_array.push({
+                  editpersons: $(this).val(), 
+
+                  
+                  
+              });
+            });
+            
+            var editcontacts_array= [];
+            $(".editcontacts").each(function(i, value) {
+               
+               editcontacts_array.push({
+                  editcontacts: $(this).val(), 
+                  
+                  
+              });
+            });
+            
+            $('.errorclass').html('');
+            var validation_array= [];
+            
+            if(salution==null ||  salution==''){
+               validation_array.push('Please select salutation');
+               
             }
             
-            if(IsEmail(email)==false || email==''  || email==null){
-               $('.email').css('border','1px solid #f00');
-               return false;
+            if(fname==null ||  fname==''){
+               validation_array.push('Please enter first name');
+               
             }
-            $('.email').css('border','0.5px solid #ced4da');
+
             
+            if(lname==null  ||  lname==''){
+               validation_array.push('Please enter last name');
+               
+            }
+            
+            
+            if(gender==null  ||  gender==''){
+               validation_array.push('Please select gender');
+               
+            }  
             
             if(role_id=='' || role_id==null){
-                $('.role_id').css('border','1px solid #f00');
+                validation_array.push('Please select role'); 
+            }
+            
+            if(supervisor=='' || supervisor==null){
+                validation_array.push('Please select supervisor'); 
+            }
+            
+            
+            renderData(validation_array);
+            
+            if(validation_array.length > 0 ){
                 return false;
             }
-            $('.role_id').css('border','0.5px solid #ced4da');
+
             
             
             if(oldpass!=null && oldpass!=''){
@@ -916,8 +945,7 @@ $(function () {
                               salution: salution,
                               fname: fname,
                               lname: lname,
-                              gender: gender,
-                              dob: dob,
+                              gender: gender,                              
                               email: email,
                               workphone: workphone,
                               mobile: mobile,
@@ -934,7 +962,7 @@ $(function () {
                               ssn: ssn,
                               hire_date: hire_date,
                               termination_date: termination_date,
-                              qualification: qualification,
+                              qualification_array: qualification_array,
                               npi: npi,
                               taxonomy: taxonomy,
                               back_check: back_check,
@@ -944,8 +972,9 @@ $(function () {
                               dl_state: dl_state,
                               contact_type_array:contact_type_array,
                               certificate_type_array:certificate_type_array,
-                              //file_upload:file_array,
+                              services:services_array,
                               editpersons_array:editpersons_array,
+                              editcontacts_array:editcontacts_array,
                               
                               
                            };
@@ -996,67 +1025,40 @@ $(function () {
        @foreach($contacts as $contact)
        
         empData += '<tr class="tr-contact-person common-tr-info">'+
-                        '<td>'+
+                        '<td> <input type="hidden"  class="editcontacts" value="{{$contact->id}}" />'+
                            '<select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">'+
                               '<option value="" selected="selected" disabled="disabled">Select</option>'+
-                              '<option value="Mr">Mr.</option>'+
-                              '<option value="Mrs">Mrs.</option>'+
-                              '<option value="Ms">Ms.</option>'+
-                              '<option value="Miss">Miss.</option>'+
-                              '<option value="Dr">Dr.</option>'+
+                              '<option {{ $contact->relation == "Mr" ? 'selected' : ''}} value="Mr">Mr.</option>'+
+                              '<option {{ $contact->relation == "Mrs" ? 'selected' : ''}} value="Mrs">Mrs.</option>'+
+                              '<option {{ $contact->relation == "Ms" ? 'selected' : ''}} value="Ms">Ms.</option>'+
+                              '<option {{ $contact->relation == "Miss" ? 'selected' : ''}} value="Miss">Miss.</option>'+
+                              '<option {{ $contact->relation == "Dr" ? 'selected' : ''}} value="Dr">Dr.</option>'+
                            '</select>'+
                         '</td>'+
                         '<td>'+
-                           '<input type="text" name="first-name" class="form-control custom-contact-field common-text-box-new firstname" placeholder="">'+
+                           '<input type="text" name="first-name" value="{{ $contact->fname }}" class="form-control custom-contact-field  common-text-box-new firstname" placeholder="">'+
                         '</td>'+
                         '<td>'+
-                           '<input type="text" name="last-name" class="form-control custom-contact-field common-text-box-new lastname" placeholder="">'+
+                           '<input type="text" name="last-name" value="{{ $contact->lname }}" class="form-control custom-contact-field  common-text-box-new lastname" placeholder="">'+
                         '</td>'+
                         '<td>'+
                            '<select class="form-control droupdown custom-contact-field common-text-box-new relationship" name="relationship">'+
                               '<option>Select</option>';
                @foreach ($relations as $relation)      
-               empData += '<option value="{{$relation->id}}">{{$relation->title}}</option> ';
+               empData += '<option {{ $contact->relation == $relation->id ? 'selected' : ''}} value="{{$relation->id}}">{{$relation->title}}</option> ';
                @endforeach
    
                empData += '</select>'+
                         '</td>'+
                         '<td>'+
-                           '<input type="text" name="phone" class="form-control custom-contact-field common-text-box-new phonenumber" placeholder="">'+
+                           '<input type="text" name="phone" value="{{ $contact->phone }}" class="form-control custom-contact-field  common-text-box-new phonenumber" placeholder="">'+
                         '</td>'+
                         '<td>'+
-                           '<input type="text" name="mobile" class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder="">'+
+                           '<input type="text" name="mobile" value="{{ $contact->mobile }}"  class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder="">'+
                         '</td>'+
                         '<td>'+
-                           '<input type="email" name="emailperson" class="form-control custom-contact-field common-text-box-new emailid" placeholder="">'+
-                        '</td>'+
-                        '<td>'+
-                           '<input type="text" name="address-1" class="form-control custom-contact-field common-text-box-new address_1" placeholder="">'+
-                        '</td>'+
-                        '<td>'+
-                           '<input type="text" name="address-2" class="form-control custom-contact-field common-text-box-new address_2" placeholder="">'+
-                        '</td>'+
-                        '<td>'+
-                           '<input type="text" name="city" class="form-control custom-contact-field common-text-box-new city_id" placeholder="">'+
-                        '</td>'+
-                        '<td>'+
-                           '<select class="form-control droupdown custom-contact-field common-text-box-new state_id" name="state">'+
-                             '<option>Select</option>';
-               @foreach ($states as $state)      
-               empData += '<option value="{{$state->id}}">{{$state->name}}</option> ';
-               @endforeach
-   
-               empData += '</select>'+
-                        '</td>'+
-                        '<td>'+
-                           '<select class="form-control droupdown custom-contact-field common-text-box-new country_id" name="country">'+
-                              '<option>Select</option>';
-               @foreach ($countries as $country)      
-               empData += '<option value="{{$country->id}}">{{$country->name}}</option> ';
-               @endforeach
-   
-               empData += '</select>'+
-                        '</td>'+
+                           '<input type="email" name="emailperson" value="{{ $contact->email }}" class="form-control custom-contact-field  common-text-box-new emailid" placeholder="">'+
+                        '</td>'+                        
                         '<td class="delete-section"><i class="fa fa-close delete-button deletedata"></i></td>'+
                      '</tr>';
        @endforeach
@@ -1099,28 +1101,7 @@ $(function () {
                '</td>'+
                '<td><input class="form-control custom-contact-field common-text-box-new phonenumber" placeholder=""></td>'+
                '<td><input class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder=""></td>'+
-               '<td><input class="form-control custom-contact-field common-text-box-new emailid" placeholder=""></td>'+
-               '<td><input class="form-control custom-contact-field common-text-box-new address_1" placeholder=""></td>'+
-               '<td><input class="form-control custom-contact-field common-text-box-new address_2" placeholder=""></td>'+
-               '<td><input class="form-control custom-contact-field common-text-box-new city_id" placeholder=""></td>'+
-               '<td>'+
-               '<select class="form-control droupdown custom-contact-field common-text-box-new state_id">'+
-               '<option>Select</option>';
-               @foreach ($states as $state)      
-               htmlData += '<option value="{{$state->id}}">{{$state->name}}</option> ';
-               @endforeach
-   
-               htmlData += '</select>'+
-               '</td>'+
-               '<td>'+
-               '<select class="form-control droupdown custom-contact-field common-text-box-new country_id">'+
-               '<option>Select</option>';
-               @foreach ($countries as $country)      
-               htmlData += '<option value="{{$country->id}}">{{$country->name}}</option> ';
-               @endforeach
-   
-               htmlData += '</select>'+
-               '</td>'+
+               '<td><input class="form-control custom-contact-field common-text-box-new emailid" placeholder=""></td>'+               
                '<td class="delete-section"><i class="fa fa-close delete-button deletedata"></i></td>'+
                '</tr>';
                
@@ -1241,6 +1222,10 @@ $(function () {
    
 
 </script>
+<style>
+.errorclass,.errorbillingclass,.errorotherdata,.erroraddressdata{color:#f00;}
+.errorclass ul li,.errorbillingclass ul li,.errorotherdata ul li,.erroraddressdata ul li {   list-style: inherit;}
+</style>
 @endsection
 @section('end_listing_layout')
 @endsection

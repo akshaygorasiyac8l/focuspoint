@@ -5,7 +5,7 @@ a:hover {
     text-decoration: none;
 }
 button:focus {
-    outline: 0px !important;
+    outline: 0;
 }
 ul li {
     list-style-type: none;
@@ -158,7 +158,6 @@ li.nav-item a.nav-link.active {
 .background-transperent {
     background: #fff;
     margin-left: 9px;
-    overflow-x: hidden;
 }
 .col-3 {
     -ms-flex: 0 0 25%;
@@ -176,9 +175,9 @@ section.content-header.consumer {
     margin-top: 16px;
     margin-bottom: 8px;
 }
-/*section.content {
+section.content {
     padding: 50px 17px 42px 17px;
-}*/
+}
 button.btn.btn-info {
     padding: 6px 18px;
     border-radius: 3px;
@@ -241,7 +240,7 @@ label.services-date {
     margin-left: 15px;
 }
 section.tab-section {
-    padding: 10px 3px 11px;
+    padding: 10px 3px;
 }
 ul#custom-content-below-tab {
     border: 0;
@@ -255,7 +254,7 @@ li.nav-item a.nav-link {
     margin: 6px auto;
 }
 .tab-section {
-    background: #eee;
+    background: #f7f9fa;
 }
 li.nav-item a.nav-link {
     border-radius: 3px;
@@ -318,7 +317,7 @@ ul.droup-down-box select.form-control {
     float: left;
 }
 section.contentsection {
-    padding: 22px 3px 75px 3px;
+    padding: 22px 3px 65px 3px;
 }
 section#overview-add {
     padding: 22px 18px 65px 18px;
@@ -420,19 +419,16 @@ table.ui-datepicker-calendar th {
     top: 0;
 }
 .ui-widget-header {
-    border: none !important;
-    background: transparent !important;
+    border: none;
+    background: transparent;
     color: transparent;
     font-weight: bold;
 }
 .ui-icon-circle-triangle-e {
-    background-position: -35px 1px !important;
+    background-position: -35px 1px;
 }
 .ui-icon-circle-triangle-w {
-    background-position: -94px 1px !important;
-}
-.ui-icon{
-    cursor: pointer;
+    background-position: -94px 1px;
 }
 a.ui-datepicker-prev.ui-corner-all,
 a.ui-datepicker-next.ui-corner-all {
@@ -619,12 +615,12 @@ select:focus {
     text-align: right;
 }
 button.btn-edit {
-    background: #f5f5f5;
-    border: 0.5px solid #ddd;
+    background: #0e7ee5;
+    border: 0.5px solid #0e7ee5;
     padding: 5px 25px;
     border-radius: 3px;
     height: 35px;
-    color: #999999;
+    color: #fff;
     width: 100%;
 }
 select.form-control.new-tran-field {
@@ -713,8 +709,8 @@ span.address-info {
     color: #000;
 }
 select.form-control.new-tran-field.new {
-    background: #f5f5f5;
-    color: #999999;
+    background: #0e7ee5;
+    color: #fff;
 }
 select.form-control.new-tran-field.new option {
     background: #fff;
@@ -1011,28 +1007,27 @@ input#file-upload:focus {
 label.lbl-multiple-files {
     display: block;
     width: 100%;
-    padding: 8px 10px;
+    padding: 4px 10px;
     font-size: 14px;
-    height: 40px;
+    height: 32px;
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 0.5px dotted #ced4da;
+    border: 0.5px solid #ced4da;
     border-radius: 2px;
     box-shadow: inset 0 0 0 transparent;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    padding-left: 60px;
 }
-label.lbl-multiple-files:before {
+label.lbl-multiple-files:after{
     content: '';
     background: url(../images/upload.png) no-repeat;
     padding: 10px;
     position: absolute;
     background-size: cover;
-    margin-top: 1px;
-    left: 17px;
+    right: 10px;
+    margin-top: 2px;
 }
 .multiple-image-upload {
     position: absolute;
@@ -1402,7 +1397,7 @@ section#service-plans-section {
     padding: 0px 0px 150px 0px;
 }
 #user-listing-section{
-    padding: 0px 0px 30px 0px;
+    padding: 0px 0px 150px 0px;
 }
 .spent-time {
     float: right;
@@ -1628,15 +1623,15 @@ tr.tr-life-functions-person td {
 	width: 100%;
 }
 .common-table-info th{
-	border: 1px solid #999999;
+	border: 1px solid #ced4da;
     padding: 8px 6px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     color: #999999;
     background: #f7f9fa;
 }
 .common-tr-info td{
-	border: 1px solid #999999;
+	border: 1px solid #ced4da;
 }
 .common-text-box-new{
 	border:0;
@@ -1653,7 +1648,6 @@ tr.tr-life-functions-person td {
     padding: 8px 14px;
     border-radius: 7px;
     font-size: 14px;
-    margin-bottom: 10px;
 }
 .common-icons {
     margin-right: 5px;
@@ -1716,32 +1710,20 @@ table.authorizations-table-modal {
 	padding-top: 30px;
 }
 section.edit-section {
-    padding: 15px 0 6px;
+    padding: 15px 0 15px;
     background: #f1f1f1;
 }
 .mail {
     margin: 0 25px;
 }
 button.btn-edit-print {
-    background: #f5f5f5;
+    background: #0e7ee5;
     padding: 8px 20px;
-    color: #999999;
+    color: #fff;
     font-size: 16px;
     border: none;
     border-radius: 3px;
     font-weight: 400;
-    border: 1px solid #ddd;
-}
-a.btn-edit-print {
-    float: left;
-    background: #f5f5f5;
-    padding: 8px 20px;
-    color: #999999;
-    font-size: 16px;
-    border: none;
-    border-radius: 3px;
-    font-weight: 400;
-    border: 1px solid #ddd;
 }
 .common-edit-btn {
     margin-right: 8px;
@@ -2028,6 +2010,8 @@ label.emp-label-details {
     font-weight: 400;
     vertical-align: middle;
     margin-left: 5px;
+}
+.checkbox-parts {
     display: flex;
 }
 #logins{
@@ -2156,7 +2140,7 @@ section#authorization-details {
     padding-top: 30px;
 }
 .ui-widget-header .ui-icon {
-    background-image: url(../images/ui-icons_444444_256x240.png) !important;
+    background-image: url(../images/ui-icons_444444_256x240.png);
 }
 .delete-button{
   font-size: 16px;
@@ -2178,8 +2162,6 @@ p.file-name-image {
     margin-bottom: 2px;
     font-weight: 400;
     word-break: break-all;
-    float: right;
-    width: 90%;
 }
 .image-detais {
     margin: 0px 10px 10px;
@@ -2194,6 +2176,8 @@ div#uploadPreview .image-section:last-child{
     padding:5px 10px 5px;
 }
 div#uploadPreview {
+    background: #fff;
+    box-shadow: 0px 0px 5px 0px #dee2e6;
     margin-top: 58px;
 }
 table.table-contact-person tr td:nth-child(4) {
@@ -2330,18 +2314,17 @@ table#table-general tr th {
     font-size: 16px;
 }
 .btn-ban:hover {
-    color: #999999;
+    color: #0e7ee5;
 }
 .btn-ban {
-    background: #f5f5f5;
-    color: #999999;
+    background: #f7f9fa;
+    color: #0e7ee5;
     border: 0;
     padding: 10px 24px;
     border-radius: 5px;
     cursor: pointer;
     position: relative;
     top: 9px;
-    border: 1px solid #ddd;
 }
 .btn-ban.unban{
     display: none;
@@ -2603,12 +2586,12 @@ td.btn-action .action-icon {
     margin: 0;
 }
 
-.search-box-dropdown {
+select.form-control.search-box-dropdown {
     width: 238px;
     display: none;
     position: absolute;
 }
-.search-box-dropdown.open-selectbox {
+select.form-control.search-box-dropdown.open-selectbox {
     display: block;
     transition: 0.3s;
 }
@@ -2633,127 +2616,9 @@ td.btn-action .action-icon {
 ul.search-fill-data.open-livesearchbox {
     display: block;
 }
-i.fa.fa-paperclip.attach-icon-add {
-    margin: 0px 8px 4px 0px;
-    transform: rotate(85deg);
-    font-size: 20px;
-    font-weight: 600;
-    width: 5%;
-    float: left;
-}
-label.lbl-multiple-files:after {
-    content: '';
-    border-right: 0.5px dotted #ced4da;
-    position: absolute;
-    left: 50px;
-    height: 40px;
-    top: 0;
-}
-i.fa.fa-check.check-icons{
-    display: none;
-}
-li.selected i.fa.fa-check.check-icons{
-    display: block;
-    margin-right: 5px;
-    float: left;
-}
-.selectbox-tag { 
-    padding: 0;
-    height: 30px;
-    width: 238px;
-    border: 0.5px solid #ced4da;
-    background: #f8f8f8;
-}
-.selectbox-tag li { 
-    padding: 5px 10px;
-    z-index: 2; 
-    cursor: pointer;
-}
-.selectbox-tag li:not(.selectedvalue) { 
-    float: left; 
-    width: 238px; 
-    display: none;
-    background: #f8f8f8; 
-}
-a.btn-search-icon {
-    background: #efefef;
-    padding: 8px 12px;
-    border-radius: 4px;
-    position: relative;
-    top: 2px;
-    color: #000;
-    margin-right: 17px;
-}
-p.image-note-title {
-    margin-top: 15px;
-}
-select.ui-datepicker-month {
-    border: none;
-    font-weight: 400;
-    color: #333;
-}
-select.ui-datepicker-month:focus {
-    outline: none;
-}
-select.ui-datepicker-year {
-    border: none;
-    font-weight: 400;
-    color: #333;
-}
-select.ui-datepicker-year:focus {
-    outline: none;
-}
-label.title-services {
-    font-size: 16px;
-    font-weight: 400;
-    margin-left: 7px;
-}
-label.qualification-title {
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0 10px 0 2px;
-}
-.dropdown-listing {
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    z-index: 111;
-    background: #fff;
-}
-.dropdown-listing li {
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 18px;
-}
-li.droplist {
-    font-size: 28px;
-}
-.dropdown-listing li:not(.droplist) { 
-    display: none;
-    border: 1px solid #ced4da;
-    border-top: 0;
-    border-bottom: 0; 
-}
-li.droplist:after {
-    content: "";
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 5px;
-    transform: rotate(45deg);
-    position: relative;
-    top: -4px;
-    left: 20px;
-}
-ul.dropdown-listing li:nth-child(2) {
-    border-top: 1px solid #ced4da;
-}
-ul.dropdown-listing li:last-child {
-    border-bottom: 1px solid #ced4da;
-}
-li.droplist {
-    padding: 5px 10px 5px 0;
-}
+
+
+
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
     section.footer-section {
         width: 89%;
@@ -2878,6 +2743,24 @@ li.droplist {
     ul.new-dropdown-hover.drop-space-remove {
         padding-right: 9px;
     }
+    #logins {
+        padding-bottom: 150px;
+    }
+    #address-details {
+        padding-bottom: 150px;
+    }
+    #other-details-user {
+        padding-bottom: 150px;
+    }
+    #contact-persons-user {
+        padding-bottom: 150px;
+    }
+    #certifications {
+        padding-bottom: 150px;
+    }
+    #documents {
+        padding-bottom: 150px;
+    }
     .cols-space {
         padding-left: 31px;
     }
@@ -2949,7 +2832,34 @@ li.droplist {
         position: absolute;
         top: 19px;
         right: 15px;
-    }    
+    }
+    #address {
+        padding-bottom: 180px;
+    }
+    #other-details {
+        padding-bottom: 160px;
+    }
+    #payer-info {
+        padding-bottom: 160px;
+    }
+    #team {
+        padding-bottom: 160px;
+    }
+    #diagnosis {
+        padding-bottom: 160px;
+    }
+    #contact-persons {
+        padding-bottom: 160px;
+    }
+    #medications {
+        padding-bottom: 160px;
+    }
+    #allergies {
+        padding-bottom: 160px;
+    }
+    #account-notations {
+        padding-bottom: 160px;
+    }
     section#contact-persons-assessments {
         padding-bottom: 240px;
     }
@@ -2968,7 +2878,10 @@ li.droplist {
     section#services-employee {
         padding-top: 20px;
         padding-bottom: 100px;
-    }    
+    }
+    section#services-employee-add {
+        padding-bottom: 150px;
+    }
     section#contact-person-details {
         padding-bottom: 100px;
     }

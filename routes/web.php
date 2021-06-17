@@ -106,8 +106,12 @@ Route::any('/deletefile/{id}', [App\Http\Controllers\GeneralController::class, '
 
 
 Route::get('/consumers-listing', [App\Http\Controllers\ConsumerController::class, 'index'])->name('consumers-listing');
-Route::get('/consumers-add', [App\Http\Controllers\ConsumerController::class, 'addConsumer'])->name('consumers-add');
-Route::get('/consumers-details', [App\Http\Controllers\ConsumerController::class, 'consumerDetail'])->name('consumers-details');
+Route::any('/getconsumers', [App\Http\Controllers\ConsumerController::class, 'getConsumers'])->name('getconsumers');
+Route::any('/consumer-list', [App\Http\Controllers\ConsumerController::class, 'getConsumerList'])->name('consumer-list');
+Route::any('/consumers-add', [App\Http\Controllers\ConsumerController::class, 'addConsumer'])->name('consumers-add');
+Route::any('/consumers-edit/{id}', [App\Http\Controllers\ConsumerController::class, 'editConsumer'])->name('consumers-edit');
+Route::get('/consumers-details/{id}', [App\Http\Controllers\ConsumerController::class, 'consumerDetail'])->name('consumers-details');
+Route::any('/deleteconsumers', [App\Http\Controllers\ConsumerController::class, 'deleteConsumers'])->name('deleteconsumers');
 
 
 Route::get('/assessments-listing', [App\Http\Controllers\AssessmentController::class, 'index'])->name('assessments-listing');
@@ -139,13 +143,20 @@ Route::get('/consumer-notes-details', [App\Http\Controllers\ConsumerNotesControl
 
 Route::get('/employee-listing', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee-listing');
 Route::any('/getemployees', [App\Http\Controllers\EmployeeController::class, 'getEmployees'])->name('getemployees');
+Route::any('/employee-list', [App\Http\Controllers\EmployeeController::class, 'getEmployeeList'])->name('employee-list');
+Route::any('/deleteemployees', [App\Http\Controllers\EmployeeController::class, 'deleteEmployees'])->name('deleteemployees');
 Route::any('/employee-add', [App\Http\Controllers\EmployeeController::class, 'addEmployee'])->name('employee-add');
 Route::get('/employee-details/{id}', [App\Http\Controllers\EmployeeController::class, 'employeeDetail'])->name('employee-details');
 Route::any('/employee-edit/{id}', [App\Http\Controllers\EmployeeController::class, 'editEmployee'])->name('employee-edit');
 Route::any('/employee-mail/{id}', [App\Http\Controllers\EmployeeController::class, 'mailEmployee'])->name('employee-mail');
 Route::any('/employee-pdf/{id}', [App\Http\Controllers\EmployeeController::class, 'pdfEmployee'])->name('employee-pdf');
 Route::any('/employee-ban/{id}', [App\Http\Controllers\EmployeeController::class, 'banEmployee'])->name('employee-ban');
+Route::any('/searchemployees', [App\Http\Controllers\EmployeeController::class, 'searchEmployees'])->name('searchemployees');
 
+
+
+Route::any('/checkemail', [App\Http\Controllers\EmployeeController::class, 'checkEmail'])->name('checkemail');
+Route::any('/checkconsumeremail', [App\Http\Controllers\ConsumerController::class, 'checkConsumerEmail'])->name('checkconsumeremail');
 
 
 

@@ -74,7 +74,12 @@
                                           </select>
                                        </div>
                                     </div>
-                                    
+                                    <div class="form-group row">
+                                       <label class="col-md-3 col-form-label">Date of Birth</label>
+                                       <div class="col-md-9 time-add">
+                                          <input type="text" name="dob" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="mm-dd-yyyy">
+                                       </div>
+                                    </div>
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Email Address</label>
                                        <div class="col-md-9 common-text short-col">
@@ -167,9 +172,8 @@
                                                
                                  <div class="checkbox-parts">
                                     <label for="services{{$service->id}}" class="emp-label-add">
-                                       <input style="margin-right:10px;"  type="checkbox" name="services" class="services" id="services{{$service->id}}" value="{{$service->id}}">
-                                       {{$service->title}}
-                                    </label>
+                                    <input  type="checkbox" name="services" class="services" id="services{{$service->id}}" value="{{$service->id}}">
+                                    {{$service->title}}</label>
                                  </div>
                               <?php 
                               $ic++;
@@ -253,8 +257,6 @@
                   <section class="contentsection" id="address-details">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-12 erroraddressdata">
-                           </div>
                            <div class="col-md-6">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -313,8 +315,6 @@
                   <section class="contentsection" id="other-details-user">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-12 errorotherdata">
-                           </div>
                            <div class="col-md-6">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -345,21 +345,11 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Qualification</label>
                                        <div class="col-md-8 common-textbox">
-                                          <!--
                                           <select id="multiple-checkboxes" class="qualification" multiple="multiple">
                                           @foreach ($qualifications as $qualification)
                                              <option value="{{$qualification->title}}">{{$qualification->title}}</option>
                                           @endforeach
                                           </select> 
-                                          -->
-                                          
-                                          <div class="checkbox-group">
-                                             @foreach ($qualifications as $qualification)
-                                             <label class="qualification-title">
-                                             <input type="checkbox" id="multiple-checkboxes" class="qualification" value="{{$qualification->title}}">
-                                             {{$qualification->title}}</label>
-                                             @endforeach
-                                          </div> 
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -425,7 +415,11 @@
                                        <th>Phone</th>
                                        <th>Mobile</th>
                                        <th>Email Address</th>
-                                       
+                                       <th>Address 1</th>
+                                       <th>Address 2</th>
+                                       <th>City</th>
+                                       <th>State</th>
+                                       <th>Country</th>
                                      </tr>
                                     </thead>
                                     <tbody>
@@ -463,7 +457,31 @@
                                           <td>
                                              <input type="email" name="emailperson" class="form-control custom-contact-field common-text-box-new emailid" placeholder="">
                                           </td>
-                                          
+                                          <td>
+                                             <input type="text" name="address-1" class="form-control custom-contact-field common-text-box-new address_1" placeholder="">
+                                          </td>
+                                          <td>
+                                             <input type="text" name="address-2" class="form-control custom-contact-field common-text-box-new address_2" placeholder="">
+                                          </td>
+                                          <td>
+                                             <input type="text" name="city" class="form-control custom-contact-field common-text-box-new city_id" placeholder="">
+                                          </td>
+                                          <td>
+                                             <select class="form-control droupdown custom-contact-field common-text-box-new state_id" name="state">
+                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                @foreach ($states as $state)
+                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                                @endforeach
+                                             </select>
+                                          </td>
+                                          <td>
+                                             <select class="form-control droupdown custom-contact-field common-text-box-new country_id" name="country">
+                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                @foreach ($countries as $country)
+                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                                @endforeach
+                                             </select>
+                                          </td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -728,19 +746,7 @@ $(function () {
          $('.contentsection').hide();
          $('#logins').show();
       }
-      
-      function otherinfo(){
-         $('.tabs').removeClass('active');               
-         $('#custom-content-below-messages-tab4').addClass('active');
-         $('.contentsection').hide();
-         $('#other-details-user').show();
-      }
-      function addressinfo(){
-         $('.tabs').removeClass('active');               
-         $('#custom-content-below-profile-tab3').addClass('active');
-         $('.contentsection').hide();
-         $('#address-details').show();
-      }  
+        
         
         
         
@@ -751,7 +757,7 @@ $(function () {
             var fname = $('.fname').val();
             var lname = $('.lname').val();
             var gender = $('.gender').val();
-            
+            var dob = $('.dob').val();
             var email = $('.email').val();
             var workphone = $('.workphone').val();
             var mobile = $('.mobile').val();
@@ -804,7 +810,11 @@ $(function () {
                   phonenumber: $(this).closest('tr').find('.phonenumber').val(),
                   mobilenumber: $(this).closest('tr').find('.mobilenumber').val(),
                   emailid: $(this).closest('tr').find('.emailid').val(),
-                  
+                  address_1: $(this).closest('tr').find('.address_1').val(),
+                  address_2: $(this).closest('tr').find('.address_2').val(),
+                  city_id: $(this).closest('tr').find('.city_id').val(),
+                  state_id: $(this).closest('tr').find('.state_id').val(),
+                  country_id: $(this).closest('tr').find('.country_id').val(),
               });
             });
             
@@ -820,20 +830,10 @@ $(function () {
             });
             
             var services_array= [];
-            $('.services:checked').each(function(i, value) {
+            $(".services").each(function(i, value) {
                
                services_array.push({
                   services: $(this).val(), 
-                  
-                  
-              });
-            });
-            
-            var qualification_array= [];
-            $('.qualification:checked').each(function(i, value) {
-               
-               qualification_array.push({
-                  qualification: $(this).val(), 
                   
                   
               });
@@ -890,14 +890,17 @@ $(function () {
             }  
             
             
-
+            if(dob==null   ||  dob==''){
+               validation_array.push('Please select date of birth');               
+            } 
+            
             
             
             
             if(IsEmail(email)==false || email==''  || email==null){
                validation_array.push('Please enter valid email address'); 
             }
-            
+            $('.email').css('border','0.5px solid #ced4da');
             
             function IsEmail(email) {
                var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -957,40 +960,7 @@ $(function () {
             $('.errorbillingclass').html(errorbillingdata);
             
             
-            var address_array= [];
-            
-            if(zipcode=='' || zipcode==null){
-                address_array.push('Please enter zipcode'); 
-                addressinfo();
-            }
-            
-            var erroraddressdata = '<ul>';
-            $(address_array).each(function(key,val){
-                erroraddressdata += '<li>'+val+'</li>';
-            });
-            erroraddressdata += '</ul>';
-            $('.erroraddressdata').html(erroraddressdata);
-            
-            
-            
-            var other_array= [];
-            
-            if(hire_date=='' || hire_date==null){
-                other_array.push('Please select hire date'); 
-                otherinfo();
-            }
-            
-            var errorotherdata = '<ul>';
-            $(other_array).each(function(key,val){
-                errorotherdata += '<li>'+val+'</li>';
-            });
-            errorotherdata += '</ul>';
-            $('.errorotherdata').html(errorotherdata);
-            
-            
-            
-            
-            if(validation_array.length > 0 || validation_login_array.length > 0 || other_array.length > 0){
+            if(validation_array.length > 0 || validation_login_array.length > 0){
                 return false;
             }
             
@@ -1016,7 +986,7 @@ $(function () {
                               fname: fname,
                               lname: lname,
                               gender: gender,
-                             
+                              dob: dob,
                               email: email,
                               workphone: workphone,
                               mobile: mobile,
@@ -1037,7 +1007,7 @@ $(function () {
                               ssn: ssn,
                               hire_date: hire_date,
                               termination_date: termination_date,
-                              qualification_array: qualification_array,
+                              qualification: qualification,
                               npi: npi,
                               taxonomy: taxonomy,
                               back_check: back_check,
@@ -1126,7 +1096,28 @@ $(function () {
                '</td>'+
                '<td><input class="form-control custom-contact-field common-text-box-new phonenumber" placeholder=""></td>'+
                '<td><input class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder=""></td>'+
-               '<td><input class="form-control custom-contact-field common-text-box-new emailid" placeholder=""></td>'+               
+               '<td><input class="form-control custom-contact-field common-text-box-new emailid" placeholder=""></td>'+
+               '<td><input class="form-control custom-contact-field common-text-box-new address_1" placeholder=""></td>'+
+               '<td><input class="form-control custom-contact-field common-text-box-new address_2" placeholder=""></td>'+
+               '<td><input class="form-control custom-contact-field common-text-box-new city_id" placeholder=""></td>'+
+               '<td>'+
+               '<select class="form-control droupdown custom-contact-field common-text-box-new state_id">'+
+               '<option>Select</option>';
+               @foreach ($states as $state)      
+               htmlData += '<option value="{{$state->id}}">{{$state->name}}</option> ';
+               @endforeach
+   
+               htmlData += '</select>'+
+               '</td>'+
+               '<td>'+
+               '<select class="form-control droupdown custom-contact-field common-text-box-new country_id">'+
+               '<option>Select</option>';
+               @foreach ($countries as $country)      
+               htmlData += '<option value="{{$country->id}}">{{$country->name}}</option> ';
+               @endforeach
+   
+               htmlData += '</select>'+
+               '</td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>'+
                '</tr>';
                
@@ -1193,8 +1184,8 @@ $(function () {
 
 </script>
 <style>
-.errorclass,.errorbillingclass,.errorotherdata,.erroraddressdata{color:#f00;}
-.errorclass ul li,.errorbillingclass ul li,.errorotherdata ul li,.erroraddressdata ul li {   list-style: inherit;}
+.errorclass,.errorbillingclass{color:#f00;}
+.errorclass ul li,.errorbillingclass ul li {   list-style: inherit;}
 </style>
 @endsection
 @section('end_listing_layout')

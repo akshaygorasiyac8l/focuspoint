@@ -22,12 +22,13 @@
     
          <div class="content-wrapper">
             <form id="form-consumer" action="" name="consumer-form">
+            
                <div class="background-transperent">
                   <section class="content-header">
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12 page-background">
-                              <h1 class="page-title">New Consumer</h1>
+                              <h1 class="page-title">{{$consumer->fname}} {{$consumer->lname}}</h1>
                            </div>
                         </div>
                      </div>
@@ -47,18 +48,18 @@
                                              <div class="col-md-3 short-col">
                                                 <select class="form-control droupdown mobile-drop salutation" name="salutation" autocomplete="off">
                                                 <option value="" selected="selected" >Salutation</option>
-                                                <option value="Mr">Mr.</option>
-                                                <option value="Mrs">Mrs.</option>
-                                                <option value="Ms">Ms.</option>
-                                                <option value="Miss">Miss.</option>
-                                                <option value="Dr">Dr.</option>
+                                                <option {{ $consumer->salutation =='Mr'  ? 'selected' : ''}} value="Mr">Mr.</option>
+                                                <option {{ $consumer->salutation =='Mrs'  ? 'selected' : ''}} value="Mrs">Mrs.</option>
+                                                <option {{ $consumer->salutation =='Ms'  ? 'selected' : ''}} value="Ms">Ms.</option>
+                                                <option {{ $consumer->salutation =='Miss'  ? 'selected' : ''}} value="Miss">Miss.</option>
+                                                <option {{ $consumer->salutation =='Dr'  ? 'selected' : ''}} value="Dr">Dr.</option>
                                              </select>                                             
                                              </div>
                                              <div class="col-md-4">
-                                                <input type="text" name="firstname" class="form-control mobile-drop fname" placeholder="First Name" autocomplete="off">
+                                                <input type="text" name="firstname" class="form-control mobile-drop fname" value="{{$consumer->fname}}" placeholder="First Name" autocomplete="off">
                                              </div>
                                              <div class="col-md-4">
-                                                <input type="text" name="lastname" class="form-control lname"  placeholder="Last Name" autocomplete="off">
+                                                <input type="text" name="lastname" class="form-control lname"  value="{{$consumer->lname}}" placeholder="Last Name" autocomplete="off">
                                              </div>
                                              <div class="col-md-1"></div>
                                           </div>
@@ -70,16 +71,16 @@
                                           <div class="row">
                                              <div class="col-md-3 short-col mobile-drop">
                                                 <select class="form-control droupdown gender" name="gender" autocomplete="off">
-                                                   <option value="" selected="selected" disabled="disabled">Select</option>
-                                                   <option value="0">Male</option>
-                                                   <option value="1">Female</option>
+                                                   <option value="" selected="selected" >Select</option>
+                                                   <option {{ $consumer->gender =='Male'  ? 'selected' : ''}} value="Male">Male</option>
+                                                   <option {{ $consumer->gender =='Female'  ? 'selected' : ''}} value="Female">Female</option>
                                                 </select>
                                              </div>
                                              <div class="col-md-8 short-col">
                                                 <select class="form-control droupdown identified" name="identified" autocomplete="off">
-                                                   <option value="" selected="selected" disabled="disabled">Identified As</option>
-                                                   <option value="0">Male</option>
-                                                   <option value="1">Female</option>
+                                                   <option value="" selected="selected" >Identified As</option>
+                                                   <option {{ $consumer->gender =='Male'  ? 'selected' : ''}} value="Male">Male</option>
+                                                   <option {{ $consumer->gender =='Female'  ? 'selected' : ''}} value="Female">Female</option>
                                                 </select>
                                              </div>
                                              <div class="col-md-3"></div>
@@ -89,37 +90,71 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Date of Birth</label>
                                        <div class="col-md-9 time-add">
-                                          <input type="text" name="dob" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="mm-dd-yyyy" autocomplete="off">
+                                          <input type="text" name="dob" value="{{$consumer->dob}}" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="mm-dd-yyyy" autocomplete="off">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label ">Email Address<span class="required-mark">*</span></label>
                                        <div class="col-md-9 time-add">
-                                          <input type="email" name="email" class="form-control width-add email"  placeholder="" autocomplete="off">
+                                          <input type="email" name="email" disabled   value="{{$consumer->email}}"  class="form-control width-add email"  placeholder="" autocomplete="off">
                                        </div>
                                     </div>
                                     <div class="form-group row new-phone">
                                        <label class="col-md-3 col-form-label ">Phone<span class="required-mark">*</span></label>
                                        <div class="col-md-9 new-phone-add">
-                                          <div class="row">
-                                             <div class="col-md-3 short-col">
-                                                <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
-                                                   <option value="" disabled="disabled">Select</option>
-                                                   <option value="Home">Home</option>
-                                                   <option value="Work">Work</option>
-                                                   <option value="School">School</option>
-                                                   <option value="Mobile" selected="selected">Mobile</option>
-                                                   <option value="Main">Main</option>
-                                                   <option value="Other">Other</option>
-                                                </select>
+                                          @if(count($consumer_phones) >0)
+                                          @php
+                                          $p = 0
+                                          @endphp
+                                          @foreach($consumer_phones as $consumer_phone)
+                                             <div class="row">
+                                                <input type="hidden" class="editphones" value="{{$consumer_phone->id}}">
+                                                <div class="col-md-3 short-col">
+                                                   <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
+                                                      <option value="" >Select</option>
+                                                      <option {{$consumer_phone->phonetype=='Home' ? 'selected' : ''}} value="Home">Home</option>
+                                                      <option {{$consumer_phone->phonetype=='Work' ? 'selected' : ''}} value="Work">Work</option>
+                                                      <option {{$consumer_phone->phonetype=='School' ? 'selected' : ''}} value="School">School</option>
+                                                      <option {{$consumer_phone->phonetype=='Mobile' ? 'selected' : ''}} value="Mobile" >Mobile</option>
+                                                      <option {{$consumer_phone->phonetype=='Main' ? 'selected' : ''}} value="Main">Main</option>
+                                                      <option {{$consumer_phone->phonetype=='Other' ? 'selected' : ''}} value="Other">Other</option>
+                                                   </select>
+                                                </div>
+                                                <div class="col-md-8 short-col">
+                                                   <input type="tel" name="cellphone" class="form-control phone"  value="{{$consumer_phone->phone}}">
+                                                </div>
+                                          @php
+                                          $p++
+                                          @endphp
+                                                @if($p!=1)
+                                                <div class="col-md-1 short-col"><i class="fa fa-close delete-button delete"></i></div>
+                                                @endif
                                              </div>
-                                             <div class="col-md-8 short-col">
-                                                <input type="tel" name="cellphone" class="form-control phone"  placeholder="Phone">
+                                          @endforeach
+                                          @else
+                                             <div class="row">
+                                                <div class="col-md-3 short-col">
+                                                   <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
+                                                      <option value="" >Select</option>
+                                                      <option value="Home">Home</option>
+                                                      <option value="Work">Work</option>
+                                                      <option value="School">School</option>
+                                                      <option value="Mobile" selected="selected">Mobile</option>
+                                                      <option value="Main">Main</option>
+                                                      <option value="Other">Other</option>
+                                                   </select>
+                                                </div>
+                                                <div class="col-md-8 short-col">
+                                                   <input type="tel" name="cellphone" class="form-control phone"  placeholder="Phone">
+                                                </div>
+                                                <div class="col-md-1"></div>
                                              </div>
-                                             <div class="col-md-1"></div>
-                                          </div>                                             
+                                          @endif
+                                       
+                                       
                                        </div>
                                     </div>
+                                    
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label"></label>
                                        <div class="col-md-9 common-text short-col">
@@ -135,16 +170,16 @@
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                        <div class="col-md-7">
-                                          <input type="text" name="record" class="form-control date-select without-background record_no" value="RCNO_<?php echo rand('111111111','999999999'); ?>">
+                                          <input type="text" name="record" disabled class="form-control date-select without-background record_no" value="{{$consumer->record_no}}">
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label ">Status</label>
                                        <div class="col-md-7">
                                           <select class="form-control active-status apprroved statusval" name="status">
-                                             <option value="2">Active - Approved</option>
-                                             <option value="0">Active</option>
-                                             <option value="1">Approved</option>
+                                             <option {{ $consumer->status =='2'  ? 'selected' : ''}} value="2">Active - Approved</option>
+                                             <option {{ $consumer->status =='0'  ? 'selected' : ''}} value="0">Active</option>
+                                             <option {{ $consumer->status =='1'  ? 'selected' : ''}} value="1">Approved</option>
                                           </select>
                                        </div>
                                     </div>
@@ -152,8 +187,8 @@
                                        <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                        <div class="col-md-7">
                                          <select class="form-control active-status apprroved  assigneeval" name="assignee">
-                                             <option value="0">Unassigned</option>
-                                             <option value="1">Assigned</option>
+                                             <option {{ $consumer->assignee =='0'  ? 'selected' : ''}} value="0">Unassigned</option>
+                                             <option {{ $consumer->assignee =='1'  ? 'selected' : ''}} value="1">Assigned</option>
                                           </select>
                                        </div>
                                     </div>
@@ -161,20 +196,20 @@
                                        <label class="col-md-5 col-form-label assigned-label">Service Date</label>
                                        <div class="col-md-7">
                                           <!-- <label class="services-date">9/15/20</label> -->
-                                          <input type="text" name="services-date" class="form-control date-select without-background servicedate" placeholder="No Service Date" autocomplete="off">
+                                          <input type="text" name="services-date" value="{{$consumer->service_date}}" class="form-control date-select without-background servicedate" placeholder="No Service Date" autocomplete="off">
                                        </div>
                                     </div>                                    
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Admission Date</label>
                                        <div class="col-md-7">
                                           <!-- <label class="services-date">9/15/20</label> -->
-                                          <input type="text" name="admission-date" class="form-control date-select without-background admissiondate" placeholder="No Admission Date" autocomplete="off">
+                                          <input type="text" name="admission-date" value="{{$consumer->admission_date}}" class="form-control date-select without-background admissiondate" placeholder="No Admission Date" autocomplete="off">
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Discharge Date</label>
                                        <div class="col-md-7">
-                                         <input type="text" name="discharge-date" class="form-control date-select without-background dischargedate" placeholder="No Discharge Date" autocomplete="off">
+                                         <input type="text" name="discharge-date" value="{{$consumer->discharge_date}}" class="form-control date-select without-background dischargedate" placeholder="No Discharge Date" autocomplete="off">
                                        </div>
                                     </div>
                                  </div>
@@ -226,28 +261,28 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label required-field">Address<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="address" class="form-control baddress" placeholder="Street 1"></textarea>
+                                          <textarea name="address" class="form-control baddress" placeholder="Street 1">{{$consumer_addresses->address1}}</textarea>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label"></label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea class="form-control bstreet" placeholder="Street 2"></textarea>
+                                          <textarea class="form-control bstreet" placeholder="Street 2">{{$consumer_addresses->address2}}</textarea>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">City</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="city" class="form-control bcity"  placeholder="City">
+                                          <input type="text" name="city" class="form-control bcity"  placeholder="City" value="{{$consumer_addresses->city}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown bstate" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
-                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                                <option {{ $consumer_addresses->state ==$state->id  ? 'selected' : ''}} value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -255,27 +290,46 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Zip Code</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input name="zip-code" type="text" class="form-control bzipcode"  placeholder="Zip Code">
+                                          <input name="zip-code" type="text" class="form-control bzipcode"  placeholder="Zip Code" value="{{$consumer_addresses->zipcode}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  bcountry" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                                <option {{ $consumer_addresses->country ==$country->id  ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
                                           </select>
                                        </div>
                                     </div>
+                                    
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Type</label>
                                        <div class="col-md-8 common-textbox add-new-selectbox">
                                           <select id="multiple-checkboxes" class="btypes" multiple="multiple">
-                                             <option value="mail">Mail</option>
-                                             <option value="temporary address">Temporary Address</option>
-                                             <option value="other">Other</option>
+                                             <option 
+                                             @if($consumer_addresses->types!=null  )
+                                                 @if(in_array('mail',$consumer_addresses->types))
+                                                   selected
+                                                 @endif
+                                             @endif   
+                                                 value="mail">Mail</option>
+                                             <option
+                                             @if($consumer_addresses->types!=null  )
+                                                 @if(in_array('temporary address',$consumer_addresses->types))
+                                                   selected
+                                                 @endif
+                                             @endif                                             
+                                             value="temporary address">Temporary Address</option>
+                                             <option 
+                                             @if($consumer_addresses->types!=null  )
+                                                 @if(in_array('other',$consumer_addresses->types))
+                                                   selected
+                                                 @endif
+                                             @endif 
+                                             value="other">Other</option>
                                           </select>  
                                           <span class="icon-multiselect"></span> 
                                        </div>
@@ -283,7 +337,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Notes</label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="notes" class="form-control bnotes" placeholder=""></textarea>
+                                          <textarea name="notes" class="form-control bnotes" placeholder="">{{$consumer_addresses->notes}}</textarea>
                                        </div>
                                     </div>
                                  </div>
@@ -296,28 +350,28 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label required-field">Address<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="address1" class="form-control aaddress" placeholder="Street 1"></textarea>
+                                          <textarea name="address1" class="form-control aaddress" placeholder="Street 1">{{$consumer_addresses->a_address1}}</textarea>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label"></label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="address-2" class="form-control astreet" placeholder="Street 2"></textarea>
+                                          <textarea name="address-2" class="form-control astreet" placeholder="Street 2">{{$consumer_addresses->a_address2}}</textarea>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">City</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="city" class="form-control acity"  placeholder="City">
+                                          <input type="text" name="city" class="form-control acity"  placeholder="City" value="{{$consumer_addresses->a_city}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown astate" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
-                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                                <option {{ $consumer_addresses->a_state ==$state->id  ? 'selected' : ''}} value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -325,16 +379,16 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Zip Code</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="zip-code" class="form-control azipcode"  placeholder="Zip Code">
+                                          <input type="text" name="zip-code" class="form-control azipcode"  placeholder="Zip Code" value="{{$consumer_addresses->a_zipcode}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown acountry" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                                <option {{ $consumer_addresses->a_country ==$country->id  ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -343,16 +397,34 @@
                                        <label class="col-md-4 col-form-label">Type</label>
                                        <div class="col-md-8 common-textbox">
                                           <select id="multiple-checkboxes-01" class="atypes" multiple="multiple">
-                                             <option value="mail">Mail</option>
-                                             <option value="temporary address">Temporary Address</option>
-                                             <option value="other">Other</option>
+                                             <option 
+                                             @if($consumer_addresses->a_types!=null  )
+                                                 @if(in_array('mail',$consumer_addresses->a_types))
+                                                   selected
+                                                 @endif
+                                             @endif   
+                                                 value="mail">Mail</option>
+                                             <option
+                                             @if($consumer_addresses->a_types!=null  )
+                                                 @if(in_array('temporary address',$consumer_addresses->a_types))
+                                                   selected
+                                                 @endif
+                                             @endif                                             
+                                             value="temporary address">Temporary Address</option>
+                                             <option 
+                                             @if($consumer_addresses->a_types!=null  )
+                                                 @if(in_array('other',$consumer_addresses->a_types))
+                                                   selected
+                                                 @endif
+                                             @endif 
+                                             value="other">Other</option>
                                           </select>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Notes</label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="notes" class="form-control anotes" placeholder=""></textarea>
+                                          <textarea name="notes" class="form-control anotes" placeholder="">{{$consumer_addresses->a_notes}}</textarea>
                                        </div>
                                     </div>
                                  </div>
@@ -374,9 +446,9 @@
                                        <label class="col-md-4 col-form-label">Language</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  language" name="language">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($languages as $language)
-                                                <option value="{{$language->id}}">{{$language->title}}</option>
+                                                <option {{ $consumer->language ==$language->id  ? 'selected' : ''}} value="{{$language->id}}">{{$language->title}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -385,9 +457,9 @@
                                        <label class="col-md-4 col-form-label">Race</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  race" name="race">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($races as $race)
-                                                <option value="{{$race->id}}">{{$race->title}}</option>
+                                                <option {{ $consumer->race ==$race->id  ? 'selected' : ''}} value="{{$race->id}}">{{$race->title}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -396,9 +468,9 @@
                                        <label class="col-md-4 col-form-label">Marital Status</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown marital-status" name="marital-status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($marital_statuss as $marital_status)
-                                                <option value="{{$marital_status->id}}">{{$marital_status->title}}</option>
+                                                <option {{ $consumer->marital_status ==$marital_status->id  ? 'selected' : ''}} value="{{$marital_status->id}}">{{$marital_status->title}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -407,9 +479,9 @@
                                        <label class="col-md-4 col-form-label">Ethinicity</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown ethinicity" name="ethinicity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($ethnicities as $ethnicity)
-                                                <option value="{{$ethnicity->id}}">{{$ethnicity->title}}</option>
+                                                <option {{ $consumer->ethnicity ==$ethnicity->id  ? 'selected' : ''}} value="{{$ethnicity->id}}">{{$ethnicity->title}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -417,64 +489,41 @@
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label ">Case Name<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="casename" class="form-control casename" placeholder="Case Name">
+                                          <input type="text" name="casename" class="form-control casename" placeholder="Case Name" value="{{ $consumer->case_name }}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Lead Person</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown lead-person" name="lead-person">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($supervisors as $supervisor)
-                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
+                                                <option {{ $consumer->lead_person ==$supervisor->id  ? 'selected' : ''}} value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
                                              @endforeach
                                           </select>
                                        </div>
                                     </div>
-                                    <!--
-                                    <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Nurse</label>
-                                       <div class="col-md-8 common-textbox">
-                                          <select class="form-control droupdown nurse" name="nurse">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             @foreach ($supervisors as $supervisor)
-                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
-                                             @endforeach
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-4 col-form-label ">Doctor<span class="required-mark">*</span></label>
-                                       <div class="col-md-8 common-textbox">
-                                          <select class="form-control droupdown doctor" name="doctor">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             @foreach ($supervisors as $supervisor)
-                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
-                                             @endforeach
-                                          </select>
-                                       </div>
-                                    </div>
-                                    -->
+                                   
                                     
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">In Crisis</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="in-crisis" class="form-control in-crisis" placeholder="In Crisis">
+                                          <input type="text" name="in-crisis" class="form-control in-crisis" placeholder="In Crisis" value="{{ $consumer->in_crisis }}">
                                        </div>
                                     </div>                                                                           
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Ordering NPI #</label>
                                        <div class="col-md-8 common-textbox">
-                                          <input type="text" name="ordering-npi" class="form-control npi" placeholder="Ordering NPI #">
+                                          <input type="text" name="ordering-npi" class="form-control npi" placeholder="Ordering NPI #" value="{{ $consumer->npi }}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Smoker Status</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown smoker-status" name="smoker-status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($smoker_statuss as $smoker_status)
-                                                <option value="{{$smoker_status->id}}">{{$smoker_status->title}}</option>
+                                                <option {{ $consumer->smoker_status ==$smoker_status->id  ? 'selected' : ''}} value="{{$smoker_status->id}}">{{$smoker_status->title}}</option>
                                              @endforeach
                                           </select>
                                        </div>
@@ -483,9 +532,9 @@
                                        <label class="col-md-4 col-form-label">Fall Risk</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown fall-risk" name="full-risk">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="0">Yes</option>
-                                             <option value="1">No</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer->fall_risk ==0  ? 'selected' : ''}} value="0">Yes</option>
+                                             <option {{ $consumer->fall_risk ==1  ? 'selected' : ''}} value="1">No</option>
                                           </select>
                                        </div>
                                     </div>
@@ -493,9 +542,9 @@
                                        <label class="col-md-4 col-form-label">Hearing Impaired</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown hearing_impaired" name="impaired">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="0">Yes</option>
-                                             <option value="1">No</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer->hearing_impaired ==0  ? 'selected' : ''}} value="0">Yes</option>
+                                             <option {{ $consumer->hearing_impaired ==1  ? 'selected' : ''}} value="1">No</option>
                                           </select>
                                        </div>
                                     </div>
@@ -503,9 +552,9 @@
                                        <label class="col-md-4 col-form-label">Seeing Impaired</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown seeing_impaired" name="seeing">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="0">Yes</option>
-                                             <option value="1">No</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer->seeing_impaired ==0  ? 'selected' : ''}} value="0">Yes</option>
+                                             <option {{ $consumer->seeing_impaired ==1  ? 'selected' : ''}} value="1">No</option>
                                           </select>
                                        </div>
                                     </div>
@@ -513,16 +562,16 @@
                                        <label class="col-md-4 col-form-label">Preferred Hospital</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown preferred" name="preferred">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select Preferred Hospital 1</option>
-                                             <option value="2">Select Preferred Hospital 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer->preferred_hospital ==1  ? 'selected' : ''}} value="1">Select Preferred Hospital 1</option>
+                                             <option {{ $consumer->preferred_hospital ==2  ? 'selected' : ''}} value="2">Select Preferred Hospital 2</option>
                                           </select>
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Referral Source</label>
                                        <div class="col-md-8 common-textbox">
-                                          <textarea name="referral-source" class="form-control referral-source" placeholder=""></textarea>
+                                          <textarea name="referral-source" class="form-control referral-source" placeholder="">{{ $consumer->referral_source }}</textarea>
                                        </div>
                                     </div>
                                  </div>
@@ -539,31 +588,35 @@
                                  <div class="table-scrollbar common-scroll">
                                     <table class="table-payer-info common-table-info">
                                        <tbody>
+                                       
+                                          @foreach($consumer_payers as $consumer_payer)
                                           <tr class="tr-payer-info common-tr-info">
-                                             <td>
+                                             
+                                             <td><input type="hidden" class="editpayers" value="{{$consumer_payer->id}}">
                                                 <select class="form-control droupdown custom-payer-field common-text-box-new payerid" name="ahena">
-                                                   <option value="" selected="selected" disabled="disabled">Select Payer Name</option>
+                                                   <option value="" selected="selected" >Select Payer Name</option>
                                                    @foreach ($payers as $payer)
-                                                      <option value="{{$payer->id}}">{{$payer->title}}</option>
+                                                      <option {{ $consumer_payer->payer_id ==$payer->id  ? 'selected' : ''}} value="{{$payer->id}}">{{$payer->title}}</option>
                                                    @endforeach
                                                   
                                                 </select>
                                              </td>
                                              <td>                                                
-                                                <input type="text" name="policy" class="form-control custom-payer-field common-text-box-new payerpolicyno" placeholder="Policy #">
+                                                <input type="text" name="policy" class="form-control custom-payer-field common-text-box-new payerpolicyno" placeholder="Policy #" value="{{ $consumer_payer->policy_no}}">
                                              </td>
                                              <td>
                                                 <select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown payerinsurancetype" name="insurance">
-                                                   <option value="Select Insurance Type" selected="selected" disabled="disabled">Select</option>
-                                                   <option value="medicaid">Medicaid</option>
-                                                   <option value="medicare">Medicare</option>
-                                                   <option value="private insurance">Private Insurance</option>
-                                                   <option value="self pay">Self Pay</option>
+                                                   <option value="Select Insurance Type" selected="selected" >Select</option>
+                                                   <option {{ $consumer_payer->medical_id =='medicaid'  ? 'selected' : ''}} value="medicaid">Medicaid</option>
+                                                   <option {{ $consumer_payer->medical_id =='medicare'   ? 'selected' : ''}} value="medicare">Medicare</option>
+                                                   <option {{ $consumer_payer->medical_id =='private insurance'  ? 'selected' : ''}} value="private insurance">Private Insurance</option>
+                                                   <option {{ $consumer_payer->medical_id =='self pay'   ? 'selected' : ''}} value="self pay">Self Pay</option>
                                                 </select>
                                              </td>
                                              <td>
-                                                <input type="text" name="co-pay" class="form-control custom-payer-field common-text-box-new payercopay" placeholder="Co-pay Amount">
+                                                <input type="text" name="co-pay" class="form-control custom-payer-field common-text-box-new payercopay" placeholder="Co-pay Amount" value="{{ $consumer_payer->co_payment}}">
                                              </td>
+                                             <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                           </tr>
                                           <tr>
                                              <td></td>
@@ -597,6 +650,7 @@
                                              </td>
                                              <td></td>
                                           </tr>
+                                          @endforeach
                                        </tbody>
                                     </table>
                                  </div>
@@ -630,66 +684,71 @@
                                      </tr>
                                     </thead>
                                     <tbody>
+                                       @foreach($consumer_persons as $consumer_person)
                                        <tr class="tr-contact-person common-tr-info">
-                                          <td>
+                                          
+                                          <td><input type="hidden" class="editpersons" value="{{$consumer_person->id}}">
                                              <select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">
                                                 <option value="" selected="selected" >Select</option>
-                                                <option value="Mr">Mr.</option>
-                                                <option value="Mrs">Mrs.</option>
-                                                <option value="Ms">Ms.</option>
-                                                <option value="Miss">Miss.</option>
-                                                <option value="Dr">Dr.</option>
+                                                <option {{ $consumer_person->salutation =='Mr'  ? 'selected' : ''}} value="Mr">Mr.</option>
+                                                <option {{ $consumer_person->salutation =='Mrs'  ? 'selected' : ''}} value="Mrs">Mrs.</option>
+                                                <option {{ $consumer_person->salutation =='Ms'  ? 'selected' : ''}} value="Ms">Ms.</option>
+                                                <option {{ $consumer_person->salutation =='Miss'  ? 'selected' : ''}} value="Miss">Miss.</option>
+                                                <option {{ $consumer_person->salutation =='Dr'  ? 'selected' : ''}} value="Dr">Dr.</option>
                                              </select>
                                           </td>
                                           <td>
-                                             <input type="text" name="first-name" class="form-control custom-contact-field common-text-box-new firstname" placeholder="">
+                                             <input type="text" name="first-name" class="form-control custom-contact-field common-text-box-new firstname" placeholder="" value="{{ $consumer_person->fname }}">
                                           </td>
                                           <td>
-                                             <input type="text" name="last-name" class="form-control custom-contact-field common-text-box-new lastname" placeholder="">
+                                             <input type="text" name="last-name" class="form-control custom-contact-field common-text-box-new lastname" placeholder="" value="{{ $consumer_person->lname }}">
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new relationship" name="relationship">
                                                 <option value="" selected="selected" >Select</option>
                                                 @foreach ($relations as $relation)
-                                                <option value="{{$relation->id}}">{{$relation->title}}</option>
+                                                <option {{ $consumer_person->relation ==$relation->id  ? 'selected' : ''}} value="{{$relation->id}}">{{$relation->title}}</option>
                                                 @endforeach
                                              </select>
                                           </td>
                                           <td>
-                                             <input type="text" name="phone" class="form-control custom-contact-field common-text-box-new phonenumber" placeholder="">
+                                             <input type="text" name="phone" class="form-control custom-contact-field common-text-box-new phonenumber" placeholder="" value="{{ $consumer_person->phone }}">
                                           </td>
                                           <td>
-                                             <input type="text" name="mobile" class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder="">
+                                             <input type="text" name="mobile" class="form-control custom-contact-field common-text-box-new mobilenumber" placeholder="" value="{{ $consumer_person->mobile }}">
                                           </td>
                                           <td>
-                                             <input type="email" name="emailperson" class="form-control custom-contact-field common-text-box-new emailid" placeholder="">
+                                             <input type="email" name="emailperson" class="form-control custom-contact-field common-text-box-new emailid" placeholder="" value="{{ $consumer_person->email }}">
                                           </td>
                                           <td>
-                                             <input type="text" name="address-1" class="form-control custom-contact-field common-text-box-new address_1" placeholder="">
+                                             <input type="text" name="address-1" class="form-control custom-contact-field common-text-box-new address_1" placeholder="" value="{{ $consumer_person->address1 }}">
                                           </td>
                                           <td>
-                                             <input type="text" name="address-2" class="form-control custom-contact-field common-text-box-new address_2" placeholder="">
+                                             <input type="text" name="address-2" class="form-control custom-contact-field common-text-box-new address_2" placeholder="" value="{{ $consumer_person->address2 }}">
                                           </td>
                                           <td>
-                                             <input type="text" name="city" class="form-control custom-contact-field common-text-box-new city_id" placeholder="">
+                                             <input type="text" name="city" class="form-control custom-contact-field common-text-box-new city_id" placeholder="" value="{{ $consumer_person->city }}">
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new state_id" name="state">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($states as $state)
-                                                <option value="{{$state->id}}">{{$state->name}}</option>
+                                                <option {{ $consumer_person->state_id ==$state->id  ? 'selected' : ''}} value="{{$state->id}}">{{$state->name}}</option>
                                                 @endforeach
                                              </select>
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new country_id" name="country">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                                <option {{ $consumer_person->country_id ==$country->id  ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                                                 @endforeach
                                              </select>
                                           </td>
+                                          <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
+                                          
                                        </tr>
+                                       @endforeach
                                     </tbody>
                                  </table>
                               </div>
@@ -738,7 +797,7 @@
                                            <div class="common-textbox">
                                              <select name="select" class="form-control droupdown" name="user">
                                                 <optgroup class="dropdown-title" label="Users">
-                                                <option selected="selected" disabled="disabled">Select</option>
+                                                <option selected="selected" >Select</option>
                                                 <option value="Stacy Owens">Stacy Owens<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
                                                 <option value="Stacy Owens">Stacy Owens<span class="email-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
                                                 </optgroup>
@@ -772,42 +831,47 @@
                                        <th>ICD10</th>
                                        <th>Status</th>
                                     </thead>
+                                    @foreach($consumer_diagnosis as $consumer_diag)
                                     <tr class="tr-diagnosis-info common-tr-info">
-                                       <td>
+                                       
+                                       <td><input type="hidden" class="editdiags" value="{{$consumer_diag->id}}">
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarytype" name="primary">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_diag->d_primary =='1'  ? 'selected' : ''}}  value="1">Select 1</option>
+                                             <option {{ $consumer_diag->d_primary =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new axisleveltype" name="axis-level">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_diag->axis_level =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_diag->axis_level =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
-                                          <input type="text" name="date" class="form-control custom-diagnosis-field diagnosis-date common-text-box-new" placeholder="">
+                                          <input type="text" name="date" class="form-control custom-diagnosis-field diagnosis-date common-text-box-new" placeholder=""  value="{{$consumer_diag->d_date }}">
                                        </td>
                                        <td>
-                                          <input type="text" name="problem-desc" class="form-control custom-diagnosis-field common-text-box-new primarydesc" placeholder="">
+                                          <input type="text" name="problem-desc" class="form-control custom-diagnosis-field common-text-box-new primarydesc" placeholder="" value="{{$consumer_diag->description }}">
                                        </td>
                                        <td>
-                                          <input type="text" name="icd9" class="form-control custom-diagnosis-field common-text-box-new icd9type" placeholder="">
+                                          <input type="text" name="icd9" class="form-control custom-diagnosis-field common-text-box-new icd9type" placeholder="" value="{{$consumer_diag->icd9 }}">
                                        </td>
                                        <td>
-                                          <input type="text" name="icd10" class="form-control custom-diagnosis-field common-text-box-new icd10type" placeholder="">
+                                          <input type="text" name="icd10" class="form-control custom-diagnosis-field common-text-box-new icd10type" placeholder="" value="{{$consumer_diag->icd10 }}">
                                        </td>
 
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus" name="status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="0">Active</option>
-                                             <option value="1">Inactive</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_diag->status =='0'  ? 'selected' : ''}} value="0">Active</option>
+                                             <option {{ $consumer_diag->status =='1'  ? 'selected' : ''}} value="1">Inactive</option>
                                           </select>
                                        </td>
+                                       <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
+                                       
                                     </tr>
+                                    @endforeach
                                  </table>
                               </div>
                               <button type="button" class="add_form_diagnosis common-button"><i class="fa fa-plus common-icons"></i>Add New Diagnosis</button> 
@@ -828,31 +892,35 @@
                                        <th>Reaction</th>
                                        <th>Severity</th>
                                     </thead>
+                                    @foreach($consumer_medications as $consumer_medication)
                                     <tr class="tr-medications-info common-tr-info">
-                                       <td>
-                                          <input type="text" name="name" class="form-control custom-medications-field common-text-box-new midicationname" placeholder="">
+                                       
+                                       <td><input type="hidden" class="editmedications" value="{{$consumer_medication->id}}">
+                                          <input type="text" name="name" class="form-control custom-medications-field common-text-box-new midicationname" placeholder="" value="{{$consumer_medication->name}}" >
                                        </td>
                                        <td>
-                                          <input type="text" name="side-effacts" class="form-control custom-medications-field common-text-box-new  sideeffecttype" placeholder="">
+                                          <input type="text" name="side-effacts" class="form-control custom-medications-field common-text-box-new  sideeffecttype" placeholder="" value="{{$consumer_medication->side_effects}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="pharmacy" class="form-control custom-medications-field common-text-box-new pharmacytype" placeholder="">
+                                          <input type="text" name="pharmacy" class="form-control custom-medications-field common-text-box-new pharmacytype" placeholder="" value="{{$consumer_medication->pharmacy}}">
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new reactiontype" name="reaction">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_medication->reaction =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_medication->reaction =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new severitytype" name="severity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_medication->severity =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_medication->severity =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
+                                       <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                     </tr>
+                                    @endforeach
                                  </table>
                               </div>                              
                               <button class="add_form_medications common-button"><i class="fa fa-plus common-icons"></i>Add New Medications</button> 
@@ -887,25 +955,29 @@
                                        <th>Reaction</th>
                                        <th>Severity</th>
                                     </thead>
+                                    @foreach($consumer_allergies as $consumer_allergy)
                                     <tr class="tr-allergies-info common-tr-info">
-                                       <td>
-                                          <input type="text" name="name" class="form-control custom-allergies-field common-text-box-new allerginame" placeholder="">
+                                       
+                                       <td><input type="hidden" class="editallergies" value="{{$consumer_allergy->id}}">
+                                          <input type="text" name="name" class="form-control custom-allergies-field common-text-box-new allerginame" placeholder="" value="{{$consumer_allergy->name}}">
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype" name="reaction">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_allergy->reaction =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_allergy->reaction =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new seveitytype" name="severity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_allergy->severity =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_allergy->severity =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
+                                       <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                     </tr>
+                                    @endforeach
                                  </table>
                               </div>                              
                               <button class="add_form_allergies common-button"><i class="fa fa-plus common-icons"></i>Add New Allergies</button> 
@@ -925,28 +997,32 @@
                                        <th>By</th>
                                        <th>Date</th>
                                     </thead>
+                                    @foreach($consumer_account_notations as $consumer_account_notation)
                                     <tr class="tr-account-info common-tr-info">
-                                       <td>
+                                       
+                                       <td><input type="hidden" class="editnotations" value="{{$consumer_account_notation->id}}">
                                           <select class="form-control droupdown custom-account-field common-text-box-new notationtype" name="type">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_account_notation->type_id =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_account_notation->type_id =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
-                                          <input name="notation" type="text" class="form-control custom-account-field common-text-box-new notationtitle" placeholder="">
+                                          <input name="notation" type="text" class="form-control custom-account-field common-text-box-new notationtitle" placeholder="" value="{{$consumer_account_notation->notation}}">
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-account-field common-text-box-new notationby" name="by">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option {{ $consumer_account_notation->notation_by =='1'  ? 'selected' : ''}} value="1">Select 1</option>
+                                             <option {{ $consumer_account_notation->notation_by =='2'  ? 'selected' : ''}} value="2">Select 2</option>
                                           </select>
                                        </td>
                                        <td>
-                                          <input type="text" name="date" class="form-control custom-account-field date-type common-text-box-new notationdate" placeholder="">
+                                          <input type="text" name="date" class="form-control custom-account-field date-type common-text-box-new notationdate" placeholder="" value="{{$consumer_account_notation->notation_date}}">
                                        </td>
+                                       <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                     </tr>
+                                    @endforeach
                                  </table>
                               </div>                              
                               <button class="add_form_account common-button"><i class="fa fa-plus common-icons"></i>Add New Notations</button> 
@@ -976,7 +1052,7 @@
 @section('script2')
 @endsection
 @section('end_add_layout')
-<script src="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+   <script src="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/angular.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
@@ -1169,7 +1245,7 @@ $(function () {
             var gender = $('.gender').val();
             var  identified = $('.identified').val();
             var dob = $('.dob').val();
-            var email = $('.email').val();
+            //var email = $('.email').val();
             
             var record_no = $('.record_no').val();
             var statusval = $('.statusval').val();
@@ -1204,13 +1280,64 @@ $(function () {
             var referral_source = $('.referral-source').val();
             
             
+            var editpayers_array= [];
+            $(".editpayers").each(function(i, value) {
+               editpayers_array.push({
+                  editpayers: $(this).val(), 
+              });
+            });
+            var editphones_array= [];
+            $(".editphones").each(function(i, value) {
+               editphones_array.push({
+                  editphones: $(this).val(), 
+              });
+            });
+            
+            var editpersons_array= [];
+            $(".editpersons").each(function(i, value) {
+               editpersons_array.push({
+                  editpersons: $(this).val(), 
+              });
+            });
+            
+            var editdiags_array= [];
+            $(".editdiags").each(function(i, value) {
+               editdiags_array.push({
+                  editdiags: $(this).val(), 
+              });
+            });
+
+
+            
+            var editmedications_array= [];
+            $(".editmedications").each(function(i, value) {
+               editmedications_array.push({
+                  editmedications: $(this).val(), 
+              });
+            });
+            
+            var editallergies_array= [];
+            $(".editallergies").each(function(i, value) {
+               editallergies_array.push({
+                  editallergies: $(this).val(), 
+              });
+            });
+            
+            var editnotations_array= [];
+            $(".editnotations").each(function(i, value) {
+               editnotations_array.push({
+                  editnotations: $(this).val(), 
+              });
+            });
+            
+            
             var phonetype_array= [];
             $(".phonetype").each(function(i, value) {
                
                phonetype_array.push({
                   phonetype: $(this).val(), 
                   phone: $(this).parent().parent().children('.col-md-8').find('.phone').val(),
-
+                  id: $(this).parent().parent().children('.editphones').val(),
                   
               });
             });
@@ -1224,6 +1351,7 @@ $(function () {
                   payerpolicyno: $(this).parent().parent().children('td').find('.payerpolicyno').val(),
                   payerinsurancetype: $(this).parent().parent().children('td').find('.payerinsurancetype').val(),
                   payercopay: $(this).parent().parent().children('td').find('.payercopay').val(),
+                  id: $(this).closest('tr').find('.editpayers').val(),
 
                   
               });
@@ -1246,6 +1374,7 @@ $(function () {
                   city_id: $(this).closest('tr').find('.city_id').val(),
                   state_id: $(this).closest('tr').find('.state_id').val(),
                   country_id: $(this).closest('tr').find('.country_id').val(),
+                  id: $(this).closest('tr').find('.editpersons').val(),
               });
             });
             
@@ -1262,6 +1391,7 @@ $(function () {
                   icd9type: $(this).closest('tr').find('.icd9type').val(),
                   icd10type: $(this).closest('tr').find('.icd10type').val(),
                   primarystatus: $(this).closest('tr').find('.primarystatus').val(),
+                  id: $(this).closest('tr').find('.editdiags').val(),
                   
               });
             });
@@ -1276,6 +1406,7 @@ $(function () {
                   pharmacytype: $(this).closest('tr').find('.pharmacytype').val(),
                   reactiontype: $(this).closest('tr').find('.reactiontype').val(),
                   severitytype: $(this).closest('tr').find('.severitytype').val(),
+                  id: $(this).closest('tr').find('.editmedications').val(),
                   
                   
               });
@@ -1289,6 +1420,7 @@ $(function () {
                   allerginame: $(this).val(), 
                   reactiontype: $(this).closest('tr').find('.reactiontype').val(),
                   seveitytype: $(this).closest('tr').find('.seveitytype').val(),
+                  id: $(this).closest('tr').find('.editallergies').val(),
                   
                   
                   
@@ -1305,6 +1437,7 @@ $(function () {
                   notationtitle: $(this).closest('tr').find('.notationtitle').val(),
                   notationby: $(this).closest('tr').find('.notationby').val(),
                   notationdate : $(this).closest('tr').find('.notationdate ').val(),
+                  id: $(this).closest('tr').find('.editnotations').val(),
                   
                   
                   
@@ -1348,34 +1481,7 @@ $(function () {
                validation_array.push('Please select date of birth');               
             }               
             
-            
-           
-            function IsEmail(email) {
-               var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-               if(!regex.test(email)) {
-                  return false;
-               }else{
-                  return true;
-               }
-            }
-            
-            
-           
-            
-            if(IsEmail(email)==false || email==''  || email==null){
-               validation_array.push('Please enter valid email address');               
-            }
-            
-            checkconsumeremail(email,validation_array)
-            
-            
-           
-           
-           
-           
-           
-
-           
+       
             
             if(servicedate==null   ||  servicedate==''){
                validation_array.push('Please service date');               
@@ -1434,16 +1540,7 @@ $(function () {
                validation_billing_array.push('Please select lead person');
             }
             
-            /*
-            if(nurse==null   ||  nurse==''){
-               othernfo();
-               validation_billing_array.push('Please select nurse');
-            }
-            if(doctor==null   ||  doctor==''){
-               othernfo();
-               validation_billing_array.push('Please select doctor');
-            }
-            */
+
             
             if(in_crisis==null   ||  in_crisis==''){
                othernfo();
@@ -1502,11 +1599,6 @@ $(function () {
                $('#address').hide();
                $('#custom-content-below-profile-tab').addClass('active');                
                $('#other-details').show();
-               /*
-               $('html, body').animate({
-                  scrollTop: $("#other-details").offset().top
-               }, 2000);
-               */
             }
             
             var errorbillingdata = '<ul>';
@@ -1521,11 +1613,7 @@ $(function () {
                 return false;
             }
             
-            
-            
-            
-            
-            
+
             var baddress = $('.baddress').val();
             var bstreet = $('.bstreet').val();
             var bcity = $('.bcity').val();
@@ -1545,18 +1633,10 @@ $(function () {
             var atypes = $('.atypes').val();
             var anotes = $('.anotes').val();
             
-            
-            
-            
-
-            
+           
             var formData = new FormData();
             
-              
-            
 
-
-            
             var dataValues = { 
                               baddress: baddress,
                               bstreet: bstreet,            
@@ -1581,9 +1661,6 @@ $(function () {
                               lname: lname,
                               gender: gender,
                               dob: dob,
-                              email: email,
-                              
-
                               record_no: record_no,
                               statusval: statusval,
                               assigneeval: assigneeval,
@@ -1598,8 +1675,6 @@ $(function () {
                               ethinicity: ethinicity,
                               casename: casename,
                               lead_person: lead_person,
-                              //nurse: nurse,
-                              //doctor: doctor,
                               in_crisis: in_crisis,
                               npi: npi,
                               smoker_status: smoker_status,
@@ -1608,6 +1683,15 @@ $(function () {
                               seeing_impaired:seeing_impaired,
                               preferred: preferred,
                               referral_source: referral_source,
+
+                              editpayers_array:editpayers_array,
+                              editphones_array:editphones_array,
+                              editpersons_array:editpersons_array,
+                              editdiags_array:editdiags_array,
+                              editmedications_array:editmedications_array,
+                              editallergies_array:editallergies_array,
+                              editnotations_array:editnotations_array,
+                              
                               phonetype_array:phonetype_array,
                               payerid_array:payerid_array,
                               contact_type_array:contact_type_array,
@@ -1615,6 +1699,8 @@ $(function () {
                               midicationname_array:midicationname_array,
                               allerginame_array:allerginame_array,
                               notationtype_array:notationtype_array,
+
+                              
 
                               
                               
@@ -1625,7 +1711,10 @@ $(function () {
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('consumers-add') }}";
+            
+            
+            
+            var url = "{{ route('consumers-edit', $consumer->id) }}";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -1938,8 +2027,8 @@ $(function () {
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus">'+
                '<option>Select</option>'+
-               '<option value="active">Active</option>'+
-               '<option value="inactive">Inactive</option>'+
+               '<option value="0">Active</option>'+
+               '<option value="1">Inactive</option>'+
                '</select>'+
                '</td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>';
@@ -1948,7 +2037,7 @@ $(function () {
            }
          else
          {
-         alert('You Reached the limits')
+            alert('You Reached the limits')
          }
        });
        
@@ -1976,14 +2065,14 @@ $(function () {
                '<td><input class="form-control custom-medications-field common-text-box-new pharmacytype" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-medications-field common-text-box-new reactiontype">'+
                '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-medications-field common-text-box-new severitytype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData); //add input box
@@ -2018,14 +2107,14 @@ $(function () {
                var htmlData = '<tr class="tr-allergies-info common-tr-info">'+
                '<td><input class="form-control custom-allergies-field common-text-box-new allerginame" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select></td><td>'+
-               '<select class="form-control droupdown custom-allergies-field common-text-box-new severitytype">'+
+               '<select class="form-control droupdown custom-allergies-field common-text-box-new seveitytype">'+
                '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData);
@@ -2058,15 +2147,15 @@ $(function () {
                x++;
                var htmlData = '<tr class="tr-account-info common-tr-info">'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationtype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select>'+
                '</td><td><input class="form-control custom-account-field common-text-box-new notationtitle" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationby">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select></td>'+
                '<td><input class="form-control custom-account-field common-text-box-new notationdate" placeholder=""></td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 

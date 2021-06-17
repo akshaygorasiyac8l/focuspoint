@@ -3,9 +3,6 @@
 @endsection
 @section('add_layout')
    @parent
-   
-   <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
-
 @endsection
 @section('listing_layout')
 @endsection
@@ -35,8 +32,6 @@
                   <section class="content">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-12 errorclass">
-                           </div>
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -46,7 +41,7 @@
                                           <div class="row salutions">
                                              <div class="col-md-3 short-col">
                                                 <select class="form-control droupdown mobile-drop salutation" name="salutation" autocomplete="off">
-                                                <option value="" selected="selected" >Salutation</option>
+                                                <option value="" selected="selected" disabled="disabled">Salutation</option>
                                                 <option value="Mr">Mr.</option>
                                                 <option value="Mrs">Mrs.</option>
                                                 <option value="Ms">Ms.</option>
@@ -135,7 +130,7 @@
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                        <div class="col-md-7">
-                                          <input type="text" name="record" class="form-control date-select without-background record_no" value="RCNO_<?php echo rand('111111111','999999999'); ?>">
+                                          <input type="text" name="record" class="form-control date-select without-background record_no" placeholder="RCNO_<?php echo rand('111111111','999999999'); ?>">
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
@@ -364,9 +359,6 @@
                   <section class="contentsection" id="other-details">
                      <div class="container-fluid">
                         <div class="row">
-                           
-                           <div class="col-md-12 errorbillingclass">
-                           </div>
                            <div class="col-md-6">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -431,7 +423,6 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <!--
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Nurse</label>
                                        <div class="col-md-8 common-textbox">
@@ -454,8 +445,6 @@
                                           </select>
                                        </div>
                                     </div>
-                                    -->
-                                    
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">In Crisis</label>
                                        <div class="col-md-8 common-textbox">
@@ -633,7 +622,7 @@
                                        <tr class="tr-contact-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">
-                                                <option value="" selected="selected" >Select</option>
+                                                <option value="" selected="selected" disabled="disabled">Select</option>
                                                 <option value="Mr">Mr.</option>
                                                 <option value="Mrs">Mrs.</option>
                                                 <option value="Ms">Ms.</option>
@@ -649,7 +638,7 @@
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new relationship" name="relationship">
-                                                <option value="" selected="selected" >Select</option>
+                                                <option value="" selected="selected" disabled="disabled">Select</option>
                                                 @foreach ($relations as $relation)
                                                 <option value="{{$relation->id}}">{{$relation->title}}</option>
                                                 @endforeach
@@ -976,7 +965,7 @@
 @section('script2')
 @endsection
 @section('end_add_layout')
-<script src="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+   <script src="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/angular.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
@@ -1107,58 +1096,17 @@ $(function () {
           }
         });
         
-        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({ dateFormat: "yy-mm-dd" });
         
         $(document).on('focus','.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate',function(){
            $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({
-               changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               
+               dateFormat: 'yy-mm-dd',
                autoclose: true,
                todayHighlight: true
            });
         });
        
-       
-       
-       function  renderData(validation_array){
-           var errorhtmldata = '<ul>';
-            $(validation_array).each(function(key,val){
-                errorhtmldata += '<li>'+val+'</li>';
-            });
-            errorhtmldata += '</ul>';
-            $('.errorclass').html(errorhtmldata);
-       }
-       
-       function checkconsumeremail(email,validation_array){
-            
-            var url = "{{ url('checkconsumeremail') }}";
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {email:email},
-                success: function (data) {
-                        
-                        if(data.success=='1'){
-                            //localStorage.setItem("logincheck", "1");
-                            validation_array.push('Email already exist');          
-                        }
-                        renderData(validation_array);
-                        
-                        
-                          
-
-
-                },
-                error: function (data) {
-                    console.log('Error:', data);
-                }
-            });
-            
-            //return localStorage.getItem("logincheck");
-            
-            
-      }
-           
         
         $('html').on('click', '.saveconsumer', function (e) {
             
@@ -1174,8 +1122,6 @@ $(function () {
             var record_no = $('.record_no').val();
             var statusval = $('.statusval').val();
             var assigneeval = $('.assigneeval').val();
-            
-            
             var servicedate = $('.servicedate').val();
             
             var admissiondate = $('.admissiondate').val();
@@ -1190,8 +1136,8 @@ $(function () {
             var casename = $('.casename').val();
             var lead_person = $('.lead-person').val();
             
-            //var nurse = $('.nurse').val();
-            //var doctor = $('.doctor').val();
+            var nurse = $('.nurse').val();
+            var doctor = $('.doctor').val();
             var in_crisis = $('.in-crisis').val();
             
             var npi = $('.npi').val();
@@ -1214,7 +1160,7 @@ $(function () {
                   
               });
             });
-            
+            console.log(phonetype_array);
             
             var payerid_array= [];
             $(".payerid").each(function(i, value) {
@@ -1312,44 +1258,54 @@ $(function () {
             });
             
             
-
-            $('.errorclass').html('');
-            var validation_array= [];
+            
+            
+            
             
 
-            if(salutation==null ||  salutation==''){
-               validation_array.push('Please select salutation');
-               
+            if(salutation==null){
+                $('.salutation').css('border','1px solid #f00');
+               return false;
             }
-            
-            
+            $('.salutation').css('border','0.5px solid #ced4da');
             if(fname==null ||  fname==''){
-               validation_array.push('Please enter first name');
-               
+                $('.fname').css('border','1px solid #f00');
+               return false;
             }
-
+            $('.fname').css('border','0.5px solid #ced4da');
             
             if(lname==null  ||  lname==''){
-               validation_array.push('Please enter last name');
-               
+                $('.lname').css('border','1px solid #f00');
+               return false;
             }
+            $('.lname').css('border','0.5px solid #ced4da');
             
             
             if(gender==null  ||  gender==''){
-               validation_array.push('Please select gender');
-               
-            }  
+                $('.gender').css('border','1px solid #f00');
+               return false;
+            }
+            $('.gender').css('border','0.5px solid #ced4da');
             
             if(identified==null  ||  identified==''){
-               validation_array.push('Please select identified');               
-            }               
+                $('.identified').css('border','1px solid #f00');
+               return false;
+            }
+            $('.identified').css('border','0.5px solid #ced4da');
             
             if(dob==null   ||  dob==''){
-               validation_array.push('Please select date of birth');               
-            }               
+                $('.dob').css('border','1px solid #f00');
+               return false;
+            }
+            $('.dob').css('border','0.5px solid #ced4da');
             
             
-           
+            if(dob==null   ||  dob==''){
+                $('.dob').css('border','1px solid #f00');
+               return false;
+            }
+            $('.dob').css('border','0.5px solid #ced4da');
+            
             function IsEmail(email) {
                var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                if(!regex.test(email)) {
@@ -1359,169 +1315,142 @@ $(function () {
                }
             }
             
-            
-           
-            
             if(IsEmail(email)==false || email==''  || email==null){
-               validation_array.push('Please enter valid email address');               
+               $('.email').css('border','1px solid #f00');
+               return false;
             }
-            
-            checkconsumeremail(email,validation_array)
-            
-            
-           
-           
-           
-           
-           
-
-           
+            $('.email').css('border','0.5px solid #ced4da');
             
             if(servicedate==null   ||  servicedate==''){
-               validation_array.push('Please service date');               
+                $('.servicedate').css('border','1px solid #f00');
+               return false;
             }
+            $('.servicedate').css('border','0.5px solid #ced4da');
             
             
             if(admissiondate==null   ||  admissiondate==''){
-               validation_array.push('Please admissiondate date');               
+                $('.admissiondate').css('border','1px solid #f00');
+               return false;
             }
+            $('.admissiondate').css('border','0.5px solid #ced4da');
             
             if(dischargedate==null   ||  dischargedate==''){
-               validation_array.push('Please discharge date');               
+                $('.dischargedate').css('border','1px solid #f00');
+               return false;
             }
+            $('.dischargedate').css('border','0.5px solid #ced4da');
             
             
-       
-            renderData(validation_array);
-            
-
-
-            var validation_billing_array= [];
-            if(language==null   ||  language==''){
-               othernfo();
-                validation_billing_array.push('Please select language');
+            if(language==null   ||  dob==''){
+                $('.language').css('border','1px solid #f00');
+                
+                
+                $('.tabs').removeClass('active');
+                $('#address').hide();
+                $('#custom-content-below-profile-tab').addClass('active');                
+                $('#other-details').show();
+               return false;
             }
-            
-            
-
+            $('.language').css('border','0.5px solid #ced4da');
             
             if(race==null   ||  race==''){
-               othernfo();
-               validation_billing_array.push('Please select race');
+                $('.race').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.race').css('border','0.5px solid #ced4da');
             
             if(marital_status==null   ||  marital_status==''){
-               othernfo();
-               validation_billing_array.push('Please select marital status');
+                $('.marital-status').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.marital-status').css('border','0.5px solid #ced4da');
             
             if(ethinicity==null   ||  ethinicity==''){
-               othernfo();
-               validation_billing_array.push('Please select ethinicity');
+                $('.ethinicity').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.ethinicity').css('border','0.5px solid #ced4da');
             
             if(casename==null   ||  casename==''){
-               othernfo();
-               validation_billing_array.push('Please enter case name');
+                $('.casename').css('border','1px solid #f00');
+               return false;
             }
+            $('.casename').css('border','0.5px solid #ced4da');
             
             
             if(lead_person==null   ||  lead_person==''){
-               othernfo();
-               validation_billing_array.push('Please select lead person');
+                $('.lead-person').css('border','1px solid #f00');
+               return false;
             }
+            $('.lead-person').css('border','0.5px solid #ced4da');
             
-            /*
             if(nurse==null   ||  nurse==''){
-               othernfo();
-               validation_billing_array.push('Please select nurse');
+                $('.nurse').css('border','1px solid #f00');
+               return false;
             }
+            $('.nurse').css('border','0.5px solid #ced4da');
+            
+            
             if(doctor==null   ||  doctor==''){
-               othernfo();
-               validation_billing_array.push('Please select doctor');
+                $('.doctor').css('border','1px solid #f00');
+               return false;
             }
-            */
+            $('.doctor').css('border','0.5px solid #ced4da');
             
             if(in_crisis==null   ||  in_crisis==''){
-               othernfo();
-               validation_billing_array.push('Please select in crisis');
+                $('.in-crisis').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.in-crisis').css('border','0.5px solid #ced4da');
+
 
             if(npi==null   ||  npi==''){
-               othernfo();
-               validation_billing_array.push('Please select npi');
+                $('.npi').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.npi').css('border','0.5px solid #ced4da');
             
             
             if(smoker_status==null   ||  smoker_status==''){
-               othernfo();
-                validation_billing_array.push('Please select smoker status');
+                $('.smoker-status').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.smoker-status').css('border','0.5px solid #ced4da');
             
             
             if(fall_risk==null   ||  smoker_status==''){
-               othernfo();
-               validation_billing_array.push('Please select fall risk');
+                $('.fall-risk').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.fall-risk').css('border','0.5px solid #ced4da');
             
             
             
             if(hearing_impaired==null   ||  hearing_impaired==''){
-               othernfo();
-               validation_billing_array.push('Please select hearing impaired');
+                $('.hearing_impaired').css('border','1px solid #f00');
+               return false;
             }
+            $('.hearing_impaired').css('border','0.5px solid #ced4da');
             
             
             if(seeing_impaired==null   ||  seeing_impaired==''){
-               othernfo();
-               validation_billing_array.push('Please select seeing impaired');
+                $('.seeing_impaired').css('border','1px solid #f00');
+               return false;
             }
-           
+            $('.seeing_impaired').css('border','0.5px solid #ced4da');
             
             if(preferred==null   ||  preferred==''){
-               othernfo();
-               validation_billing_array.push('Please select preferred');
+                $('.preferred').css('border','1px solid #f00');
+               return false;
             }
-            
+            $('.preferred').css('border','0.5px solid #ced4da');
             
             
             if(referral_source==null   ||  referral_source==''){
-               othernfo();
-               validation_billing_array.push('Please select referral source');
+                $('.referral-source').css('border','1px solid #f00');
+               return false;
             }
-            
-            function othernfo(){
-               $('.tabs').removeClass('active');
-               $('#address').hide();
-               $('#custom-content-below-profile-tab').addClass('active');                
-               $('#other-details').show();
-               /*
-               $('html, body').animate({
-                  scrollTop: $("#other-details").offset().top
-               }, 2000);
-               */
-            }
-            
-            var errorbillingdata = '<ul>';
-            $(validation_billing_array).each(function(key,val){
-                errorbillingdata += '<li>'+val+'</li>';
-            });
-            errorbillingdata += '</ul>';
-            $('.errorbillingclass').html(errorbillingdata);
-            
-            
-            if(validation_array.length > 0 || validation_billing_array.length > 0){
-                return false;
-            }
-            
-            
+            $('.referral-source').css('border','0.5px solid #ced4da');
             
             
             
@@ -1598,8 +1527,8 @@ $(function () {
                               ethinicity: ethinicity,
                               casename: casename,
                               lead_person: lead_person,
-                              //nurse: nurse,
-                              //doctor: doctor,
+                              nurse: nurse,
+                              doctor: doctor,
                               in_crisis: in_crisis,
                               npi: npi,
                               smoker_status: smoker_status,
@@ -2086,10 +2015,6 @@ $(function () {
    
 
 </script>
-<style>
-.errorclass,.errorbillingclass{color:#f00;}
-.errorclass ul li,.errorbillingclass ul li {   list-style: inherit;}
-</style>
 @endsection
 @section('end_listing_layout')
 @endsection
