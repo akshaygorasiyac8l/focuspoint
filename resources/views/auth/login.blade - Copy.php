@@ -17,9 +17,8 @@
 					<div class="login-box">
 						<img src="images/FocusPoint_Logo.png" alt="Logo" class="img-responsive logo-set">
 						<h4 class="login-title">Login</h4>
-						<form method="POST" >
+						<form method="POST" action="{{ route('login') }}">
                         @csrf
-							<div style="color:#f00;" class="errordata"></div>
 							<div class="form-group">
 								<input id="email" type="email"  name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" required autocomplete="email" autofocus>
                                 @error('email')
@@ -46,9 +45,8 @@
 								</div>
 							</div>
 							<div class="form-group btn-sec">
-								<button type="button" class="btn btn-info login-btn">Login</button>
+								<button type="submit" class="btn btn-info login-btn">Login</button>
 							</div>
-							<input type="hidden" id="csrf_token" name="csrf"  value="{{csrf_token()}}" />
 						</form>
 					</div>
 				</div>
@@ -59,41 +57,4 @@
 
 @endsection
 @section('script2')
-	<script>
-	    $(document).ready(function() {
-			$.ajaxSetup({
-			  headers: {
-				  'X-CSRF-TOKEN': $('#csrf_token').val()
-			  }
-			});
-			$('html').on("click",".login-btn",function(){
-				$('.errordata').html('');
-				var email = $('#email').val();
-				var password = $('#password').val();
-	 
-			  
-				var url = "{{ url('userlogin') }}";
-
-				$.ajax({
-					url: url,
-					type: "POST",
-					data: {email: email,password: password},
-					success: function (data) {
-							  console.log(data);
-							  if(data.class=='success'){
-								  window.location.href = "{{ url('home') }}";
-							  }else{
-								  $('.errordata').html(data.message);
-							  }
-							  
-
-					},
-					error: function (data) {
-						console.log('Error:', data);
-					}
-				});
-				
-		  });
-		});
-	</script>
 @endsection

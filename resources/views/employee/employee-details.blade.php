@@ -206,7 +206,7 @@
                         </div>
                         
                      </div>
-                  </section>
+                  </section> 
                   <section class="contentsection" id="other-details-employee">
                      <div class="container-fluid">
                         <div class="row">
@@ -230,15 +230,23 @@
                               <label class="emp-label-details">Qualification : </label>
                               <label class="emp-label-details">
                               
-                              @for($ij=0; $ij<count($employee->qualificationData);$ij++)
-                              
-                                 <div class="col-md-4">
+                              <?php 
+                              $datasall = $employee->qualificationData; 
+                              for($ij=0; $ij<count($datasall);$ij++){
+                                  
+                              ?>
+                              <div class="col-md-4">
                                     
-                                    <label class="emp-label-details">{{$employee->qualificationData[$ij]}}</label>
+                                    <label class="emp-label-details"><?php echo $datasall[$ij]->qualification; ?></label>
                                  </div>
+                              <?php 
+                              }
+                              ?>
+                             
                               
-                              @endfor
-                           
+                                 
+                              
+                            
                               
                               
                               </label>
@@ -279,7 +287,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12">
-                          
+                           
                            @if(count($persons) > 0 )
                                 
                               <table class="table">

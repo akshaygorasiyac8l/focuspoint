@@ -70,16 +70,16 @@
                                           <div class="row">
                                              <div class="col-md-3 short-col mobile-drop">
                                                 <select class="form-control droupdown gender" name="gender" autocomplete="off">
-                                                   <option value="" selected="selected" disabled="disabled">Select</option>
-                                                   <option value="0">Male</option>
-                                                   <option value="1">Female</option>
+                                                   <option value="" selected="selected" >Select</option>
+                                                   <option value="Male">Male</option>
+                                                   <option value="Female">Female</option>
                                                 </select>
                                              </div>
                                              <div class="col-md-8 short-col">
                                                 <select class="form-control droupdown identified" name="identified" autocomplete="off">
-                                                   <option value="" selected="selected" disabled="disabled">Identified As</option>
-                                                   <option value="0">Male</option>
-                                                   <option value="1">Female</option>
+                                                   <option value="" selected="selected" >Identified As</option>
+                                                   <option value="Male">Male</option>
+                                                   <option value="Female">Female</option>
                                                 </select>
                                              </div>
                                              <div class="col-md-3"></div>
@@ -104,7 +104,7 @@
                                           <div class="row">
                                              <div class="col-md-3 short-col">
                                                 <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
-                                                   <option value="" disabled="disabled">Select</option>
+                                                   <option value="" >Select</option>
                                                    <option value="Home">Home</option>
                                                    <option value="Work">Work</option>
                                                    <option value="School">School</option>
@@ -142,9 +142,13 @@
                                        <label class="col-md-5 col-form-label assigned-label ">Status</label>
                                        <div class="col-md-7">
                                           <select class="form-control active-status apprroved statusval" name="status">
-                                             <option value="2">Active - Approved</option>
-                                             <option value="0">Active</option>
-                                             <option value="1">Approved</option>
+                                             <option value="0">Select Status</option>
+                                             @foreach ($consumer_statuses as $consumer_status)
+                                                <option value="{{$consumer_status->id}}">{{$consumer_status->title}}</option>
+                                             @endforeach
+                                             
+                                             
+                                             
                                           </select>
                                        </div>
                                     </div>
@@ -245,7 +249,7 @@
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown bstate" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
                                                 <option value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
@@ -262,7 +266,7 @@
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  bcountry" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
                                                 <option value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
@@ -315,7 +319,7 @@
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown astate" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
                                                 <option value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
@@ -332,7 +336,7 @@
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown acountry" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
                                                 <option value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
@@ -374,7 +378,7 @@
                                        <label class="col-md-4 col-form-label">Language</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  language" name="language">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($languages as $language)
                                                 <option value="{{$language->id}}">{{$language->title}}</option>
                                              @endforeach
@@ -385,7 +389,7 @@
                                        <label class="col-md-4 col-form-label">Race</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  race" name="race">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($races as $race)
                                                 <option value="{{$race->id}}">{{$race->title}}</option>
                                              @endforeach
@@ -396,7 +400,7 @@
                                        <label class="col-md-4 col-form-label">Marital Status</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown marital-status" name="marital-status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($marital_statuss as $marital_status)
                                                 <option value="{{$marital_status->id}}">{{$marital_status->title}}</option>
                                              @endforeach
@@ -407,7 +411,7 @@
                                        <label class="col-md-4 col-form-label">Ethinicity</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown ethinicity" name="ethinicity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($ethnicities as $ethnicity)
                                                 <option value="{{$ethnicity->id}}">{{$ethnicity->title}}</option>
                                              @endforeach
@@ -424,37 +428,14 @@
                                        <label class="col-md-4 col-form-label">Lead Person</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown lead-person" name="lead-person">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($supervisors as $supervisor)
                                                 <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
                                              @endforeach
                                           </select>
                                        </div>
                                     </div>
-                                    <!--
-                                    <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Nurse</label>
-                                       <div class="col-md-8 common-textbox">
-                                          <select class="form-control droupdown nurse" name="nurse">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             @foreach ($supervisors as $supervisor)
-                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
-                                             @endforeach
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-4 col-form-label ">Doctor<span class="required-mark">*</span></label>
-                                       <div class="col-md-8 common-textbox">
-                                          <select class="form-control droupdown doctor" name="doctor">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             @foreach ($supervisors as $supervisor)
-                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
-                                             @endforeach
-                                          </select>
-                                       </div>
-                                    </div>
-                                    -->
+                                   
                                     
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">In Crisis</label>
@@ -472,7 +453,7 @@
                                        <label class="col-md-4 col-form-label">Smoker Status</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown smoker-status" name="smoker-status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($smoker_statuss as $smoker_status)
                                                 <option value="{{$smoker_status->id}}">{{$smoker_status->title}}</option>
                                              @endforeach
@@ -483,7 +464,7 @@
                                        <label class="col-md-4 col-form-label">Fall Risk</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown fall-risk" name="full-risk">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option value="0">Yes</option>
                                              <option value="1">No</option>
                                           </select>
@@ -493,7 +474,7 @@
                                        <label class="col-md-4 col-form-label">Hearing Impaired</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown hearing_impaired" name="impaired">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option value="0">Yes</option>
                                              <option value="1">No</option>
                                           </select>
@@ -503,7 +484,7 @@
                                        <label class="col-md-4 col-form-label">Seeing Impaired</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown seeing_impaired" name="seeing">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option value="0">Yes</option>
                                              <option value="1">No</option>
                                           </select>
@@ -513,7 +494,7 @@
                                        <label class="col-md-4 col-form-label">Preferred Hospital</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown preferred" name="preferred">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option value="1">Select Preferred Hospital 1</option>
                                              <option value="2">Select Preferred Hospital 2</option>
                                           </select>
@@ -542,7 +523,7 @@
                                           <tr class="tr-payer-info common-tr-info">
                                              <td>
                                                 <select class="form-control droupdown custom-payer-field common-text-box-new payerid" name="ahena">
-                                                   <option value="" selected="selected" disabled="disabled">Select Payer Name</option>
+                                                   <option value="" selected="selected" >Select Payer Name</option>
                                                    @foreach ($payers as $payer)
                                                       <option value="{{$payer->id}}">{{$payer->title}}</option>
                                                    @endforeach
@@ -554,7 +535,7 @@
                                              </td>
                                              <td>
                                                 <select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown payerinsurancetype" name="insurance">
-                                                   <option value="Select Insurance Type" selected="selected" disabled="disabled">Select</option>
+                                                   <option value="Select Insurance Type" selected="selected" >Select</option>
                                                    <option value="medicaid">Medicaid</option>
                                                    <option value="medicare">Medicare</option>
                                                    <option value="private insurance">Private Insurance</option>
@@ -675,7 +656,7 @@
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new state_id" name="state">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($states as $state)
                                                 <option value="{{$state->id}}">{{$state->name}}</option>
                                                 @endforeach
@@ -683,7 +664,7 @@
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new country_id" name="country">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($countries as $country)
                                                 <option value="{{$country->id}}">{{$country->name}}</option>
                                                 @endforeach
@@ -738,7 +719,7 @@
                                            <div class="common-textbox">
                                              <select name="select" class="form-control droupdown" name="user">
                                                 <optgroup class="dropdown-title" label="Users">
-                                                <option selected="selected" disabled="disabled">Select</option>
+                                                <option selected="selected" >Select</option>
                                                 <option value="Stacy Owens">Stacy Owens<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
                                                 <option value="Stacy Owens">Stacy Owens<span class="email-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
                                                 </optgroup>
@@ -775,16 +756,18 @@
                                     <tr class="tr-diagnosis-info common-tr-info">
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarytype" name="primary">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             @foreach ($primaries as $primary)
+                                                <option value="{{$primary->id}}">{{$primary->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new axisleveltype" name="axis-level">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             @foreach ($axis_levels as $axis_level)
+                                                <option value="{{$axis_level->id}}">{{$axis_level->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
@@ -802,9 +785,10 @@
 
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus" name="status">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="0">Active</option>
-                                             <option value="1">Inactive</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option value="1">Active</option>
+                                             <option value="2">Inactive</option>
+                                             <option value="3">Resolved</option>
                                           </select>
                                        </td>
                                     </tr>
@@ -840,16 +824,19 @@
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new reactiontype" name="reaction">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             @foreach ($reactions as $reaction)
+                                             <option value="{{$reaction->id}}">{{$reaction->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new severitytype" name="severity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option value="1">Very Mild</option>
+                                             <option value="2">Mild</option>
+                                             <option value="3">Moderate</option>
+                                             <option value="4">Severe</option>
                                           </select>
                                        </td>
                                     </tr>
@@ -872,7 +859,7 @@
                                  </div>
                                  <div class="col-md-3 space-remove-left">
                                     <div class="form-group">
-                                       <select class="form-control" name="allergies">
+                                       <select class="form-control  allergies_val" name="allergies">
                                           <option value="0">Yes</option>
                                           <option value="1">No</option>
                                        </select>
@@ -880,7 +867,7 @@
                                  </div>
                                  <div class="col-md-8"></div>
                               </div>
-                              <div class="table-scrollbar common-scroll">
+                              <div class="table-scrollbar common-scroll table-scrollbar_allergy">
                                  <table class="table-allergies common-table-info">
                                     <thead>
                                        <th>Name</th>
@@ -893,16 +880,19 @@
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype" name="reaction">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             @foreach ($reactions as $reaction)
+                                             <option value="{{$reaction->id}}">{{$reaction->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new seveitytype" name="severity">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             <option value="1">Very Mild</option>
+                                             <option value="2">Mild</option>
+                                             <option value="3">Moderate</option>
+                                             <option value="4">Severe</option>
                                           </select>
                                        </td>
                                     </tr>
@@ -928,9 +918,10 @@
                                     <tr class="tr-account-info common-tr-info">
                                        <td>
                                           <select class="form-control droupdown custom-account-field common-text-box-new notationtype" name="type">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
-                                             <option value="1">Select 1</option>
-                                             <option value="2">Select 2</option>
+                                             <option value="" selected="selected" >Select</option>
+                                             @foreach ($notation_types as $notation_type)
+                                             <option value="{{$notation_type->id}}">{{$notation_type->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
@@ -938,7 +929,7 @@
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-account-field common-text-box-new notationby" name="by">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option value="1">Select 1</option>
                                              <option value="2">Select 2</option>
                                           </select>
@@ -1190,6 +1181,10 @@ $(function () {
             var casename = $('.casename').val();
             var lead_person = $('.lead-person').val();
             
+            var allergies_val = $('.allergies_val').val();
+            
+            
+            
             //var nurse = $('.nurse').val();
             //var doctor = $('.doctor').val();
             var in_crisis = $('.in-crisis').val();
@@ -1283,17 +1278,19 @@ $(function () {
             
             
             var allerginame_array= [];
-            $(".allerginame").each(function(i, value) {
-               
-               allerginame_array.push({
-                  allerginame: $(this).val(), 
-                  reactiontype: $(this).closest('tr').find('.reactiontype').val(),
-                  seveitytype: $(this).closest('tr').find('.seveitytype').val(),
+            if(allergies_val=='0'){
+               $(".allerginame").each(function(i, value) {
                   
-                  
-                  
-              });
-            });
+                  allerginame_array.push({
+                     allerginame: $(this).val(), 
+                     reactiontype: $(this).closest('tr').find('.reactiontype').val(),
+                     seveitytype: $(this).closest('tr').find('.seveitytype').val(),
+                     
+                     
+                     
+                 });
+               });
+            }
             
             
             
@@ -1582,6 +1579,7 @@ $(function () {
                               gender: gender,
                               dob: dob,
                               email: email,
+                              allergies_val:allergies_val,
                               
 
                               record_no: record_no,
@@ -1670,7 +1668,7 @@ $(function () {
                var htmlData = '<tr class="tr-contact-person common-tr-info">'+
                '<td>'+
                '<select class="form-control droupdown custom-contact-field common-text-box-new contact_type">'+
-               '<option>Select</option>'+
+               '<option value="">Select</option>'+
                '<option value="Mr">Mr.</option>'+
                '<option value="Mrs">Mrs.</option>'+
                '<option value="Ms">Ms.</option>'+
@@ -1682,7 +1680,7 @@ $(function () {
                '<td><input class="form-control custom-contact-field common-text-box-new lastname" placeholder=""></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-contact-field common-text-box-new relationship">'+
-               '<option>Select</option>';
+               '<option value="">Select</option>';
                @foreach ($relations as $relation)      
                htmlData += '<option value="{{$relation->id}}">{{$relation->title}}</option> ';
                @endforeach
@@ -1697,7 +1695,7 @@ $(function () {
                '<td><input class="form-control custom-contact-field common-text-box-new city_id" placeholder=""></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-contact-field common-text-box-new state_id">'+
-               '<option>Select</option>';
+               '<option value="">Select</option>';
                @foreach ($states as $state)      
                htmlData += '<option value="{{$state->id}}">{{$state->name}}</option> ';
                @endforeach
@@ -1706,7 +1704,7 @@ $(function () {
                '</td>'+
                '<td>'+
                '<select class="form-control droupdown custom-contact-field common-text-box-new country_id">'+
-               '<option>Select</option>';
+               '<option value="">Select</option>';
                @foreach ($countries as $country)      
                htmlData += '<option value="{{$country->id}}">{{$country->name}}</option> ';
                @endforeach
@@ -1832,7 +1830,7 @@ $(function () {
               var htmlData ='<tr class="tr-payer-info common-tr-info">'+
               '<td> '+
               '<select class="form-control droupdown custom-payer-field common-text-box-new payerid" name="ahena">'+
-              '<option value="" disabled="disabled" selected="selected">Select Payer Name</option>';    
+              '<option value=""  selected="selected">Select Payer Name</option>';    
               @foreach ($payers as $payer)      
                htmlData += '<option value="{{$payer->id}}">{{$payer->title}}</option> ';
                @endforeach              
@@ -1917,17 +1915,19 @@ $(function () {
                var htmlData= '<tr class="tr-diagnosis-info common-tr-info">'+
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new primarytype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select>'+
+               '<option value="">Select</option>';
+               @foreach ($primaries as $primary)      
+               htmlData += '<option value="{{$primary->id}}">{{$primary->title}}</option> ';
+               @endforeach
+               htmlData +='</select>'+
                '</td>'+
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new axisleveltype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select>'+
+               '<option value="">Select</option>';
+               @foreach ($axis_levels as $axis_level)      
+               htmlData += '<option value="{{$axis_level->id}}">{{$axis_level->title}}</option> ';
+               @endforeach
+               htmlData += '</select>'+
                '</td>'+
                '<td>'+
                '<input class="form-control custom-diagnosis-field diagnosis-date common-text-box-new" placeholder="">'+
@@ -1937,9 +1937,10 @@ $(function () {
                '<td><input class="form-control custom-diagnosis-field common-text-box-new icd10type" placeholder=""></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus">'+
-               '<option>Select</option>'+
-               '<option value="active">Active</option>'+
-               '<option value="inactive">Inactive</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Active</option>'+
+               '<option value="2">InActive</option>'+
+               '<option value="3">Resolved</option>'+
                '</select>'+
                '</td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>';
@@ -1975,15 +1976,18 @@ $(function () {
                '<td><input class="form-control custom-medications-field common-text-box-new sideeffecttype" placeholder=""></td>'+
                '<td><input class="form-control custom-medications-field common-text-box-new pharmacytype" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-medications-field common-text-box-new reactiontype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select></td>'+
+               '<option value="">Select</option>';
+               @foreach ($reactions as $reaction)      
+               htmlData += '<option value="{{$reaction->id}}">{{$reaction->title}}</option> ';
+               @endforeach
+               htmlData += '</select></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-medications-field common-text-box-new severitytype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Very Mild</option>'+
+               '<option value="2">Mild</option>'+
+               '<option value="3">Moderate</option>'+
+               '<option value="4">Severe</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData); //add input box
@@ -2018,14 +2022,17 @@ $(function () {
                var htmlData = '<tr class="tr-allergies-info common-tr-info">'+
                '<td><input class="form-control custom-allergies-field common-text-box-new allerginame" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select></td><td>'+
+               '<option value="">Select</option>';
+               @foreach ($reactions as $reaction)      
+               htmlData += '<option value="{{$reaction->id}}">{{$reaction->title}}</option> ';
+               @endforeach
+               htmlData += '</select></td><td>'+
                '<select class="form-control droupdown custom-allergies-field common-text-box-new severitytype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Very Mild</option>'+
+               '<option value="2">Mild</option>'+
+               '<option value="3">Moderate</option>'+
+               '<option value="4">Severe</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData);
@@ -2058,15 +2065,16 @@ $(function () {
                x++;
                var htmlData = '<tr class="tr-account-info common-tr-info">'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationtype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select>'+
+               '<option>Select</option>';
+               @foreach ($notation_types as $notation_type)      
+               htmlData += '<option value="{{$notation_type->id}}">{{$notation_type->title}}</option> ';
+               @endforeach
+               htmlData += '</select>'+
                '</td><td><input class="form-control custom-account-field common-text-box-new notationtitle" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationby">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
+               '<option value="">Select</option>'+
+               '<option value="1">Select 1</option>'+
+               '<option value="2">Select 2</option>'+
                '</select></td>'+
                '<td><input class="form-control custom-account-field common-text-box-new notationdate" placeholder=""></td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
@@ -2081,6 +2089,23 @@ $(function () {
        $(wrapper).on("click",".delete", function(e){ 
            e.preventDefault(); $(this).parent().parent().remove(); x--;
        })
+       
+       
+       $('.table-scrollbar_allergy').show();
+       $('.add_form_allergies').show();
+             
+       $('html').on("change",".allergies_val", function(e){ 
+         var selval = $(this).val();
+         if(selval=='0'){
+             $('.table-scrollbar_allergy').show();
+             $('.add_form_allergies').show();
+         }else{
+             $('.table-scrollbar_allergy').hide();
+             $('.add_form_allergies').hide();
+         }
+       });
+       
+       
    });
    
    

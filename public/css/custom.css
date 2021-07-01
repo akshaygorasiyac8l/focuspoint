@@ -2754,6 +2754,11 @@ ul.dropdown-listing li:last-child {
 li.droplist {
     padding: 5px 10px 5px 0;
 }
+.checkbox-qualification {
+    display: flex;
+    padding-right: 0;
+    margin-bottom: 2px;
+}
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
     section.footer-section {
         width: 89%;

@@ -34,9 +34,13 @@
                               <div class="col-md-4 drop-box-control">
                                  <div class="form-group new-transaction">                           
                                     <select class="form-control new-tran-field new">
-                                       <option>New Transaction</option>
-                                       <option>New Transaction 1</option>
-                                       <option>New Transaction 2</option>
+                                       <option value="">Select </option>
+                                       <option value="1">New Assessment</option>
+                                       <option value="2">New Authorization</option>
+                                       <option value="3">New Service Plan</option>
+                                       <option value="4">New Consumer Notes</option>
+                                       <option value="5">New Document</option>
+                                       <option value="6">New Invoice</option>
                                     </select>
                                     <i class="fa fa-angle-down new-tran"></i>
                                  </div>
@@ -46,8 +50,8 @@
                                     <div class="form-group more-drop">                           
                                        <select class="form-control new-tran-field more" style="-webkit-appearance: none;">
                                           <option>More</option>
-                                          <option>More 1</option>
-                                          <option>More 2</option>
+                                          <option value="1">Mark as Inactive</option>
+                                          <option value="0">Delete</option>
                                        </select>
                                     </div>
                                  </div>
@@ -90,10 +94,10 @@
                      <div class="row mr-other">
                         <div class="col-md-3 border-set">
                            <div class="other-details-sub">
-                              <h4 class="overview-title-sub">Mr.Christopher Hua</h4>
-                              <p>chris@gmail.com</p>
+                              <h4 class="overview-title-sub">{{$consumer->salutation}}.{{$consumer->fname}} {{$consumer->lname}}</h4>
+                              <p>{{$consumer->email}}</p>
                               <p>+16179804444</p>
-                              <a href="">Delete</a>
+                              <a href="javascript:;">Delete</a>
                               <h4 class="address-title">Address</h4>
                               <span class="address-info">7229 Andystorley <br>
                               New Island Street, <br>

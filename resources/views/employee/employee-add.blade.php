@@ -354,11 +354,16 @@
                                           -->
                                           
                                           <div class="checkbox-group">
+                                             <div class="row">
                                              @foreach ($qualifications as $qualification)
+                                             <div class="col-md-4 checkbox-qualification">
                                              <label class="qualification-title">
                                              <input type="checkbox" id="multiple-checkboxes" class="qualification" value="{{$qualification->title}}">
                                              {{$qualification->title}}</label>
+                                             </div>
                                              @endforeach
+                                             
+                                             </div>
                                           </div> 
                                        </div>
                                     </div>
@@ -723,20 +728,28 @@ $(function () {
        }
        
       function loginnfo(){
+          
          $('.tabs').removeClass('active');               
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');               
+          
          $('#custom-content-below-home-tab2').addClass('active');
          $('.contentsection').hide();
          $('#logins').show();
       }
       
       function otherinfo(){
-         $('.tabs').removeClass('active');               
+         $('.tabs').removeClass('active'); 
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');         
          $('#custom-content-below-messages-tab4').addClass('active');
          $('.contentsection').hide();
          $('#other-details-user').show();
       }
       function addressinfo(){
-         $('.tabs').removeClass('active');               
+         $('.tabs').removeClass('active'); 
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');         
          $('#custom-content-below-profile-tab3').addClass('active');
          $('.contentsection').hide();
          $('#address-details').show();
@@ -921,6 +934,9 @@ $(function () {
             
             
             renderData(validation_array);
+            if(validation_array.length > 0){
+                return false;
+            }
             
             
             var validation_login_array= [];
@@ -956,6 +972,12 @@ $(function () {
             errorbillingdata += '</ul>';
             $('.errorbillingclass').html(errorbillingdata);
             
+
+            if(validation_login_array.length > 0){
+                return false;
+            }
+
+            
             
             var address_array= [];
             
@@ -972,6 +994,9 @@ $(function () {
             $('.erroraddressdata').html(erroraddressdata);
             
             
+            if(address_array.length > 0){
+                return false;
+            }
             
             var other_array= [];
             
@@ -990,7 +1015,7 @@ $(function () {
             
             
             
-            if(validation_array.length > 0 || validation_login_array.length > 0 || other_array.length > 0){
+            if(other_array.length > 0){
                 return false;
             }
             

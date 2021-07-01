@@ -76,7 +76,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Email Address</label>
                                        <div class="col-md-9 common-text short-col">
-                                          <input type="email" name="email" class="form-control width-add email"  placeholder="" value="{{$employee->email}}">
+                                          <input disabled type="email" name="email" class="form-control width-add email"  placeholder="" value="{{$employee->email}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -188,18 +188,21 @@
                      <div class="container-fluid">
                         <div class="row">
                     
-
+                           <div class="col-md-12 errorbillingclass">
+                           </div>
                           <div class="col-md-6">
                            
                               <h5 class="small-sub-title">CHANGE PASSWORD</h5>
                               <div class="card card-primary">
                                  <div class="card-body">
+                                    <!--
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">Old Password</label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="password" name="oldpass" class="form-control oldpass"  placeholder="">
                                        </div>
                                     </div>
+                                    -->
                                     <div class="form-group row">
                                        <label class="col-md-4 col-form-label">New Password</label>
                                        <div class="col-md-8 common-textbox">
@@ -225,6 +228,8 @@
                   <section class="contentsection" id="address-details">
                      <div class="container-fluid">
                         <div class="row">
+                           <div class="col-md-12 erroraddressdata">
+                           </div>
                            <div class="col-md-6">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -283,6 +288,8 @@
                   <section class="contentsection" id="other-details-user">
                      <div class="container-fluid">
                         <div class="row">
+                           <div class="col-md-12 errorotherdata">
+                           </div>
                            <div class="col-md-6">
                               <div class="card card-primary">
                                  <div class="card-body">
@@ -316,7 +323,9 @@
                                        <div class="col-md-8 common-textbox">
                                        
                                           <div class="checkbox-group">
+                                             <div class="row">
                                              @foreach ($qualifications as $qualification)
+                                             <div class="col-md-4 checkbox-qualification">
                                              <label class="qualification-title">
                                              <input 
                                              @if(in_array($qualification->title,$qualificationData))
@@ -324,7 +333,9 @@
                                              @endif
                                              type="checkbox" id="multiple-checkboxes" class="qualification" value="{{$qualification->title}}">
                                              {{$qualification->title}}</label>
+                                             </div>
                                              @endforeach
+                                             </div>
                                           </div> 
                                           
                                        </div>
@@ -728,6 +739,36 @@ $(function () {
             errorhtmldata += '</ul>';
             $('.errorclass').html(errorhtmldata);
        }
+       
+       function loginnfo(){
+          
+         $('.tabs').removeClass('active');               
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');               
+          
+         $('#custom-content-below-home-tab2').addClass('active');
+         $('.contentsection').hide();
+         $('#logins').show();
+      }
+      
+      function otherinfo(){
+         $('.tabs').removeClass('active'); 
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');         
+         $('#custom-content-below-messages-tab4').addClass('active');
+         $('.contentsection').hide();
+         $('#other-details-user').show();
+      }
+      function addressinfo(){
+         $('.tabs').removeClass('active'); 
+         $('.nav-item').removeClass('active-tabs');               
+         $('.nav-item').removeClass('active');         
+         $('#custom-content-below-profile-tab3').addClass('active');
+         $('.contentsection').hide();
+         $('#address-details').show();
+      }
+      
+      
         
         
         $('html').on('click', '.saveemp', function (e) {
@@ -738,7 +779,7 @@ $(function () {
             var lname = $('.lname').val();
             var gender = $('.gender').val();
            
-            var email = $('.email').val();
+            //var email = $('.email').val();
             var workphone = $('.workphone').val();
             var mobile = $('.mobile').val();
             var role_id = $('.role_id').val();
@@ -889,40 +930,80 @@ $(function () {
                 return false;
             }
 
+            var validation_login_array= [];
             
-            
-            if(oldpass!=null && oldpass!=''){
-            
-                
-                
-               $('.tabs').removeClass('active');               
-               $('#custom-content-below-home-tab2').addClass('active');
-               $('.contentsection').hide();
-               $('#logins').show();
+            if(newpass!=null && newpass!=''){
+
                 
                var pswlen = newpass.length;
                if (pswlen < 8) {
-                   $('.newpass').css('border','1px solid #f00');
-                   $('.passworddata').html('new password length should be 8');
-                   return false;
+                   loginnfo();
+                   validation_login_array.push('new password length should be 8');                   
                    
                }else {
-                  $('.newpass').css('border','0.5px solid #ced4da');
-                  $('.passworddata').html('');
+                  
                   if (newpass != confirmpass) {
-                       $('.confirmpass').css('border','1px solid #f00');
-                       $('.confirmpassworddata').html('confirm password does not match');
-                       return false;
+                      loginnfo();
+                       validation_login_array.push('confirm password does not match');   
                    }               
 
                }
                
                
             }
-            $('.newpass').css('border','0.5px solid #ced4da');
-            $('.passworddata').html('');
-            $('.confirmpassworddata').html('');
-            $('.confirmpass').css('border','0.5px solid #ced4da');
+            
+            var errorbillingdata = '<ul>';
+            $(validation_login_array).each(function(key,val){
+                errorbillingdata += '<li>'+val+'</li>';
+            });
+            errorbillingdata += '</ul>';
+            $('.errorbillingclass').html(errorbillingdata);
+            
+            if(validation_login_array.length > 0 ){
+                return false;
+            }
+            
+            var address_array= [];
+            
+            if(zipcode=='' || zipcode==null){
+                address_array.push('Please enter zipcode'); 
+                addressinfo();
+            }
+            
+            var erroraddressdata = '<ul>';
+            $(address_array).each(function(key,val){
+                erroraddressdata += '<li>'+val+'</li>';
+            });
+            erroraddressdata += '</ul>';
+            $('.erroraddressdata').html(erroraddressdata);
+            
+            
+            if(address_array.length > 0){
+                return false;
+            }
+            
+            var other_array= [];
+            
+            if(hire_date=='' || hire_date==null){
+                other_array.push('Please select hire date'); 
+                otherinfo();
+            }
+            
+            var errorotherdata = '<ul>';
+            $(other_array).each(function(key,val){
+                errorotherdata += '<li>'+val+'</li>';
+            });
+            errorotherdata += '</ul>';
+            $('.errorotherdata').html(errorotherdata);
+            
+            
+            
+            
+            if(other_array.length > 0){
+                return false;
+            }
+            
+            
          
             
             
@@ -946,7 +1027,7 @@ $(function () {
                               fname: fname,
                               lname: lname,
                               gender: gender,                              
-                              email: email,
+                              //email: email,
                               workphone: workphone,
                               mobile: mobile,
                               role_id: role_id,

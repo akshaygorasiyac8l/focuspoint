@@ -177,9 +177,11 @@
                                        <label class="col-md-5 col-form-label assigned-label ">Status</label>
                                        <div class="col-md-7">
                                           <select class="form-control active-status apprroved statusval" name="status">
-                                             <option {{ $consumer->status =='2'  ? 'selected' : ''}} value="2">Active - Approved</option>
-                                             <option {{ $consumer->status =='0'  ? 'selected' : ''}} value="0">Active</option>
-                                             <option {{ $consumer->status =='1'  ? 'selected' : ''}} value="1">Approved</option>
+                                             <option value="0">Select Status</option>
+                                             @foreach ($consumer_statuses as $consumer_status)
+                                                <option {{ $consumer->status ==$consumer_status->id  ? 'selected' : ''}} value="{{$consumer_status->id}}">{{$consumer_status->title}}</option>
+                                             @endforeach
+                                             
                                           </select>
                                        </div>
                                     </div>
@@ -837,15 +839,19 @@
                                        <td><input type="hidden" class="editdiags" value="{{$consumer_diag->id}}">
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarytype" name="primary">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_diag->d_primary =='1'  ? 'selected' : ''}}  value="1">Select 1</option>
-                                             <option {{ $consumer_diag->d_primary =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             @foreach ($primaries as $primary)
+                                                <option {{ $consumer_diag->d_primary ==$primary->id  ? 'selected' : ''}} value="{{$primary->id}}">{{$primary->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new axisleveltype" name="axis-level">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_diag->axis_level =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_diag->axis_level =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             @foreach ($axis_levels as $axis_level)
+                                                <option {{ $consumer_diag->axis_level ==$axis_level->id  ? 'selected' : ''}} value="{{$axis_level->id}}">{{$axis_level->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
@@ -864,8 +870,9 @@
                                        <td>
                                           <select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus" name="status">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_diag->status =='0'  ? 'selected' : ''}} value="0">Active</option>
-                                             <option {{ $consumer_diag->status =='1'  ? 'selected' : ''}} value="1">Inactive</option>
+                                             <option {{ $consumer_diag->status =='1'  ? 'selected' : ''}} value="1">Active</option>
+                                             <option {{ $consumer_diag->status =='2'  ? 'selected' : ''}} value="2">Inactive</option>
+                                             <option {{ $consumer_diag->status =='3'  ? 'selected' : ''}} value="3">Resolved</option>
                                           </select>
                                        </td>
                                        <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
@@ -907,15 +914,19 @@
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new reactiontype" name="reaction">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_medication->reaction =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_medication->reaction =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             @foreach ($reactions as $reaction)
+                                             <option {{ $consumer_medication->reaction ==$reaction->id  ? 'selected' : ''}}  value="{{$reaction->id}}">{{$reaction->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-medications-field common-text-box-new severitytype" name="severity">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_medication->severity =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_medication->severity =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             <option {{ $consumer_medication->severity =='1'  ? 'selected' : ''}} value="1">Very Mild</option>
+                                             <option {{ $consumer_medication->severity =='2'  ? 'selected' : ''}} value="2">Mild</option>
+                                             <option {{ $consumer_medication->severity =='3'  ? 'selected' : ''}} value="3">Very Mild</option>
+                                             <option {{ $consumer_medication->severity =='4'  ? 'selected' : ''}} value="4">Mild</option>
                                           </select>
                                        </td>
                                        <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
@@ -940,15 +951,15 @@
                                  </div>
                                  <div class="col-md-3 space-remove-left">
                                     <div class="form-group">
-                                       <select class="form-control" name="allergies">
-                                          <option value="0">Yes</option>
-                                          <option value="1">No</option>
+                                       <select class="form-control allergies_val" name="allergies">
+                                          <option {{ $consumer->allergy =='0'  ? 'selected' : ''}} value="0">Yes</option>
+                                          <option {{ $consumer->allergy =='1'  ? 'selected' : ''}} value="1">No</option>
                                        </select>
                                     </div>
                                  </div>
                                  <div class="col-md-8"></div>
                               </div>
-                              <div class="table-scrollbar common-scroll">
+                              <div class="table-scrollbar common-scroll table-scrollbar_allergy">
                                  <table class="table-allergies common-table-info">
                                     <thead>
                                        <th>Name</th>
@@ -964,15 +975,21 @@
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype" name="reaction">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_allergy->reaction =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_allergy->reaction =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             @foreach ($reactions as $reaction)
+                                             <option {{ $consumer_allergy->reaction ==$reaction->id  ? 'selected' : ''}} value="{{$reaction->id}}">{{$reaction->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-allergies-field common-text-box-new seveitytype" name="severity">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_allergy->severity =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_allergy->severity =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             
+                                             <option {{ $consumer_allergy->severity =='1'  ? 'selected' : ''}} value="1">Very Mild</option>
+                                             <option {{ $consumer_allergy->severity =='2'  ? 'selected' : ''}} value="2">Mild</option>
+                                             <option {{ $consumer_allergy->severity =='3'  ? 'selected' : ''}} value="3">Very Mild</option>
+                                             <option {{ $consumer_allergy->severity =='4'  ? 'selected' : ''}} value="4">Mild</option>
                                           </select>
                                        </td>
                                        <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
@@ -1003,8 +1020,10 @@
                                        <td><input type="hidden" class="editnotations" value="{{$consumer_account_notation->id}}">
                                           <select class="form-control droupdown custom-account-field common-text-box-new notationtype" name="type">
                                              <option value="" selected="selected" >Select</option>
-                                             <option {{ $consumer_account_notation->type_id =='1'  ? 'selected' : ''}} value="1">Select 1</option>
-                                             <option {{ $consumer_account_notation->type_id =='2'  ? 'selected' : ''}} value="2">Select 2</option>
+                                             
+                                             @foreach ($notation_types as $notation_type)
+                                             <option {{ $consumer_account_notation->type_id ==$notation_type->id  ? 'selected' : ''}} value="{{$notation_type->id}}">{{$notation_type->title}}</option>
+                                             @endforeach
                                           </select>
                                        </td>
                                        <td>
@@ -1266,6 +1285,8 @@ $(function () {
             var casename = $('.casename').val();
             var lead_person = $('.lead-person').val();
             
+            var allergies_val = $('.allergies_val').val();
+            
             //var nurse = $('.nurse').val();
             //var doctor = $('.doctor').val();
             var in_crisis = $('.in-crisis').val();
@@ -1414,18 +1435,20 @@ $(function () {
             
             
             var allerginame_array= [];
-            $(".allerginame").each(function(i, value) {
-               
-               allerginame_array.push({
-                  allerginame: $(this).val(), 
-                  reactiontype: $(this).closest('tr').find('.reactiontype').val(),
-                  seveitytype: $(this).closest('tr').find('.seveitytype').val(),
-                  id: $(this).closest('tr').find('.editallergies').val(),
+            if(allergies_val=='0'){
+               $(".allerginame").each(function(i, value) {
                   
-                  
-                  
-              });
-            });
+                  allerginame_array.push({
+                     allerginame: $(this).val(), 
+                     reactiontype: $(this).closest('tr').find('.reactiontype').val(),
+                     seveitytype: $(this).closest('tr').find('.seveitytype').val(),
+                     id: $(this).closest('tr').find('.editallergies').val(),
+                     
+                     
+                     
+                 });
+               });
+            }
             
             
             
@@ -1668,6 +1691,8 @@ $(function () {
                               admissiondate: admissiondate,
                               
                               dischargedate: dischargedate,
+                              
+                              allergies_val:allergies_val,
                         
                               language: language,
                               race: race,
@@ -2006,17 +2031,21 @@ $(function () {
                var htmlData= '<tr class="tr-diagnosis-info common-tr-info">'+
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new primarytype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
+               '<option>Select</option>';
+               @foreach ($primaries as $primary)      
+               htmlData += '<option value="{{$primary->id}}">{{$primary->title}}</option> ';
+               @endforeach
+               htmlData += '<option>Select 1</option>'+
                '<option>Select 2</option>'+
                '</select>'+
                '</td>'+
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new axisleveltype">'+
-               '<option>Select</option>'+
-               '<option>Select 1</option>'+
-               '<option>Select 2</option>'+
-               '</select>'+
+               '<option>Select</option>';
+               @foreach ($axis_levels as $axis_level)      
+               htmlData += '<option value="{{$axis_level->id}}">{{$axis_level->title}}</option> ';
+               @endforeach
+               htmlData += '</select>'+
                '</td>'+
                '<td>'+
                '<input class="form-control custom-diagnosis-field diagnosis-date common-text-box-new" placeholder="">'+
@@ -2027,8 +2056,9 @@ $(function () {
                '<td>'+
                '<select class="form-control droupdown custom-diagnosis-field common-text-box-new primarystatus">'+
                '<option>Select</option>'+
-               '<option value="0">Active</option>'+
-               '<option value="1">Inactive</option>'+
+               '<option value="1">Active</option>'+
+               '<option value="2">Inactive</option>'+
+               '<option value="3">Resolved</option>'+
                '</select>'+
                '</td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>';
@@ -2064,15 +2094,18 @@ $(function () {
                '<td><input class="form-control custom-medications-field common-text-box-new sideeffecttype" placeholder=""></td>'+
                '<td><input class="form-control custom-medications-field common-text-box-new pharmacytype" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-medications-field common-text-box-new reactiontype">'+
-               '<option>Select</option>'+
-               '<option value="1">Select 1</option>'+
-               '<option value="2">Select 2</option>'+
-               '</select></td>'+
+               '<option>Select</option>';
+               @foreach ($reactions as $reaction)      
+               htmlData += '<option value="{{$reaction->id}}">{{$reaction->title}}</option> ';
+               @endforeach
+               htmlData += '</select></td>'+
                '<td>'+
                '<select class="form-control droupdown custom-medications-field common-text-box-new severitytype">'+
                '<option value="">Select</option>'+
-               '<option value="1">Select 1</option>'+
-               '<option value="2">Select 2</option>'+
+               '<option value="1">Very Mild</option>'+
+               '<option value="2">Mild</option>'+
+               '<option value="3">Moderate</option>'+
+               '<option value="4">Severe</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData); //add input box
@@ -2107,14 +2140,17 @@ $(function () {
                var htmlData = '<tr class="tr-allergies-info common-tr-info">'+
                '<td><input class="form-control custom-allergies-field common-text-box-new allerginame" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-allergies-field common-text-box-new reactiontype">'+
-               '<option value="">Select</option>'+
-               '<option value="1">Select 1</option>'+
-               '<option value="2">Select 2</option>'+
-               '</select></td><td>'+
+               '<option value="">Select</option>';
+               @foreach ($reactions as $reaction)      
+               htmlData += '<option value="{{$reaction->id}}">{{$reaction->title}}</option> ';
+               @endforeach
+               htmlData += '</select></td><td>'+
                '<select class="form-control droupdown custom-allergies-field common-text-box-new seveitytype">'+
                '<option>Select</option>'+
-               '<option value="1">Select 1</option>'+
-               '<option value="2">Select 2</option>'+
+               '<option value="1">Very Mild</option>'+
+               '<option value="2">Mild</option>'+
+               '<option value="3">Moderate</option>'+
+               '<option value="4">Severe</option>'+
                '</select>'+
                '</td><td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>'; 
                $(wrapper).append(htmlData);
@@ -2147,10 +2183,11 @@ $(function () {
                x++;
                var htmlData = '<tr class="tr-account-info common-tr-info">'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationtype">'+
-               '<option value="">Select</option>'+
-               '<option value="1">Select 1</option>'+
-               '<option value="2">Select 2</option>'+
-               '</select>'+
+               '<option value="">Select</option>';
+               @foreach ($notation_types as $notation_type)      
+               htmlData += '<option value="{{$notation_type->id}}">{{$notation_type->title}}</option> ';
+               @endforeach
+               htmlData += '</select>'+
                '</td><td><input class="form-control custom-account-field common-text-box-new notationtitle" placeholder=""></td>'+
                '<td><select class="form-control droupdown custom-account-field common-text-box-new notationby">'+
                '<option value="">Select</option>'+
@@ -2171,6 +2208,25 @@ $(function () {
            e.preventDefault(); $(this).parent().parent().remove(); x--;
        })
    });
+   
+      @if($consumer->allergy=='0')
+       $('.table-scrollbar_allergy').show();
+       $('.add_form_allergies').show();
+      @else
+       $('.table-scrollbar_allergy').hide();
+       $('.add_form_allergies').hide();
+      @endif
+             
+       $('html').on("change",".allergies_val", function(e){ 
+         var selval = $(this).val();
+         if(selval=='0'){
+             $('.table-scrollbar_allergy').show();
+             $('.add_form_allergies').show();
+         }else{
+             $('.table-scrollbar_allergy').hide();
+             $('.add_form_allergies').hide();
+         }
+       });
    
    
 

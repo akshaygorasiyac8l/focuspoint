@@ -28,7 +28,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12 page-background">
-                              <h1 class="page-title">New Assessments</h1>
+                              <h1 class="page-title">Edit Assessments</h1>
                            </div>
                         </div>
                      </div>
@@ -56,7 +56,7 @@
                                           <select class="form-control droupdown mobile-drop common-selectbox consumername" name="consumername">
                                              <option value="">Select Consumer</option>
                                              @foreach($consumers  as $consumer)
-                                             <option value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
+                                             <option {{$assessments->consumer_id == $consumer->id ? "selected" : ""}} value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
                                              @endforeach
                                          </select>
                                          <div class="view-part-consumer">
@@ -69,19 +69,19 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Assessment #</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="assessment" class="form-control assessment_no" placeholder="ASMT-000500">
+                                          <input type="text" name="assessment" class="form-control assessment_no" value="{{$assessments->assessment_no}}">
                                        </div>
                                     </div>                              
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Location</label>
                                        <div class="col-md-9">
                                           <select class="form-control droupdown location_name" name="location_name">
-                                            <option value="community">Community</option>
-                                            <option value="home">Home</option>
-                                            <option value="hospital">Hospital</option>
-                                            <option value="office">Office</option>
-                                            <option value="residential facility">Residential Facility</option>
-                                            <option value="school">School</option>
+                                            <option {{$assessments->location == 'community' ? "selected" : ""}} value="community">Community</option>
+                                            <option {{$assessments->location == 'home' ? "selected" : ""}} value="home">Home</option>
+                                            <option {{$assessments->location == 'hospital' ? "selected" : ""}} value="hospital">Hospital</option>
+                                            <option {{$assessments->location == 'office' ? "selected" : ""}} value="office">Office</option>
+                                            <option {{$assessments->location == 'residential facility' ? "selected" : ""}} value="residential facility">Residential Facility</option>
+                                            <option {{$assessments->location == 'school' ? "selected" : ""}} value="school">School</option>
                                          </select>
                                        </div>
                                     </div>
@@ -89,22 +89,29 @@
                                        <label class="col-md-3 col-form-label">Communication</label>
                                        <div class="col-md-9">
                                           <select class="form-control droupdown communication" name="communication">
-                                            <option value="collateral">Collateral</option>
-                                            <option value="in-person">In-Person</option>
-                                            <option value="phone">Phone</option>
-                                            <option value="telehealth">Telehealth</option>
+                                            <option {{$assessments->communication == 'collateral' ? "selected" : ""}} value="collateral">Collateral</option>
+                                            <option {{$assessments->communication == 'in-person' ? "selected" : ""}} value="in-person">In-Person</option>
+                                            <option {{$assessments->communication == 'phone' ? "selected" : ""}} value="phone">Phone</option>
+                                            <option {{$assessments->communication == 'telehealth' ? "selected" : ""}} value="telehealth">Telehealth</option>
                                          </select>
                                        </div>
                                     </div>
                                     <div class="form-group row new-phone">
                                        <label class="col-md-3 col-form-label">Service</label>
                                        <div class="col-md-9 add-more-services-dropdown">
-                                          <select class="form-control droupdown serviceslist" name="assessmenttype">
-                                            <option value="">Select Service</option>
-                                             @foreach($services  as $service)
-                                             <option value="{{$service->id}}">{{$service->title}}</option>
-                                             @endforeach
-                                         </select>                                         
+                                          @foreach($services as $k=>$v)
+                                             <div class="row" style="margin-top: 15px;"> 
+                                                <div class="col-md-11">                                                      
+                                                   <select class="form-control droupdown serviceslist" name="assessmenttype">
+                                                     <option value="">Select Service</option>
+                                                      @foreach($servicesdatas  as $service)
+                                                      <option {{$k==$service->id ? "selected" : ""}} value="{{$service->id}}">{{$service->title}}</option>
+                                                      @endforeach
+                                                  </select> 
+                                                </div>
+                                                <div class="col-md-1"><div class="delete-section new-delete-add consumer-delete"><i class="fa fa-close delete-button delete"></i></div></div>
+                                             </div>                                            
+                                          @endforeach                                         
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -122,7 +129,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="record" class="form-control  without-background record_no" value="RCNO_<?php echo rand('111111111','999999999'); ?>">
+                                             <input type="text" name="record" class="form-control  without-background record_no" value="{{$assessments->record_no}}">
                                           </div>
                                        </div>
                                        
@@ -130,17 +137,17 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="date" class="form-control date-select without-background date_add" placeholder="No Date">
+                                             <input type="text" name="date" class="form-control date-select without-background date_add" value="{{$assessments->assessment_date}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box add-new-selectbox">
                                           <label class="col-md-5 col-form-label assigned-label">State</label>
                                           <div class="col-md-7">
                                              <select class="form-control active-status apprroved" name="state">
-                                                <option value="0">Open</option>
-                                                <option value="1">Fixed</option>
-                                                <option value="2">Completed</option>
-                                                <option value="3">In-Progress</option>
+                                                <option {{$assessments->status==0 ? "selected" : ""}} value="0">Open</option>
+                                                <option {{$assessments->status==1 ? "selected" : ""}} value="1">Fixed</option>
+                                                <option {{$assessments->status==2 ? "selected" : ""}} value="2">Completed</option>
+                                                <option {{$assessments->status==3 ? "selected" : ""}} value="3">In-Progress</option>
                                              </select>
                                           </div>
                                        </div>
@@ -150,7 +157,7 @@
                                             <select class="form-control  assignee apprroved" name="assignee">
                                                 <option value="">Select assignee</option>
                                                 @foreach($users  as $user)
-                                                <option value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
+                                                <option {{$assessments->status==$user->id ? "selected" : ""}} value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
                                                 @endforeach
                                              </select>
                                           </div>
@@ -158,13 +165,13 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" placeholder="?">
+                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" value="{{$assessments->spent_time}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Due Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="due-date" class="form-control date-select without-background due_date" placeholder="No Due Date">
+                                             <input type="text" name="due-date" class="form-control date-select without-background due_date" value="{{$assessments->due_date}}">
                                           </div>
                                        </div>
                                     </div>
@@ -202,6 +209,7 @@
                         <div class="row">
                            <div class="col-md-12">
                            <div class="table-scrollbar common-scroll">
+                           @if(count($assessment_persons) > 0 )
                              <table class="assessments-details-table common-table-info">
                                <thead>
                                  <tr class="common-tr-info contact-person">
@@ -213,37 +221,42 @@
                                   </tr>
                                </thead>
                                <tbody>
+                                    @foreach($assessment_persons as $assessment_person)
                                     <tr class="tr-contact-person common-tr-info">
                                        <td>
+                                          <input type="hidden" class="editpersons" value="{{$assessment_person->id}}">
                                           <select class="form-control droupdown mobile-drop salutation" name="salutation" autocomplete="off">
                                              <option value="" selected="selected" >Salutation</option>
-                                             <option value="Mr">Mr.</option>
-                                             <option value="Mrs">Mrs.</option>
-                                             <option value="Ms">Ms.</option>
-                                             <option value="Miss">Miss.</option>
-                                             <option value="Dr">Dr.</option>
+                                             <option {{$assessment_person->salutation=="Mr" ? "selected" : ""}} value="Mr">Mr.</option>
+                                             <option {{$assessment_person->salutation=="Mrs" ? "selected" : ""}} value="Mrs">Mrs.</option>
+                                             <option {{$assessment_person->salutation=="Ms" ? "selected" : ""}} value="Ms">Ms.</option>
+                                             <option {{$assessment_person->salutation=="Miss" ? "selected" : ""}} value="Miss">Miss.</option>
+                                             <option {{$assessment_person->salutation=="Dr" ? "selected" : ""}} value="Dr">Dr.</option>
                                           </select>
                                        </td>
                                        <td>
-                                          <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new cfname" placeholder="">
+                                          <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new cfname" value="{{$assessment_person->fname}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="score" class="form-control custom-problems-field common-text-box-new clname" placeholder="">
+                                          <input type="text" name="score" class="form-control custom-problems-field common-text-box-new clname" value="{{$assessment_person->lname}}">
                                        </td>
                                        <td>
                                           <select class="form-control droupdown custom-contact-field common-text-box-new crelationship" name="relationship">
                                                 <option value="" selected="selected" >Select</option>
                                                 @foreach ($relations as $relation)
-                                                <option value="{{$relation->id}}">{{$relation->title}}</option>
+                                                <option {{$assessment_person->relation==$relation->id ? "selected" : ""}} value="{{$relation->id}}">{{$relation->title}}</option>
                                                 @endforeach
                                              </select>
                                        </td>
                                        <td>
-                                          <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new cmobile" placeholder="">
+                                          <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new cmobile" value="{{$assessment_person->mobile}}">
                                        </td>
+                                       <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                     </tr>
+                                    @endforeach
                                  </tbody>
                               </table>
+                              @endif
                               </div>
                               <button class="add_form_contact_user_new common-button"><i class="fa fa-plus common-icons"></i>Add New Person</button> 
                            </div>
@@ -256,6 +269,7 @@
                            <div class="col-md-12">
                               
                               <div class="table-scrollbar common-scroll">
+                                 @if(count($assessment_problems) > 0 )
                                  <table class="table-problems-person common-table-info">
                                     <thead>
                                      <tr>
@@ -265,24 +279,29 @@
                                      </tr>
                                     </thead>
                                     <tbody>
+                                       @foreach($assessment_problems as $assessment_problem)
                                        <tr class="tr-problems-person common-tr-info">
                                           <td>
+                                             <input type="hidden" class="editproblems" value="{{$assessment_problem->id}}">
                                              <select class="form-control droupdown custom-contact-field common-text-box-new pauthor" name="place">
                                                 <option value="">Select</option>
-                                                <option value="caregiver">Caregiver</option>
-                                                <option value="youth">Youth</option>
-                                                <option value="sibling">Sibling</option>
+                                                <option {{$assessment_problem->author=="caregiver" ? "selected" : ""}} value="caregiver">Caregiver</option>
+                                                <option {{$assessment_problem->author=="youth" ? "selected" : ""}} value="youth">Youth</option>
+                                                <option {{$assessment_problem->author=="sibling" ? "selected" : ""}} value="sibling">Sibling</option>
                                              </select>
                                           </td>
                                           <td>
-                                             <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new pstrength" placeholder="">
+                                             <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new pstrength" value="{{$assessment_problem->strength}}">
                                           </td>
                                           <td>
-                                             <input type="text" name="score" class="form-control custom-problems-field common-text-box-new pscore" placeholder="">
+                                             <input type="text" name="score" class="form-control custom-problems-field common-text-box-new pscore" value="{{$assessment_problem->score}}">
                                           </td>
+                                          <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                        </tr>
+                                       @endforeach
                                     </tbody>
                                  </table>
+                                 @endif
                               </div>
                               <button class="add_form_problems common-button"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
                            </div>                           
@@ -311,6 +330,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12">
+                              
                               <table class="table-life-functions-person">
                                  <thead>
                                   <tr>
@@ -325,10 +345,12 @@
                                           <label class="mediacl-report">Medical</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="copy1" class="form-control custom-life-functions-field common-text-box-new fun_medical" placeholder="Type or copy-paste">
+                                          <input type="hidden" class="idval" value="{{$assessment_functions[0]->id}}" />
+                                          <input type="hidden" class="idval" value="{{$assessment_functions[1]->id}}" />
+                                          <input type="text" name="copy1" class="form-control custom-life-functions-field common-text-box-new fun_medical" value="{{$assessment_functions[0]->medical}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_medical" placeholder="Type or copy-paste">
+                                          <input type="text" name="copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_medical" value="{{$assessment_functions[1]->medical}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -336,10 +358,10 @@
                                           <label class="mediacl-report">Mental Health</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="mental-copy-paste" class="form-control custom-life-functions-field common-text-box-new  fun_mental" placeholder="Type or copy-paste">
+                                          <input type="text" name="mental-copy-paste" class="form-control custom-life-functions-field common-text-box-new  fun_mental" value="{{$assessment_functions[0]->mental}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="mental-copy" class="form-control custom-life-functions-field common-text-box-new fun_mental" placeholder="Type or copy-paste">
+                                          <input type="text" name="mental-copy" class="form-control custom-life-functions-field common-text-box-new fun_mental" value="{{$assessment_functions[1]->mental}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -347,10 +369,10 @@
                                           <label class="mediacl-report">Education</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="edu-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_education" placeholder="Type or copy-paste">
+                                          <input type="text" name="edu-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_education" value="{{$assessment_functions[0]->education}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="edu-copy" class="form-control custom-life-functions-field common-text-box-new fun_education" placeholder="Type or copy-paste">
+                                          <input type="text" name="edu-copy" class="form-control custom-life-functions-field common-text-box-new fun_education" value="{{$assessment_functions[1]->education}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -358,10 +380,10 @@
                                           <label class="mediacl-report">Legal</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="legal-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_leagal" placeholder="Type or copy-paste">
+                                          <input type="text" name="legal-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_leagal" value="{{$assessment_functions[0]->leagal}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="legal-copy" class="form-control custom-life-functions-field common-text-box-new fun_leagal" placeholder="Type or copy-paste">
+                                          <input type="text" name="legal-copy" class="form-control custom-life-functions-field common-text-box-new fun_leagal" value="{{$assessment_functions[1]->leagal}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -369,10 +391,10 @@
                                           <label class="mediacl-report">Social</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="social-copy-paste" class="form-control custom-life-functions-field common-text-box-new  fun_social" placeholder="Type or copy-paste">
+                                          <input type="text" name="social-copy-paste" class="form-control custom-life-functions-field common-text-box-new  fun_social" value="{{$assessment_functions[0]->social}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="social-copy" class="form-control custom-life-functions-field common-text-box-new fun_social" placeholder="Type or copy-paste">
+                                          <input type="text" name="social-copy" class="form-control custom-life-functions-field common-text-box-new fun_social" value="{{$assessment_functions[1]->social}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -380,10 +402,10 @@
                                           <label class="mediacl-report">Self Harm</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="self-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_selfharm" placeholder="Type or copy-paste">
+                                          <input type="text" name="self-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_selfharm" value="{{$assessment_functions[0]->selfharm}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="self-copy" class="form-control custom-life-functions-field common-text-box-new fun_selfharm" placeholder="Type or copy-paste">
+                                          <input type="text" name="self-copy" class="form-control custom-life-functions-field common-text-box-new fun_selfharm" value="{{$assessment_functions[1]->selfharm}}">
                                        </td>
                                     </tr>
                                     <tr class="tr-life-functions-person">
@@ -391,10 +413,10 @@
                                           <label class="mediacl-report">Others</label>
                                        </td>
                                        <td>
-                                          <input type="text" name="other-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_others" placeholder="Type or copy-paste">
+                                          <input type="text" name="other-copy-paste" class="form-control custom-life-functions-field common-text-box-new fun_others" value="{{$assessment_functions[0]->others}}">
                                        </td>
                                        <td>
-                                          <input type="text" name="other-copy" class="form-control custom-life-functions-field common-text-box-new fun_others" placeholder="Type or copy-paste">
+                                          <input type="text" name="other-copy" class="form-control custom-life-functions-field common-text-box-new fun_others" value="{{$assessment_functions[1]->others}}">
                                        </td>
                                     </tr>
  
@@ -411,6 +433,7 @@
                            <div class="col-md-12">
                               
                               <div class="table-scrollbar common-scroll">
+                              @if(count($assessment_behaviors) > 0 )
                                  <table class="table-behaviors-person common-table-info">
                                     <thead>
                                      <tr>
@@ -421,35 +444,40 @@
                                      </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach($assessment_behaviors as $assessment_behavior)
                                        <tr class="tr-behaviors-person common-tr-info">
                                           <td>
+                                             <input type="hidden" class="editbehaviors" value="{{$assessment_behavior->id}}">
                                              <select class="form-control droupdown custom-contact-field common-text-box-new bauthor" name="place">
                                                 <option value="">Select</option>
                                              
-                                                <option value="caregiver">Caregiver</option>
-                                                <option value="youth">Youth</option>
-                                                <option value="sibling">Sibling</option>
+                                                <option {{$assessment_behavior->author=="caregiver" ? "selected" : ""}} value="caregiver">Caregiver</option>
+                                                <option {{$assessment_behavior->author=="youth" ? "selected" : ""}} value="youth">Youth</option>
+                                                <option {{$assessment_behavior->author=="sibling" ? "selected" : ""}} value="sibling">Sibling</option>
                                              </select>
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new bcontext" name="place">
                                                  <option value="">Select</option>
-                                               <option value="Describe specifics of behavior">Describe specifics of behavior</option>
-                                                <option value="Identify triggers">Identify triggers</option>
-                                                <option value="What has been tried & results">What has been tried & results</option>
-                                                <option value="Impact on family">Impact on family</option>
-                                                <option value="Behavior to be replaced">Behavior to be replaced</option>
+                                               <option {{$assessment_behavior->context=="Describe specifics of behavior" ? "selected" : ""}} value="Describe specifics of behavior">Describe specifics of behavior</option>
+                                                <option {{$assessment_behavior->context=="Identify triggers" ? "selected" : ""}} value="Identify triggers">Identify triggers</option>
+                                                <option {{$assessment_behavior->context=="What has been tried & results" ? "selected" : ""}} value="What has been tried & results">What has been tried & results</option>
+                                                <option {{$assessment_behavior->context=="Impact on family" ? "selected" : ""}} value="Impact on family">Impact on family</option>
+                                                <option {{$assessment_behavior->context=="Behavior to be replaced" ? "selected" : ""}} value="Behavior to be replaced">Behavior to be replaced</option>
                                              </select>
                                           </td>
                                           <td>
-                                             <input type="text" name="concerns" class="form-control custom-behaviors-field common-text-box-new bconcern" placeholder="Type or copy-paste">
+                                             <input type="text" name="concerns" class="form-control custom-behaviors-field common-text-box-new bconcern" value="{{$assessment_behavior->concern}}">
                                           </td>
                                           <td>
-                                             <input type="text" name="present" class="form-control custom-behaviors-field common-text-box-new bintervention" placeholder="Type or copy-paste">
+                                             <input type="text" name="present" class="form-control custom-behaviors-field common-text-box-new bintervention" value="{{$assessment_behavior->intervention}}">
                                           </td>
+                                          <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                        </tr>
+                                       @endforeach
                                     </tbody>
                                  </table>
+                                 @endif
                               </div>                              
                               <button class="add_form_behaviors common-button"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
                            </div>
@@ -483,6 +511,7 @@
                                  <div class="col-md-5"></div>
                               </div>
                               <div class="table-scrollbar common-scroll">
+                                 @if(count($assessment_assessors) > 0 )
                                  <table class="table-assessor-notes-person common-table-info">
                                     <thead>
                                      <tr>
@@ -491,21 +520,26 @@
                                      </tr>
                                     </thead>
                                     <tbody>
+                                       @foreach($assessment_assessors as $assessment_assessor)
                                        <tr class="tr-assessor-notes-person common-tr-info">
                                           <td>
+                                             <input type="hidden" class="editassessors" value="{{$assessment_assessor->id}}">
                                              <select class="form-control droupdown custom-contact-field common-text-box-new aproblem" name="place">
-                                                <option value="Caregiver characteristics">Caregiver characteristics</option>
-                                                <option value="Executive Functions">Executive Functions</option>
-                                                <option value="Initial Treatment Reccommendations">Initial Treatment Reccommendations</option>
-                                                <option value="Readiness for Change">Readiness for Change</option>
+                                                <option {{$assessment_assessor->problem=="Caregiver characteristics" ? "selected" : ""}} value="Caregiver characteristics">Caregiver characteristics</option>
+                                                <option {{$assessment_assessor->problem=="Executive Functions" ? "selected" : ""}} value="Executive Functions">Executive Functions</option>
+                                                <option {{$assessment_assessor->problem=="Initial Treatment Reccommendations" ? "selected" : ""}} value="Initial Treatment Reccommendations">Initial Treatment Reccommendations</option>
+                                                <option {{$assessment_assessor->problem=="Readiness for Change" ? "selected" : ""}} value="Readiness for Change">Readiness for Change</option>
                                              </select>
                                           </td>
                                           <td>
-                                             <input type="text" name="concerns" class="form-control custom-assessor-notes-field common-text-box-new acontext" placeholder="Type or copy-paste">
+                                             <input type="text" name="concerns" class="form-control custom-assessor-notes-field common-text-box-new acontext" value="{{$assessment_assessor->context}}">
                                           </td>
+                                          <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                        </tr>
+                                       @endforeach
                                     </tbody>
                                  </table>
+                                 @endif
                               </div>                              
                               <button class="add_form_assessor-notes common-button"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
                            </div>
@@ -536,7 +570,20 @@
                                       </div>
                                     </div>
                                     <div class="col-md-6">
-                                       <div id="uploadPreview" class="employee-image"></div>
+                                       <div id="uploadPreview" class="employee-image">
+                                       @foreach($assessment_documents as $document)
+                                          <?php
+                                             $varpath = 'public/files/'.$document->document;
+                                          ?>
+                                          @if(file_exists($varpath)) 
+                                            <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div><div class="col-md-2"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
+                                          @else
+                                            
+                                          @endif
+                                          
+                                                
+                                       @endforeach
+                                       </div>
                                     </div>
                                  </div>
                               </div>
@@ -915,9 +962,11 @@ $(function () {
             
             
             var function_array= [];
-            $(".fun_medical").each(function(i, value) {               
+            $(".fun_medical").each(function(i, value) { 
+               console.log(value);
                function_array.push({
                   medical: this.value, 
+                  idval: $('.idval').eq(i).val(),
                   mental: $('.fun_mental').eq(i).val(),                  
                   education: $('.fun_education').eq(i).val(),                  
                   leagal: $('.fun_leagal').eq(i).val(),                  
@@ -967,7 +1016,7 @@ $(function () {
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('assessments-add') }}";
+            var url = "{{ url('assessments-edit') }}/{{$assessments->id}}";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -1191,7 +1240,7 @@ $(document).ready(function() {
              htmlData += '<div class="row"><div class="col-md-11">'+
              '<select class="form-control droupdown desktop-textbox serviceslist" name="assessmenttype">'+
              '<option value="">Select Service</option>';
-             @foreach($services  as $service)
+             @foreach($servicesdatas  as $service)
             htmlData += '<option value="{{$service->id}}">{{$service->title}}</option>';
             @endforeach
              htmlData += '<option value="Family Therapy- 0-60min-90846">Family Therapy- 0-60min-90846</option>'+

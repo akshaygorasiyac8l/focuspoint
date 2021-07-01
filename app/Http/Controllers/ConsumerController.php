@@ -29,7 +29,21 @@ class ConsumerController extends Controller
     public function index()
     {
         $data = array();        
-        $data['consumers'] = DB::table('consumers')->get();
+        $consumers = DB::table('consumers')->get();
+        foreach($consumers as $consumer){
+            $consumer_payers = DB::table('consumer_payers')->where('consumer_id',$consumer->id)->first();
+            if($consumer_payers){
+                $payers = DB::table('payers')->where('id',$consumer_payers->payer_id)->first();
+                $consumer->payer = $payers->title;
+            }else{
+                $consumer->payer = '--';
+            }
+        }
+        $data['consumers'] = $consumers;
+        $data['payers'] = DB::table('payers')->get();
+        $data['coordinators'] = DB::table('users')->where('role_id','!=','0')->get();
+        $data['leaders'] = DB::table('users')->where('role_id','!=','0')->get();
+        $data['consumer_statuses'] = DB::table('consumer_status')->get();
         return view('consumer/consumers-listing',$data);
     
     }
@@ -46,16 +60,31 @@ class ConsumerController extends Controller
             foreach($datas as $data){
                 $status = '';
                 if($data->status=='0'){
-                    $status = 'Active';
-                }else if($data->status=='2'){
-                    $status = 'Active - Approved';
-                }else if($data->status=='1'){
-                    $status = 'Approved';
+                    $status = '-';
                 }else{
-                    $status = '';
+                    $statusData = DB::table('consumer_status')->where('id',$data->status)->first();
+                    $status = $statusData->title;
                 }
                 
                 $name = $data->fname.' '.$data->lname;
+                
+                $consumer_payers = DB::table('consumer_payers')->where('consumer_id',$data->id)->first();
+                if($consumer_payers){
+                    $payers = DB::table('payers')->where('id',$consumer_payers->payer_id)->first();
+                    $consumer_payer = $payers->title;
+                }else{
+                    $consumer_payer = '--';
+                }
+                
+                $consumer_phones = DB::table('consumer_phones')->where('consumer_id',$data->id)->first();
+                if($consumer_phones){
+                    
+                    $consumer_phone = $consumer_phones->phone;
+                }else{
+                    $consumer_phone = '--';
+                }
+            
+            
                 
                 $cordinate = DB::table('users')->where('id',$data->lead_person)->first();
                 $cordinate_name = $cordinate->fname.' '.$cordinate->lname;
@@ -64,6 +93,8 @@ class ConsumerController extends Controller
                                     'id'=>$data->id,       
                                     'fname'=>$data->fname,
                                     'lname'=>$data->lname,
+                                    'consumer_payer'=>$consumer_payer,
+                                    'consumer_phone'=>$consumer_phone,
                                     'cordinate_name'=>$cordinate_name,
                                     'email'=>$data->email,
                                     'created_at'=>$data->created_date,
@@ -172,6 +203,167 @@ class ConsumerController extends Controller
     }
     
     
+    public function searchConsumers(Request $request)
+    {
+        if(request()->ajax()) {
+            /*
+            $datas = DB::table('users')
+            ->where('fname', 'like', '%'.$request->fname.'%')
+            ->where('lname', 'like', '%'.$request->lname.'%');
+            
+            
+            $datas->where('status', $request->status);
+            $datas->where('supervisor', $request->supervisor);
+            $datas->where('role_id','!=',0)->get();
+            */
+            
+            $fname_query = '';
+            if($request->fname!=''){
+                $fname_query = " and c.`fname` like "."'%".$request->fname."%'";
+            }
+            
+            $lname_query = '';
+            if($request->lname!=''){
+                $lname_query = " and c.`lname` like "."'%".$request->lname."%'";
+            }
+            
+            $case_query = '';
+            if($request->searchcasename!=''){
+                $case_query = " and c.`case_name` like "."'%".$request->searchcasename."%'";
+            }
+            
+            $dob_query = '';
+            if($request->date_of_birth!=''){
+                $dob_query = " and c.dob= '".$this->changeDateformate($request->date_of_birth)."' ";
+            }
+            
+            $insuranceid_query = '';
+            if($request->insuranceid!=''){
+                $insuranceid_query = " and c.npi= '".$request->insuranceid."' ";
+            }
+            
+            $status_query = '';
+            if($request->status!=''){
+                $status_query = " and c.status= '".$request->status."' ";
+            }
+            
+            $selrecordno_query = '';
+            if($request->selrecordno!=''){
+                $selrecordno_query = " and c.record_no= '".$request->selrecordno."' ";
+            }
+            
+            $searchcoordinator_query = '';
+            if($request->searchcoordinator!=''){
+                $searchcoordinator_query = " and c.lead_person= '".$request->searchcoordinator."' ";
+            }
+            
+            $sellead_query = '';
+            if($request->sellead!=''){
+                $sellead_query = " and c.lead_person= '".$request->sellead."' ";
+            }
+            
+            
+            $admission_date_query = '';
+            if($request->admission_discharge_date!=''  && $request->admission_to_date!=''){
+                $admission_date_query = " and c.admission_date >= '".$this->changeDateformate($request->admission_discharge_date)."'   and c.admission_date <= '".$this->changeDateformate($request->admission_to_date)."'";
+            }
+            
+            $discharge_date_query = '';
+            if($request->discharge_from_date!=''  && $request->discharge_to_date!=''){
+                $discharge_date_query = " and c.discharge_date >= '".$this->changeDateformate($request->discharge_from_date)."'   and c.discharge_date <= '".$this->changeDateformate($request->discharge_to_date)."'";
+            }
+            $payer_query_a = '';
+            $payer_query = '';
+            $payer_query_new = '';
+            if($request->searchpayer){
+                $payer_query_a = ',cp.*';
+                $payer_query  = ' left join consumer_payers as cp on   cp.consumer_id = c.id ';  
+                $payer_query_new = " and cp.payer_id = '".$request->searchpayer."' ";
+            }
+
+            
+            $sql = "select c.*  ".$payer_query_a." from consumers as c 
+
+            ".$payer_query."
+            
+            where 1=1 
+            
+            ".$fname_query."
+            ".$lname_query."
+            ".$case_query."
+            ".$dob_query."
+            ".$insuranceid_query."
+            ".$searchcoordinator_query."
+            ".$status_query."
+            ".$selrecordno_query."
+            ".$sellead_query."
+            ".$admission_date_query."
+            ".$discharge_date_query."
+            ".$payer_query_new."
+
+            ";
+            //echo $sql;
+            $datas = DB::select($sql);
+            //dd($datas);
+            $dataarray =  array();
+            $i=0;
+            
+            foreach($datas as $data){
+                $status = '';
+                if($data->status=='0'){
+                    $status = '-';
+                }else{
+                    $statusData = DB::table('consumer_status')->where('id',$data->status)->first();
+                    $status = $statusData->title;
+                }
+                
+                $name = $data->fname.' '.$data->lname;
+                
+                $cordinate = DB::table('users')->where('id',$data->lead_person)->first();
+                $cordinate_name = $cordinate->fname.' '.$cordinate->lname;
+                
+                $consumer_payers = DB::table('consumer_payers')->where('consumer_id',$data->id)->first();
+                if($consumer_payers){
+                    $payers = DB::table('payers')->where('id',$consumer_payers->payer_id)->first();
+                    $consumer_payer = $payers->title;
+                }else{
+                    $consumer_payer = '--';
+                }
+                
+                $consumer_phones = DB::table('consumer_phones')->where('consumer_id',$data->id)->first();
+                if($consumer_phones){
+                    
+                    $consumer_phone = $consumer_phones->phone;
+                }else{
+                    $consumer_phone = '--';
+                }
+                
+               
+               $dataarray[$i]= (object) array(
+                                    'id'=>$data->id,       
+                                    'fname'=>$data->fname,
+                                    'lname'=>$data->lname,
+                                    'consumer_payer'=>$consumer_payer,
+                                    'consumer_phone'=>$consumer_phone,
+                                    'cordinate_name'=>$cordinate_name,
+                                    'email'=>$data->email,
+                                    'created_at'=>$data->created_date,
+                                    'status'=>$status,
+                                    );
+                                    
+               
+
+                
+                $i++;
+            }
+            
+            $collection = collect($dataarray);
+            return $collection;
+        }
+        
+    }
+    
+    
     public function changeDateformate($date){
         $a = explode("-",$date);
         $b = $a[2].'-'.$a[0].'-'.$a[1];
@@ -215,6 +407,11 @@ class ConsumerController extends Controller
             $ethinicity = $d->ethinicity;
             $casename = $d->casename;
             $lead_person = $d->lead_person;
+            
+            $allergies_val = $d->allergies_val;
+            
+            
+            
             //$nurse = $d->nurse;
             //$doctor = $d->doctor;
             $in_crisis = $d->in_crisis;
@@ -251,6 +448,7 @@ class ConsumerController extends Controller
                 'ethnicity' => $ethinicity,
                 'case_name' => $casename,
                 'lead_person' => $lead_person,
+                'allergy' => $allergies_val,
                 //'nurse' => $nurse,
                 //'doctor' => $doctor,
                 'in_crisis' => $in_crisis,
@@ -279,18 +477,30 @@ class ConsumerController extends Controller
                 $baddress = $d->baddress;
                 $bstreet = $d->bstreet;
                 $bcity = $d->bcity;
-                $bstate = $d->bstate;
+                $bstate = '0';
+                if($d->bstate!=''){
+                    $bstate = $d->bstate;
+                }
                 $bzipcode = $d->bzipcode;
-                $bcountry = $d->bcountry;
+                $bcountry = '0';
+                if($d->bcountry!=''){
+                    $bcountry = $d->bcountry;
+                }
                 $btypes = $d->btypes;
                 $bnotes = $d->bnotes;
 
                 $aaddress = $d->aaddress;
                 $astreet = $d->astreet;
                 $acity = $d->acity;
-                $astate = $d->astate;
+                $astate = '0';
+                if($d->bstate!=''){
+                    $astate = $d->astate;
+                }
                 $azipcode = $d->azipcode;
-                $acountry = $d->acountry;
+                $acountry = '0';
+                if($d->acountry!=''){
+                    $acountry = $d->acountry;
+                }
                 $atypes = $d->atypes;
                 $anotes = $d->anotes;
                 
@@ -484,6 +694,8 @@ class ConsumerController extends Controller
             $data = array();
             $data['roles'] = DB::table('roles')->get();
             $data['races'] = DB::table('races')->get();
+            $data['axis_levels'] = DB::table('axis_levels')->get();
+            $data['primaries'] = DB::table('primaries')->get();
             $data['marital_statuss'] = DB::table('marital_status')->get();
             $data['smoker_statuss'] = DB::table('smoker_status')->get();
             $data['ethnicities'] = DB::table('ethnicities')->get();
@@ -492,9 +704,12 @@ class ConsumerController extends Controller
             $data['qualifications'] = DB::table('qualifications')->get();
             $data['certfication_types'] = DB::table('certfication_types')->get();
             $data['relations'] = DB::table('relations')->get();
+            $data['notation_types'] = DB::table('notation_types')->get();
+            $data['reactions'] = DB::table('reactions')->get();
             $data['countries'] = DB::table('countries')->get();
             $data['states'] = DB::table('states')->get();
             $data['payers'] = DB::table('payers')->get();
+            $data['consumer_statuses'] = DB::table('consumer_status')->get();
             $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
             return view('consumer/consumers-add',$data);
         }
@@ -548,6 +763,10 @@ class ConsumerController extends Controller
             $ethinicity = $d->ethinicity;
             $casename = $d->casename;
             $lead_person = $d->lead_person;
+            
+            
+            
+            $allergies_val = $d->allergies_val;
             //$nurse = $d->nurse;
             //$doctor = $d->doctor;
             $in_crisis = $d->in_crisis;
@@ -585,6 +804,7 @@ class ConsumerController extends Controller
                 'ethnicity' => $ethinicity,
                 'case_name' => $casename,
                 'lead_person' => $lead_person,
+                'allergy' => $allergies_val,
                 //'nurse' => $nurse,
                 //'doctor' => $doctor,
                 'in_crisis' => $in_crisis,
@@ -599,21 +819,33 @@ class ConsumerController extends Controller
 
             ]);
             
-            $baddress = $d->baddress;
+                $baddress = $d->baddress;
                 $bstreet = $d->bstreet;
                 $bcity = $d->bcity;
-                $bstate = $d->bstate;
+                $bstate = '0';
+                if($d->bstate!=''){
+                    $bstate = $d->bstate;
+                }
                 $bzipcode = $d->bzipcode;
-                $bcountry = $d->bcountry;
+                $bcountry = '0';
+                if($d->bcountry!=''){
+                    $bcountry = $d->bcountry;
+                }
                 $btypes = $d->btypes;
                 $bnotes = $d->bnotes;
 
                 $aaddress = $d->aaddress;
                 $astreet = $d->astreet;
                 $acity = $d->acity;
-                $astate = $d->astate;
+                $astate = '0';
+                if($d->bstate!=''){
+                    $astate = $d->astate;
+                }
                 $azipcode = $d->azipcode;
-                $acountry = $d->acountry;
+                $acountry = '0';
+                if($d->acountry!=''){
+                    $acountry = $d->acountry;
+                }
                 $atypes = $d->atypes;
                 $anotes = $d->anotes;
                 
@@ -1162,6 +1394,10 @@ class ConsumerController extends Controller
             $data = array();
             $data['roles'] = DB::table('roles')->get();
             $data['races'] = DB::table('races')->get();
+            $data['axis_levels'] = DB::table('axis_levels')->get();
+            $data['primaries'] = DB::table('primaries')->get();
+            $data['reactions'] = DB::table('reactions')->get();
+            $data['notation_types'] = DB::table('notation_types')->get();
             $data['marital_statuss'] = DB::table('marital_status')->get();
             $data['smoker_statuss'] = DB::table('smoker_status')->get();
             $data['ethnicities'] = DB::table('ethnicities')->get();
@@ -1200,6 +1436,7 @@ class ConsumerController extends Controller
                 $consumer_account_notation->notation_date = date_format(date_create($consumer_account_notation->notation_date), 'm-d-Y');
             }
             $data['consumer_account_notations'] = $consumer_account_notations;
+            $data['consumer_statuses'] = DB::table('consumer_status')->get();
             return view('consumer/consumers-edit',$data);
         }
         

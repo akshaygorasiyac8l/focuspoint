@@ -30,9 +30,10 @@
                                <i class="fa fa-caret-down" aria-hidden="true"></i>
                                -->
                                 <ul class="dropdown-listing">
-                                <li class="droplist">All Employees</li>
+                                <li data="" class="droplist">All Employees</li>
+                                <li data="" class="roletype">All Employees</li>
                                 @foreach ($roles as $role)
-                                <li {{$role->id}}>{{$role->role}}</li>
+                                <li data="{{$role->role}}" class="roletype " {{$role->id}}>{{$role->role}}</li>
                                 @endforeach
                                 </ul>
                          
@@ -42,7 +43,7 @@
                         </div>
                         <div class="col-md-5">
                         <div class="icon-box">
-                            <button class="btn-icons-consumer printdata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
+                            <button class="btn-icons-consumer downloaddata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
                             <button class="btn-icons-consumer deletedata"><i class="fa fa-trash icon-common"></i></button>
                             <button class="btn-icons-consumer bookmrkdata"><i class="fa fa-bookmark icon-common"></i></button>
                             <button class="btn-icons-consumer downloaddata"><i class="fa fa-download icon-common"></i></button>
@@ -263,6 +264,7 @@
                                            <th>Role</th>
                                            <th>Created Date</th>
                                            <th>Status</th>
+                                           <th>Action</th>
                                        </tr>
                                    </thead>
                                 
@@ -274,6 +276,9 @@
                </section>
             </div>
          </div>
+      </div>
+      
+      <div class="prinDatahtml" style="display:none;">
       </div>
 
 
@@ -295,13 +300,13 @@
         }
         
         
-        $('html').on("change",".roletype", function() {
-            
+        $('html').on("click",".roletype", function() {
+            var selval = $(this).attr('data');
             var oTable = $('#table-general1').dataTable(); 
-            if(this.value=='All Employees'){
+            if(selval==''){
                 oTable.fnFilter('');
             }else{
-                oTable.fnFilter(this.value);
+                oTable.fnFilter(selval);
             }
         } );
         
@@ -356,6 +361,7 @@
                 {"data": "type", "name": "type"},
                 {"data": "created_at", "name": "created_at"},
                 {"data": "status", "name": "status"},
+                {"data": "action", "name": "action"},
                 
             ],
             "columnDefs": [
@@ -367,6 +373,7 @@
                 {"width": "10%", "targets": 5},
                 {"width": "10%", "targets": 6},
                 {"width": "10%", "targets": 7},
+                {"width": "10%", "targets": 8},
                 
                 {"searchable": true, "targets": [5]},
                 
@@ -411,7 +418,128 @@
       });
       
 
+      $('html').on("click",".downloaddata",function(){
+            
+            var print_array = [];
+            
+            $('.add-new-icon:checked').each(function(){
+                print_array.push({
+                  id: $(this).val(), 
+                });
+            });
+            
+            
+            
+            var url = "{{ route('pdfemployees') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data:  {
+                    print_array:print_array,
+                },
+                success: function(data)
+                {
+                    
+                    
+                     if(data.success='1'){
+                        
+                            var redirect = "{{ url('public/downloads/employeeall.pdf') }}";
+                            window.open(redirect, '_blank');
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+                     
+                    
+                    
+                    
+                },
+                error: function() 
+                {
+                } 
+            });
+        
+      });
+      
+      
+      $('html').on("click",".printdata",function(){
+            
+            var print_array = [];
+            
+            $('.add-new-icon:checked').each(function(){
+                print_array.push({
+                  id: $(this).val(), 
+                });
+            });
+            
+            
+            
+            var url = "{{ route('printemployees') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data:  {
+                    print_array:print_array,
+                },
+                success: function(data)
+                {
+                    
+                    
+                    if(data.class='success'){
+                        var htmlData = '';
+                        if(data.userData.length > 0 )
+                        {
+                        
+                        
+                            htmlData += '<table  class="display user-table" style="width:100%">'+
+                                            '<thead>'+
+                                                '<tr>'+
+                                                    '<th>Name</th>'+
+                                                    '<th>Birth Date</th>'+
+                                                    '<th>Email</th>'+
+                                                '</tr>'+
+                                            '</thead><tbody class="ticket-records">';
+                                for(var t=0;t<data.userData.length;t++){
+                                    htmlData += '<tr>';
+                                    htmlData += '<th>Name</th>';
+                                    htmlData += '<th>Name</th>';
+                                    htmlData += '<th>Name</th>';
+                                    htmlData += '</tr>';
+                                }
+                            htmlData += '</table>';
+                            
+                        }
+                            
+                          $('.prinDatahtml').html(htmlData);
+                          var divToPrint = $('.prinDatahtml').html();
 
+                          var newWin=window.open('','Print-Window');
+
+                          newWin.document.open();
+
+                          newWin.document.write('<html><body onload="window.print()">'+divToPrint+'</body></html>');
+
+                          newWin.document.close();
+
+                          setTimeout(function(){newWin.close();},10);
+                            
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+                     
+                    
+                    
+                    
+                },
+                error: function() 
+                {
+                } 
+            });
+        
+      });
       
       $('html').on("click",".deletedata",function(){
             var r = confirm("Are you sure Delete??");
@@ -454,9 +582,8 @@
         
       });
       
-
-      $('html').on("click",".searchbtn",function(){
-          
+      
+      function searchData(){
           var fname = $('.search_fname').val();
           var lname = $('.search_lname').val();
           var supervisor = $('.selsupervisor').val();
@@ -464,6 +591,8 @@
           var role_id = $('.selrole_id').val();
           
           var url = "{{ route('searchemployees') }}";
+          
+          
             $.ajax({
                 url: url,
                 type: "POST",
@@ -492,7 +621,8 @@
                                                     '<th>Phone No</th>'+
                                                     '<th>Role</th>'+
                                                     '<th>Created Date</th>'+
-                                                    '<th>Status</th>'+                                                    
+                                                    '<th>Status</th>'+ 
+                                                    '<th>Action</th>'+
                                                 '</tr>'+
                                             '</thead><tbody class="ticket-records">';
 
@@ -513,6 +643,13 @@
                                 if(phone==null){
                                     phone = '';
                                 }
+                                action = '';
+                                if(data[i].status=='Active'){
+                                    action = '<button value="'+data[i].id+'"   class="btn btn-warning suspenduser" >Suspend</button>';
+                                }else if(data[i].status=='Suspend'){
+                                    action = '<button value="'+data[i].id+'"   class="btn btn-primary suspenduser" >Reactive</button>';
+                                }else{
+                                }
 
                                 htmlData += '<tr><td><input value="'+data[i].id+'"  name="empids" type="checkbox" class="add-new-icon" /></td>'+
                                 '<td><a href="employee-details/'+data[i].id+'" data="'+data[i].id+'" class="editdata" >'+fname+' '+lname+'</a></td>'+
@@ -522,6 +659,7 @@
                                 '<td>'+data[i].type+'</td>'+
                                 '<td>'+data[i].created_at+'</td>'+
                                 '<td>'+data[i].status+'</td>'+
+                                '<td>'+action+'</td>'+
                                 '</tr>';
 
 
@@ -544,7 +682,39 @@
                 {
                 } 
             });
+      }
+      
+
+      $('html').on("click",".searchbtn",function(){
+          searchData();
         
+      });
+      
+      
+      
+      
+      $('html').on("click",".suspenduser",function(){
+          
+            var selval = $(this).attr('value');
+ 
+          
+            var url = "{{ url('employee-ban') }}/"+selval;
+            var empId = selval;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {id: empId},
+                success: function (data) {
+                          searchData();
+                          renderTable();
+                          
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
       });
     
       

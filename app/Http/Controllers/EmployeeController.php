@@ -8,6 +8,7 @@ use Hash;
 use DataTables;
 use Illuminate\Support\Facades\Mail;
 use PDF;
+use Storage;
 use Illuminate\Support\Facades\File; 
 
 class EmployeeController extends Controller
@@ -33,6 +34,46 @@ class EmployeeController extends Controller
         $data['employees'] = DB::table('users')->where('role_id','!=',0)->get();
         $data['roles'] = DB::table('roles')->get();
         return view('employee/employee-listing',$data);
+    }
+  
+
+    public function printEmployees(Request $request)
+    {
+        
+        if($request->isMethod('post')){
+            //dd($request->delids_array);
+            $print_array = $request->print_array;
+            $total_array = sizeof($print_array);
+            $userData = array();
+            for($i=0;$i<$total_array;$i++){
+                
+
+                $fileid = $print_array[$i]['id'];
+                $user = DB::table('users')->where('id', $fileid)->first();
+                if($user){
+                    $userData[$i] = array(
+                        'address' =>$user->address,
+                        'address_1' =>$user->address_1 ,
+                        'back_check' =>$user->back_check,
+                        'bod' =>$user->bod,
+                        'city' =>$user->city,
+                        'country' =>$user->country,
+                        'created_at' =>$user->created_at,
+                        'dl' =>$user->dl,
+                        'dl_expiration' =>$user->dl_expiration,
+                        'dl_state' =>$user->dl_state,
+                        'email' =>$user->email,
+                        'fname' =>$user->fname,
+                        'lname' =>$user->lname,
+                    );
+                }
+                
+                $userData = array_values($userData);
+                
+                
+            }
+            return response()->json(['message' => 'Deleted Successfully!','class' => 'success','userData' => $userData]);
+        }
     }
     
     public function deleteEmployees(Request $request)
@@ -274,7 +315,17 @@ class EmployeeController extends Controller
                     $actionBtn = '<input value="'.$row->id.'"  name="empids" type="checkbox" class="add-new-icon" />';
                     return $actionBtn;
                 })
-            ->rawColumns(['name','chkbox'])
+            ->addColumn('action', function($row){
+                    if($row->status=='Active'){
+                        $action = '<button value="'.$row->id.'"   class="btn btn-warning suspenduser" >Suspend</button>';
+                    }else if($row->status=='Suspend'){
+                        $action = '<button value="'.$row->id.'"   class="btn btn-primary suspenduser" >Reactive</button>';
+                    }else{
+                        $action = '';
+                    }
+                    return $action;
+                })
+            ->rawColumns(['name','chkbox','action'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -549,7 +600,7 @@ class EmployeeController extends Controller
             $lname = $d->lname;
             $gender = $d->gender;
             
-            $email = $d->email;
+            //$email = $d->email;
             $workphone = $d->workphone;
             $mobile = $d->mobile;
             $role_id = $d->role_id;
@@ -615,7 +666,7 @@ class EmployeeController extends Controller
                 'lname' => $lname,
                 'gender' => $gender,
                 'bod' => $dob_2,
-                'email' => $email,
+                //'email' => $email,
                 'phone' => $workphone,
                 'mobile' => $mobile,
                 'role_id' => $role_id,
@@ -760,15 +811,19 @@ class EmployeeController extends Controller
                     for($i=0;$i<$count_certificate_type;$i++){
                         
                         $certificate_type = $certificate_type_array[$i]->certificate_type;
-                        $received_date = $certificate_type_array[$i]->received_date;
-                        if($received_date==''){
-                            $received_date = NULL;
+                        
+                        
+                        $received_date = NULL;
+                        if($certificate_type_array[$i]->received_date!=''){                            
+                            $received_date = $this->changeDateformate($certificate_type_array[$i]->received_date);
+                        }
+                        
+                        $expiry_date = NULL;
+                        if($certificate_type_array[$i]->expiry_date!=''){                            
+                            $expiry_date = $this->changeDateformate($certificate_type_array[$i]->expiry_date);
                         }
 
-                        $expiry_date = $certificate_type_array[$i]->expiry_date;
-                        if($expiry_date==''){
-                            $expiry_date = NULL;
-                        }
+                        
                         
                         
                         if(isset($certificate_type_array[$i]->id)){
@@ -889,10 +944,10 @@ class EmployeeController extends Controller
             $qualifications = unserialize($employeedata->qualification);
             //dd($qualifications);
             $qualificationData = array();
-            if($qualifications){
+            if(is_array($qualifications) &&  $qualifications){
                 foreach($qualifications as $qualification){
                     
-                    array_push($qualificationData,$qualification->qualification);
+                    array_push($qualificationData,$qualification);
                 }
             }
             
@@ -1012,6 +1067,54 @@ class EmployeeController extends Controller
 
         return  $pdf->download('Employee.pdf');
     }
+    
+    public function pdfEmployeeAll(Request $request)
+    {
+    
+        $data = array();
+        if($request->isMethod('post')){
+            $print_array = $request->print_array;
+            $total_array = sizeof($print_array);
+            $userData = array();
+            for($i=0;$i<$total_array;$i++){
+                
+                
+                $fileid = $print_array[$i]['id'];
+                $user = DB::table('users')->where('id', $fileid)->first();
+                if($user){
+      
+                    $data['users'][$i] = array(
+                            'address' =>$user->address,
+                            'phone' =>$user->phone,
+                            'role_id' =>$user->role_id,
+                            'status' =>$user->status,
+                            'address_1' =>$user->address_1 ,
+                            'back_check' =>$user->back_check,
+                            'bod' =>$user->bod,
+                            'city' =>$user->city,
+                            'country' =>$user->country,
+                            'created_at' =>$user->created_at,
+                            'dl' =>$user->dl,
+                            'dl_expiration' =>$user->dl_expiration,
+                            'dl_state' =>$user->dl_state,
+                            'email' =>$user->email,
+                            'fname' =>$user->fname,
+                            'lname' =>$user->lname,
+                        );
+                }
+                
+                
+                
+            }
+            
+            
+            $pdf = PDF::loadView('pdfs/employeeall', $data);
+
+            $pdf->save('public/downloads/employeeall.pdf');
+
+            return response()->json(['success' => 1]);
+        }
+    }
 
 
     public function employeeDetail(Request $request,$id)
@@ -1047,16 +1150,19 @@ class EmployeeController extends Controller
         $qualifications = unserialize($employeeData->qualification);
         //dd($qualifications);
         $qualificationData = array();
-        if($qualifications){
+        if(is_array($qualifications) && $qualifications){
             foreach($qualifications as $qualification){
-                
-                array_push($qualificationData,$qualification->qualification);
+                //dd($qualification);
+                array_push($qualificationData,$qualification);
             }
         }
         $employeeData->qualificationData = $qualificationData;
         
         $supervisor = DB::table('users')->where('id',$employeeData->supervisor)->first();
-        $employeeData->supervisor_name = $supervisor->fname.' '.$supervisor->lname;
+        $employeeData->supervisor_name = '';
+        if($supervisor){
+            $employeeData->supervisor_name = $supervisor->fname.' '.$supervisor->lname;
+        }
             
         
         $employeeData->hire_date = date('m-d-Y',strtotime($employeeData->hire_date));     

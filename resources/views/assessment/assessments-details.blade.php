@@ -26,7 +26,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-6 page-background">
-                              <h1 class="page-title">Assessment-000500</h1>
+                              <h1 class="page-title">{{$assessments->assessment_no}}</h1>
                            </div>
                            <div class="col-md-6 new-attach-sec">
                               <div class="form-group new-image">
@@ -49,20 +49,20 @@
                            <div class="col-md-8">
                               <div class="btn-box">
                                  <div class="edit">
-                                    <button class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</button>
+                                    
+                                    <a href="{{route('assessments-edit',$assessments->id)}}" class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</a>
                                  </div>
                                  <div class="mail">
-                                    <button class="btn-edit-print"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
+                                    <button class="btn-edit-print empmail"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
                                  </div>
                                  <div class="pdf">
-                                    <button class="btn-edit-print"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</button>
+                                    <button class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</button>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-4">
                               <ul class="new-dropdown-hover add-details-drop">
                                  <li class="droupdown-hover-add">
-                                     <a href="authorizations-add.html" class="create-new-btn">Create an Authorization</a><i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i>
                                      <ul class="dropdown-details">
                                        <li><a href="authorizations-add.html">Psychiatric Diagnostic Evaluation with Med Service - 90792</a></li>
                                        <li><a href="authorizations-add.html">Crisis Stabilization - H2019</a></li>
@@ -89,24 +89,25 @@
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Assessment #</label>
-                                       <label class="col-md-9 col-form-label-assessment">ASMT-000500</label>
+                                       <label class="col-md-9 col-form-label-assessment">{{$assessments->assessment_no}}</label>
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Location</label>
-                                       <label class="col-md-9 col-form-label-assessment">Office</label>
+                                       <label class="col-md-9 col-form-label-assessment">{{$assessments->location}}</label>
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Communication</label>
-                                       <label class="col-md-9 col-form-label-assessment">In-Person</label>
+                                       <label class="col-md-9 col-form-label-assessment">{{$assessments->communication}}</label>
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Service</label>
-                                       <label class="col-md-9 col-form-label-assessment">Psychiatric Diagnostic Evaluation with Med Service - 90792:</label>
+                                       @foreach($services as $k=>$v)
+                                       <label class="col-md-9 col-form-label-assessment">
+                                       {{$v}}
+                                       </label>
+                                       @endforeach
                                     </div>
-                                    <div class="form-group row common-row">
-                                       <label class="col-md-3 col-form-label-assessment common-title-label"></label>
-                                       <label class="col-md-9 col-form-label-assessment">Crisis Stabilization - H2019:</label>
-                                    </div>
+                                    
                                  </div>
                               </div>
                            </div>
@@ -116,14 +117,14 @@
                                        <div class="form-group row tool-box new">
                                           <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                           <div class="col-md-7">
-                                             <label class="col-md-5 form-control without-background new-label">1234KL</label>
+                                             <label class="col-md-5 form-control without-background new-label">{{$assessments->record_no}}</label>
                                           </div>
                                        </div>
 
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="date" class="form-control date-select without-background date-add" placeholder="mm-dd-yyyy">
+                                             <input type="text" name="date" class="form-control date-select without-background date-add" value="{{$assessments->assessment_date}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -150,13 +151,13 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" placeholder="?">
+                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" placeholder="{{$assessments->spent_time}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Due Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="services-date" class="form-control date-select without-background date-add" placeholder="mm-dd-yyyy">
+                                             <input type="text" name="services-date" class="form-control date-select without-background date-add" placeholder="{{$assessments->due_date}}">
                                           </div>
                                        </div>
                                     </div>
@@ -193,6 +194,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12">
+                           @if(count($assessment_persons) > 0 )
                              <table class="assessments-details-table common-table-info" style="width:100%">
                                <thead>
                                  <tr class="common-tr-info">
@@ -204,31 +206,238 @@
                                   </tr>
                                </thead>
                                <tbody>
-                                 <!-- <tr>
-                                   <td>Caregiver</td>
-                                   <td>Joseph</td>
-                                   <td>Jenson</td>
-                                   <td>Parent / Guardian</td>
-                                   <td>6789957542</td>
+                               
+                               @foreach($assessment_persons as $assessment_person)
+                                 <tr>
+                                   <th>{{$assessment_person->salutation}}</th>
+                                   <th>{{$assessment_person->fname}}</th>
+                                   <th>{{$assessment_person->lname}}</th>
+                                   <th>{{$assessment_person->relation}}</th>
+                                   <th>{{$assessment_person->mobile}}</th>
                                  </tr>
-                                <tr>
-                                    <td>Sibling</td>
-                                    <td>Bradman</td>
-                                    <td>Wilson</td>
-                                    <td>Brother</td>
-                                    <td>9415632500</td>
-                                 </tr> -->
+                               @endforeach
                                </tbody>
                               </table>
+                              @endif
                            </div>
                         </div>
                      </div>
                   </section>
-                  <section class="contentsection" id="problems-details"></section>
-                  <section class="contentsection" id="behaviors-details"></section>
-                  <section class="contentsection" id="life-function-details"></section>
-                  <section class="contentsection" id="assessor-note-details"></section>
-                  <section class="contentsection" id="document-details"></section>
+                  <section class="contentsection" id="problems-details">
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col-md-12">
+                           @if(count($assessment_problems) > 0 )
+                             <table class="assessments-details-table common-table-info" style="width:100%">
+                               <thead>
+                                 <tr class="common-tr-info">
+                                      <th>Author</th>
+                                      <th>Strength / Challenge</th>
+                                      <th>Score</th>
+                                     
+                                  </tr>
+                               </thead>
+                               <tbody>
+                               
+                               @foreach($assessment_problems as $assessment_problem)
+                                 <tr>
+                                   <th>{{$assessment_problem->author}}</th>
+                                   <th>{{$assessment_problem->strength}}</th>
+                                   <th>{{$assessment_problem->score}}</th>
+                                   
+                                 </tr>
+                               @endforeach
+                               </tbody>
+                              </table>
+                              @endif
+                           </div>
+                        </div>
+                     </div>
+                  </section>
+                  <section class="contentsection" id="behaviors-details">
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col-md-12">
+                           @if(count($assessment_behaviors) > 0 )
+                             <table class="assessments-details-table common-table-info" style="width:100%">
+                               <thead>
+                                 <tr class="common-tr-info">
+                                      <th>Author</th>
+                                      <th>Context</th>
+                                      <th>Current Concerns	</th>
+                                      <th>Past/Present Interventions</th>
+                                     
+                                  </tr>
+                               </thead>
+                               <tbody>
+                               
+                               @foreach($assessment_behaviors as $assessment_behavior)
+                                 <tr>
+                                   <th>{{$assessment_behavior->author}}</th>
+                                   <th>{{$assessment_behavior->context}}</th>
+                                   <th>{{$assessment_behavior->concern}}</th>
+                                    <th>{{$assessment_behavior->intervention}}</th>
+                                 </tr>
+                               @endforeach
+                               </tbody>
+                              </table>
+                              @endif
+                           </div>
+                        </div>
+                     </div>
+                  </section>
+                  <section class="contentsection" id="life-function-details">
+                     
+                         
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <table class="table-life-functions-person">
+                                 <thead>
+                                  <tr>
+                                    <th>Functions</th>
+                                    <th>Current Concerns</th>
+                                    <th>Past/Present Interventions</th>
+                                  </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Medical</label>
+                                       </td>
+                                       <td>
+                                          
+                                          {{$assessment_functions[0]->medical}}
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[1]->medical}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Mental Health</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->mental}}
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[1]->mental}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Education</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->education}}
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[1]->education}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Legal</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->leagal}}
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[1]->leagal}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Social</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->social}}
+                                       </td>
+                                       <td>
+                                         {{$assessment_functions[1]->social}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Self Harm</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->selfharm}}
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[1]->selfharm}}
+                                       </td>
+                                    </tr>
+                                    <tr class="tr-life-functions-person">
+                                       <td>
+                                          <label class="mediacl-report">Others</label>
+                                       </td>
+                                       <td>
+                                          {{$assessment_functions[0]->others}}
+                                       </td>
+                                       <td>
+                                         {{$assessment_functions[1]->others}}
+                                       </td>
+                                    </tr>
+ 
+                                 
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+
+                  </section>
+                  <section class="contentsection" id="assessor-note-details">
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col-md-12">
+                           @if(count($assessment_assessors) > 0 )
+                             <table class="assessments-details-table common-table-info" style="width:100%">
+                               <thead>
+                                 <tr class="common-tr-info">
+                                      <th>Problem</th>
+                                      <th>Current Context</th>
+                                     
+                                  </tr>
+                               </thead>
+                               <tbody>
+                               
+                               @foreach($assessment_assessors as $assessment_assessor)
+                                 <tr>
+                                   <th>{{$assessment_assessor->problem}}</th>
+                                   <th>{{$assessment_assessor->context}}</th>
+                                  
+                                 </tr>
+                               @endforeach
+                               </tbody>
+                              </table>
+                              @endif
+                           </div>
+                        </div>
+                     </div>
+                  </section>
+                  <section class="contentsection" id="document-details">
+                  <div class="col-md-6">
+                        <div id="uploadPreview" class="employee-image">
+                           @foreach($assessment_documents as $document)
+                              <?php
+                                 $varpath = 'public/files/'.$document->document;
+                              ?>
+                              @if(file_exists($varpath)) 
+                                <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div><div class="col-md-2"></div></div></div>
+                              @else
+                                
+                              @endif
+                              
+                                    
+                           @endforeach
+                           
+
+                        </div>
+                        
+                     </div>
+                  </section>
                </div>
             </form>
          </div>

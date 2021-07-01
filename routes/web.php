@@ -112,11 +112,13 @@ Route::any('/consumers-add', [App\Http\Controllers\ConsumerController::class, 'a
 Route::any('/consumers-edit/{id}', [App\Http\Controllers\ConsumerController::class, 'editConsumer'])->name('consumers-edit');
 Route::get('/consumers-details/{id}', [App\Http\Controllers\ConsumerController::class, 'consumerDetail'])->name('consumers-details');
 Route::any('/deleteconsumers', [App\Http\Controllers\ConsumerController::class, 'deleteConsumers'])->name('deleteconsumers');
-
+Route::any('/searchconsumers', [App\Http\Controllers\ConsumerController::class, 'searchConsumers'])->name('searchconsumers');
 
 Route::get('/assessments-listing', [App\Http\Controllers\AssessmentController::class, 'index'])->name('assessments-listing');
-Route::get('/assessments-add', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
-Route::get('/assessments-details', [App\Http\Controllers\AssessmentController::class, 'assessmentDetail'])->name('assessments-details');
+Route::any('/assessments-add', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
+Route::get('/assessments-details/{id}', [App\Http\Controllers\AssessmentController::class, 'assessmentDetail'])->name('assessments-details');
+Route::any('/getassessments', [App\Http\Controllers\AssessmentController::class, 'getAssessments'])->name('getassessments');
+Route::any('/assessments-edit/{id}', [App\Http\Controllers\AssessmentController::class, 'editAssessment'])->name('assessments-edit');
 
 
 Route::get('/authorizations-listing', [App\Http\Controllers\AuthorizationController::class, 'index'])->name('authorizations-listing');
@@ -152,8 +154,10 @@ Route::any('/employee-mail/{id}', [App\Http\Controllers\EmployeeController::clas
 Route::any('/employee-pdf/{id}', [App\Http\Controllers\EmployeeController::class, 'pdfEmployee'])->name('employee-pdf');
 Route::any('/employee-ban/{id}', [App\Http\Controllers\EmployeeController::class, 'banEmployee'])->name('employee-ban');
 Route::any('/searchemployees', [App\Http\Controllers\EmployeeController::class, 'searchEmployees'])->name('searchemployees');
+Route::any('/printemployees', [App\Http\Controllers\EmployeeController::class, 'printEmployees'])->name('printemployees');
+Route::any('/pdfemployees', [App\Http\Controllers\EmployeeController::class, 'pdfEmployeeAll'])->name('pdfemployees');
 
-
+Route::any('/userlogin', [App\Http\Controllers\UserController::class, 'login'])->name('userlogin');
 
 Route::any('/checkemail', [App\Http\Controllers\EmployeeController::class, 'checkEmail'])->name('checkemail');
 Route::any('/checkconsumeremail', [App\Http\Controllers\ConsumerController::class, 'checkConsumerEmail'])->name('checkconsumeremail');
@@ -213,6 +217,12 @@ Route::any('/pay-type-edit/{id}', [App\Http\Controllers\PayerController::class, 
 
 
 
+
+
+
+
+Route::get('/htmlpdf', [App\Http\Controllers\PDFController::class, 'htmlPDF'])->name('htmlpdf');
+Route::get('/generatePDF', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('generatePDF');
 
 
 
