@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{$employee->salutation}} {{$employee->fname}} {{$employee->lname}}</title>
+    <title>{{$assessment->assessment_no}} {{$assessment->location}} {{$assessment->communication}}</title>
 </head>
 <body>
-    <h1>{{$employee->salutation}} {{$employee->fname}} {{$employee->lname}}</h1>
+    <h1>{{$assessment->assessment_no}} {{$assessment->location}} {{$assessment->communication}}</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

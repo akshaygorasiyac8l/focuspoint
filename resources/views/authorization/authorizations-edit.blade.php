@@ -27,7 +27,7 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12 page-background">
-                              <h1 class="page-title">New Authorization</h1>
+                              <h1 class="page-title">{{$authorization->auth_no}}</h1>
                            </div>
                         </div>
                      </div>
@@ -44,7 +44,7 @@
                                           <select class="form-control droupdown mobile-drop consumername" name="consumername">
                                             <option value="">Select Consumer</option>
                                             @foreach($consumers as $consumer)
-                                            <option value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
+                                            <option {{$authorization->consumer_id==$consumer->id ? "selected" : ""}}  value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
                                             @endforeach
                                          </select>
                                          <button class="add-more-services common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
@@ -53,19 +53,19 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Auth #</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="intan" disabled class="form-control authno"  value="AUTH-000001">
+                                          <input type="text" name="intan" disabled class="form-control authno"  value="{{$authorization->auth_no}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Intan</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="intan" disabled class="form-control intan"  value="INTAN-000001">
+                                          <input type="text" name="intan"  class="form-control intan"  value="{{$authorization->intan}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Insan</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="insan" class="form-control insan"  placeholder="">
+                                          <input type="text" name="insan" class="form-control insan"  value="{{$authorization->insan}}">
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -75,7 +75,7 @@
 
                                             <option value="">Select Service</option>
                                             @foreach($services as $service)
-                                            <option value="{{$service->id}}">{{$service->title}}</option>
+                                            <option {{$authorization->services==$service->id ? "selected" : ""}} value="{{$service->id}}">{{$service->title}}</option>
                                             @endforeach
                                          </select>
                                        </div>
@@ -89,31 +89,31 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="record" class="form-control without-background record_no" placeholder="?">
+                                             <input type="text" name="record" class="form-control without-background record_no" value="{{$authorization->record_no}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Approval Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="approval-date" class="form-control date-select without-background approval_date" placeholder="No Approval Date">
+                                             <input type="text" name="approval-date" class="form-control date-select without-background approval_date" value="{{$authorization->approve_date}}">
                                           </div>
                                        </div>
 
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Expiry Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="expiry-date" class="form-control date-select without-background expiry_date" placeholder="No Expiry Date">
+                                             <input type="text" name="expiry-date" class="form-control date-select without-background expiry_date" value="{{$authorization->expiry_date}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">State</label>
                                           <div class="col-md-7">
                                              <select class="form-control active-status status" name="state">
-                                                <option value="0">Initial Authorization</option>
-                                                <option value="1">Open</option>
-                                                <option value="2">Fixed</option>
-                                                <option value="3">Completed</option>
-                                                <option value="4">In-Progress</option>
+                                                <option {{$authorization->status=='0' ? "selected" : ""}} value="0">Initial Authorization</option>
+                                                <option {{$authorization->status=='1' ? "selected" : ""}} value="1">Open</option>
+                                                <option {{$authorization->status=='2' ? "selected" : ""}} value="2">Fixed</option>
+                                                <option {{$authorization->status=='3' ? "selected" : ""}} value="3">Completed</option>
+                                                <option {{$authorization->status=='4' ? "selected" : ""}} value="4">In-Progress</option>
                                              </select>
                                           </div>
                                        </div>
@@ -121,22 +121,22 @@
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
                                             <select class="form-control active-status assignee" name="assignee">
-                                                <option value="1">Gregory-Harris</option>
-                                                <option value="2">Name 2</option>
-                                                <option value="3">Name 3</option>
+                                                <option {{$authorization->assignee=='1' ? "selected" : ""}} value="1">Gregory-Harris</option>
+                                                <option {{$authorization->assignee=='2' ? "selected" : ""}} value="2">Name 2</option>
+                                                <option {{$authorization->assignee=='3' ? "selected" : ""}} value="3">Name 3</option>
                                              </select>
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background spent_time" id="spent-time-add" placeholder="?">
+                                             <input type="text" name="spent-time" class="form-control without-background spent_time" id="spent-time-add" value="{{$authorization->spend_time}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Discharge Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="discharge-date" class="form-control date-select without-background date-add discharge_date" placeholder="No Discharge Date">
+                                             <input type="text" name="discharge-date" class="form-control date-select without-background date-add discharge_date" value="{{$authorization->discharge_date}}">
                                           </div>
                                        </div>
                                     </div>
@@ -158,13 +158,13 @@
                                        <div class="col-md-6 time-add">
                                           <div class="form-group">
                                              <label class="col-form-label">Per Week</label>
-                                             <input type="text" name="per-week" class="form-control per_week">
+                                             <input type="text" name="per-week" class="form-control per_week" value="{{$authorization->unit_per_week}}">
                                           </div>   
                                        </div>
                                        <div class="col-md-6 time-add">
                                           <div class="form-group">
                                              <label class="col-form-label">Per Day</label>
-                                             <input type="text" name="per-hour" class="form-control per_day">
+                                             <input type="text" name="per-hour" class="form-control per_day" value="{{$authorization->unit_per_day}}">
                                           </div>
                                        </div>
                                     </div>
@@ -179,21 +179,21 @@
                                        <div class="col-md-4 time-add">
                                           <div class="form-group">
                                              <label class="col-form-label">Units/Visits</label>
-                                             <input type="text" name="units" class="form-control  tot_units">
+                                             <input type="text" name="units" class="form-control  tot_units" value="{{$authorization->total_approved_units}}">
                                           </div>
                                        </div>
                                        <div class="col-md-4 time-add">
                                           <div class="form-group">
                                              <label class="col-form-label">Hours</label>
-                                             <input type="text" name="hours" class="form-control tot_hours">
+                                             <input type="text" name="hours" class="form-control tot_hours" value="{{$authorization->total_approved_hours}}">
                                           </div>
                                        </div>
                                        <div class="col-md-4 time-add">
                                           <div class="form-group">
                                              <label class="col-form-label">Bill Without Units</label>
                                              <select class="form-control bill_units" name="bill-units">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                                <option {{$authorization->bill_without_unit=='1' ? "selected" : ""}} value="1">Yes</option>
+                                                <option {{$authorization->bill_without_unit=='0' ? "selected" : ""}} value="0">No</option>
                                              </select>
                                           </div>
                                        </div>
@@ -401,7 +401,7 @@
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('authorizations-add') }}";
+            var url = "{{ url('authorizations-edit') }}/{{$authorization->id}}";
             $.ajax({
                 url: url,
                 type: "POST",

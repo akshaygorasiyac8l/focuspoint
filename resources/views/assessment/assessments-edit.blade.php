@@ -928,6 +928,7 @@ $(function () {
                   lastname: $(this).closest('tr').find('.clname').val(),
                   relationship: $(this).closest('tr').find('.crelationship').val(),
                   phonenumber: $(this).closest('tr').find('.cmobile').val(),
+                  id: $(this).closest('tr').find('.editpersons').val(),
               });
             });
             
@@ -937,6 +938,7 @@ $(function () {
                   author: $(this).val(), 
                   pstrength: $(this).closest('tr').find('.pstrength').val(),
                   pscore: $(this).closest('tr').find('.pscore').val(),
+                  id: $(this).closest('tr').find('.editproblems').val(),
               });
             });
             
@@ -947,6 +949,7 @@ $(function () {
                   bcontext: $(this).closest('tr').find('.bcontext').val(),
                   bconcern: $(this).closest('tr').find('.bconcern').val(),
                   bintervention: $(this).closest('tr').find('.bintervention').val(),
+                  id: $(this).closest('tr').find('.editbehaviors').val(),
               });
             });
             
@@ -955,7 +958,8 @@ $(function () {
             $(".aproblem").each(function(i, value) {               
                assessor_array.push({
                   aproblem: $(this).val(), 
-                  acontext: $(this).closest('tr').find('.acontext').val(),                  
+                  acontext: $(this).closest('tr').find('.acontext').val(),  
+                  id: $(this).closest('tr').find('.editassessors').val(),
               });
             });
             
@@ -977,6 +981,41 @@ $(function () {
               });
             });
             
+            var editpersons_array= [];
+            $(".editpersons").each(function(i, value) {
+               
+               editpersons_array.push({
+                  editpersons: $(this).val(), 
+              });
+            });
+            
+
+            var editproblems_array= [];
+            $(".editproblems").each(function(i, value) {
+               
+               editproblems_array.push({
+                  editproblems: $(this).val(), 
+              });
+            });
+
+
+            var editbehaviors_array= [];
+            $(".editbehaviors").each(function(i, value) {
+               
+               editbehaviors_array.push({
+                  editbehaviors: $(this).val(), 
+              });
+            });
+
+
+            var editassessors_array= [];
+            $(".editassessors").each(function(i, value) {
+               
+               editassessors_array.push({
+                  editassessors: $(this).val(), 
+              });
+            });
+
 
             var file_upload = $('#file-upload').val();
 
@@ -1007,7 +1046,11 @@ $(function () {
                               status: status,
                               assignee: assignee,            
                               spent_time: spent_time,
-                              due_date: due_date,            
+                              due_date: due_date,    
+                              editpersons_array:editpersons_array,
+                              editproblems_array:editproblems_array,
+                              editbehaviors_array:editbehaviors_array,
+                              editassessors_array:editassessors_array,
  
                            };
            

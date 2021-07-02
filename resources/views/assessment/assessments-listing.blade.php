@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                           <div class="icon-box">
-                            <button class="btn-icons-consumer printdata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
+                            <button class="btn-icons-consumer downloaddata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
                             <button class="btn-icons-consumer deletedata"><i class="fa fa-trash icon-common"></i></button>
                             <button class="btn-icons-consumer bookmrkdata"><i class="fa fa-bookmark icon-common"></i></button>
                             <button class="btn-icons-consumer downloaddata"><i class="fa fa-download icon-common"></i></button>
@@ -237,7 +237,7 @@
             }
             
             
-            var url = "{{ route('deleteconsumers') }}";
+            var url = "{{ route('deleteassessments') }}";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -394,6 +394,53 @@
           searchData();
         
         });
+        
+        
+        
+        
+        $('html').on("click",".downloaddata",function(){
+            
+            var print_array = [];
+            
+            $('.add-new-icon:checked').each(function(){
+                print_array.push({
+                  id: $(this).val(), 
+                });
+            });
+            
+            
+            
+            var url = "{{ route('pdfassessments') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data:  {
+                    print_array:print_array,
+                },
+                success: function(data)
+                {
+                    
+                    
+                     if(data.success='1'){
+                        
+                            var redirect = "{{ url('public/downloads/assessmentall.pdf') }}";
+                            window.open(redirect, '_blank');
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+                     
+                    
+                    
+                    
+                },
+                error: function() 
+                {
+                } 
+            });
+        
+      });
             
       
     } );

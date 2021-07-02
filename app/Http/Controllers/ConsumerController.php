@@ -8,6 +8,8 @@ use Hash;
 use DataTables;
 use Illuminate\Support\Facades\Mail;
 use PDF;
+use Storage;
+use Illuminate\Support\Facades\File; 
 
 class ConsumerController extends Controller
 {
@@ -1441,6 +1443,51 @@ class ConsumerController extends Controller
         }
         
     }
+    
+    
+    public function pdfConsumerAll(Request $request)
+    {
+    
+        $data = array();
+        if($request->isMethod('post')){
+            $print_array = $request->print_array;
+            $total_array = sizeof($print_array);
+            $userData = array();
+            for($i=0;$i<$total_array;$i++){
+                
+                
+                $fileid = $print_array[$i]['id'];
+                $consumer = DB::table('consumers')->where('id', $fileid)->first();
+                if($consumer){
+      
+                    $data['consumers'][$i] = array(
+                            'salutation' =>$consumer->salutation,
+                            'fname' =>$consumer->fname,
+                            'lname' =>$consumer->lname,
+                            'gender' =>$consumer->gender,
+                            'dob' =>$consumer->dob ,
+                            'email' =>$consumer->email,
+                            'status' =>$consumer->status,
+                            'record_no' =>$consumer->record_no,
+                            'service_date' =>$consumer->service_date,
+                            'created_date' =>$consumer->created_date,
+  
+                        );
+                }
+                
+                
+                
+            }
+            
+            
+            $pdf = PDF::loadView('pdfs/consumerall', $data);
+
+            $pdf->save('public/downloads/consumerall.pdf');
+
+            return response()->json(['success' => 1]);
+        }
+    }
+    
     
     
     public function consumerDetail($id)

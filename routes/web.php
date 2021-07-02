@@ -113,17 +113,26 @@ Route::any('/consumers-edit/{id}', [App\Http\Controllers\ConsumerController::cla
 Route::get('/consumers-details/{id}', [App\Http\Controllers\ConsumerController::class, 'consumerDetail'])->name('consumers-details');
 Route::any('/deleteconsumers', [App\Http\Controllers\ConsumerController::class, 'deleteConsumers'])->name('deleteconsumers');
 Route::any('/searchconsumers', [App\Http\Controllers\ConsumerController::class, 'searchConsumers'])->name('searchconsumers');
+Route::any('/pdfconsumers', [App\Http\Controllers\ConsumerController::class, 'pdfConsumerAll'])->name('pdfconsumers');
+
 
 Route::get('/assessments-listing', [App\Http\Controllers\AssessmentController::class, 'index'])->name('assessments-listing');
 Route::any('/assessments-add', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
 Route::get('/assessments-details/{id}', [App\Http\Controllers\AssessmentController::class, 'assessmentDetail'])->name('assessments-details');
 Route::any('/getassessments', [App\Http\Controllers\AssessmentController::class, 'getAssessments'])->name('getassessments');
 Route::any('/assessments-edit/{id}', [App\Http\Controllers\AssessmentController::class, 'editAssessment'])->name('assessments-edit');
-
+Route::any('/assessment-mail/{id}', [App\Http\Controllers\AssessmentController::class, 'mailAssessment'])->name('assessment-mail');
+Route::any('/assessment-pdf/{id}', [App\Http\Controllers\AssessmentController::class, 'pdfAssessment'])->name('assessment-pdf');
+Route::any('/pdfassessments', [App\Http\Controllers\AssessmentController::class, 'pdfAssessmentAll'])->name('pdfassessments');
+Route::any('/deleteassessments', [App\Http\Controllers\AssessmentController::class, 'deleteAssessments'])->name('deleteassessments');
 
 Route::get('/authorizations-listing', [App\Http\Controllers\AuthorizationController::class, 'index'])->name('authorizations-listing');
-Route::get('/authorizations-add', [App\Http\Controllers\AuthorizationController::class, 'addAuthorization'])->name('authorizations-add');
+Route::any('/authorizations-add', [App\Http\Controllers\AuthorizationController::class, 'addAuthorization'])->name('authorizations-add');
+Route::any('/authorizations-edit/{id}', [App\Http\Controllers\AuthorizationController::class, 'editAuthorization'])->name('authorizations-edit');
 Route::get('/authorizations-details', [App\Http\Controllers\AuthorizationController::class, 'authorizationDetail'])->name('authorizations-details');
+Route::any('/getauthorizations', [App\Http\Controllers\AuthorizationController::class, 'getAuthorizations'])->name('getauthorizations');
+Route::any('/deleteauthorizations', [App\Http\Controllers\AuthorizationController::class, 'deleteAuthorizations'])->name('deleteauthorizations');
+Route::any('/pdfauthorizations', [App\Http\Controllers\AuthorizationController::class, 'pdfauthorizationAll'])->name('pdfauthorizations');
 
 
 Route::get('/assessment-types', [App\Http\Controllers\AssessmentController::class, 'assessmentType'])->name('assessment-types');

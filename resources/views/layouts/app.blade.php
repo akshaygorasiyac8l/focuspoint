@@ -462,13 +462,14 @@
                         <p>Assessments</p>
                      </a>
                   </li> 
-                  <!--                  
+                                   
                   <li class="nav-item has-treeview">
                      <a href="{{ route('authorizations-listing') }}" class="nav-link">
                         <i class="fa fa-check-square-o"></i>
                         <p>Authorizations</p>
                      </a>
                   </li>
+                  <!-- 
                   <li class="nav-item has-treeview">
                      <a href="{{ route('serviceplan-listing') }}" class="nav-link">
                         <i class="fa fa-life-ring"></i>

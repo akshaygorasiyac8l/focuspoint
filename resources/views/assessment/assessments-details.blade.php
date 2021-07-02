@@ -29,16 +29,7 @@
                               <h1 class="page-title">{{$assessments->assessment_no}}</h1>
                            </div>
                            <div class="col-md-6 new-attach-sec">
-                              <div class="form-group new-image">
-                                <div class="form-group" id="name-display">
-                                   <input type="" name="file-name" class="form-control attch-name" id="form-group-add" value="" placeholder="Attach Files">
-                                </div>
-                                <div class="file-attach-upload">
-                                   <i class="fa fa-paperclip paper-upload" aria-hidden="true"></i>
-                                   <input type="file" name="file-attach" class="form-control file-new-upload" id="file-attach" placeholder="" multiple="" value="" data-multiple-caption="{count}">
-                                   <label for="file-attach"><span class="archive-name"></span></label>
-                                </div>
-                             </div>
+                              
                            </div>
                         </div>
                      </div>
@@ -53,10 +44,10 @@
                                     <a href="{{route('assessments-edit',$assessments->id)}}" class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</a>
                                  </div>
                                  <div class="mail">
-                                    <button class="btn-edit-print empmail"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
+                                    <button type="button" class="btn-edit-print empmail"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
                                  </div>
                                  <div class="pdf">
-                                    <button class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</button>
+                                    <a target="blank" href="{{ url('assessment-pdf') }}/{{$assessments->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
                                  </div>
                               </div>
                            </div>
@@ -85,7 +76,9 @@
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Consumer Name</label>
-                                       <label class="col-md-9 col-form-label-assessment name-bold">Christopher Hua</label>
+                                       <label class="col-md-9 col-form-label-assessment name-bold">
+                                       {{$assessments->consumer_id}}
+                                       </label>
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Assessment #</label>
@@ -130,22 +123,21 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">State</label>
                                           <div class="col-md-7">
-                                             <select class="form-control active-status apprroved" name="state">
-                                                <option value="">Open</option>
-                                                <option value="">Fixed</option>
-                                                <option value="">Completed</option>
-                                                <option value="">In-Progress</option>
-                                             </select>
+                                             @if($assessments->status=='0')
+                                                 Open
+                                             @elseif($assessments->status=='1')
+                                                Fixed
+                                             @elseif($assessments->status=='2')
+                                                Completed
+                                             @elseif($assessments->status=='3')
+                                                In-Progress
+                                             @endif
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
-                                            <select class="form-control active-status apprroved" name="assignee">
-                                                <option value="">Name 1</option>
-                                                <option value="">Name 2</option>
-                                                <option value="">Name 3</option>
-                                             </select>
+                                            {{$assessments->assignee}}
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -446,6 +438,50 @@
 
 @endsection
 @section('script2')
+<script>
+$(document).ready(function() {
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('#csrf_token').val()
+          }
+        });
+        
+        $('html').on('click', '.empmail', function (e) {
+            
+            
+            var url = "{{ url('assessment-mail') }}/{{$assessments->id}}";
+            var empId = '{{$assessments->id}}';
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {id: empId},
+                success: function (data) {
+                          console.log(data);
+                          if(data.class='success'){
+                              window.location.href= "{{ url('assessments-listing') }}";
+                          }else{
+                              alert('Something wrong');
+                              return false;
+                          }
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });
+        
+
+
+        
+
+
+        
+        
+});
+
+</script>
 @endsection
 @section('end_add_layout')
    
