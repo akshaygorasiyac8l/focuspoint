@@ -69,7 +69,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Assessment #</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="assessment" class="form-control assessment_no" value="{{$assessments->assessment_no}}">
+                                          <input type="text" name="assessment" class="form-control assessment_no" disabled value="{{$assessments->assessment_no}}">
                                        </div>
                                     </div>                              
                                     <div class="form-group row">
@@ -155,7 +155,7 @@
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
                                             <select class="form-control  assignee apprroved" name="assignee">
-                                                <option value="">Select assignee</option>
+                                                <option value="">Unassigned</option>
                                                 @foreach($users  as $user)
                                                 <option {{$assessments->status==$user->id ? "selected" : ""}} value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
                                                 @endforeach
@@ -294,7 +294,7 @@
                                              <input type="text" name="strength" class="form-control custom-problems-field common-text-box-new pstrength" value="{{$assessment_problem->strength}}">
                                           </td>
                                           <td>
-                                             <input type="text" name="score" class="form-control custom-problems-field common-text-box-new pscore" value="{{$assessment_problem->score}}">
+                                             <input type="number" name="score" class="form-control custom-problems-field common-text-box-new pscore" value="{{$assessment_problem->score}}">
                                           </td>
                                           <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                        </tr>
@@ -304,17 +304,13 @@
                                  @endif
                               </div>
                               <button class="add_form_problems common-button"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
-                           </div>                           
-                        </div>
-                        <div class="row">
-                           <div class="col-md-6"></div>
-                           <div class="col-md-6">
                               <div class="box-total">
                                  <label class="total-label">Total Score</label>
                                  <span class="score-total">3</span>
                               </div>
-                           </div>
+                           </div>                           
                         </div>
+                        
                         <div class="row">
                            <div class="col-md-12">
                               <span class="additional-notes">Additional Notes</span>
@@ -846,10 +842,64 @@ $(function () {
             $('.errorclass').html(errorhtmldata);
        }
        
+   var max_fields      = 100;
+   var wrapper         = $(".table-problems-person"); 
+   var add_button      = $(".add_form_problems"); 
+
+   var x = 1; 
+   $('html').on("click",".add_form_problems",function(e){ 
+     e.preventDefault();
+     var clength = $('.table-problems-person').length;
+              if(clength < max_fields){
+               x++;
+               
+                 var htmlData = '';  
+             htmlData +='<tr class="tr-problems-person common-tr-info"> '+
+             '<td> '+
+             '<select class="form-control droupdown custom-contact-field common-text-box-new pauthor" name="place"> '+
+             '<option value="">Select</option> <option value="caregiver">Caregiver</option>'+
+             '<option value="youth">Youth</option><option value="sibling">Sibling</option> '+
+             '</select> </td><td> '+
+             '<input type="text" name="strength" class="form-control custom-problems-field common-text-box-new pstrength" placeholder=""> </td>'+
+             '<td> <input type="text" name="score" class="form-control custom-problems-field common-text-box-new pscore" placeholder=""> </td>'+
+             '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>';
+               $(wrapper).append(htmlData); //add input box
+     }
+   else
+   {
+   alert('You Reached the limits')
+   }
+   });
+
+   $(wrapper).on("click",".delete", function(e){ 
+     e.preventDefault(); $(this).parent().parent().remove(); x--;
+     gettotalscore();
+   });
        
        
+      function gettotalscore(){
+           var score = 0;
+           $( ".pscore" ).each(function( index ) {
+               var oldVal = $( this ).val();
+               if(oldVal!='')
+               {
+                 score += parseFloat(oldVal) ;
+               }
+           });
+           $('.score-total').html(score);
+       }
+       $('html').on("keyup",".pscore",function(e){
+           gettotalscore();
+       });
        
+       $('html').on("keypress",".pscore",function(e){
+           gettotalscore();
+       });
+       $('html').on("change",".pscore",function(e){
+           gettotalscore();
+       });  
        
+       gettotalscore();
 
            
         
@@ -1152,40 +1202,7 @@ $(function () {
    });
    
    
-$(document).ready(function() {
-   var max_fields      = 100;
-   var wrapper         = $(".table-problems-person"); 
-   var add_button      = $(".add_form_problems"); 
 
-   var x = 1; 
-   $('html').on("click",".add_form_problems",function(e){ 
-     e.preventDefault();
-     var clength = $('.table-problems-person').length;
-              if(clength < max_fields){
-               x++;
-               
-                 var htmlData = '';  
-             htmlData +='<tr class="tr-problems-person common-tr-info"> '+
-             '<td> '+
-             '<select class="form-control droupdown custom-contact-field common-text-box-new pauthor" name="place"> '+
-             '<option value="">Select</option> <option value="caregiver">Caregiver</option>'+
-             '<option value="youth">Youth</option><option value="sibling">Sibling</option> '+
-             '</select> </td><td> '+
-             '<input type="text" name="strength" class="form-control custom-problems-field common-text-box-new pstrength" placeholder=""> </td>'+
-             '<td> <input type="text" name="score" class="form-control custom-problems-field common-text-box-new pscore" placeholder=""> </td>'+
-             '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td></tr>';
-               $(wrapper).append(htmlData); //add input box
-     }
-   else
-   {
-   alert('You Reached the limits')
-   }
-   });
-
-   $(wrapper).on("click",".delete", function(e){ 
-     e.preventDefault(); $(this).parent().parent().remove(); x--;
-   })
-});
    
 
     $(document).ready(function() {

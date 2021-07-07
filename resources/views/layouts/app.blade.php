@@ -9,7 +9,8 @@
 
     <title>{{ config('app.name', 'Focus Point') }}</title>
     
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
@@ -612,11 +613,12 @@
      $('.nav-tabs li.active-tabs').removeClass('active-tabs');
      $(this).addClass('active-tabs');
    });
-
+   /*
    $('.nav-sidebar').on('click', 'li', function() {
      $('.nav-sidebar li.active-menu').removeClass('active-menu');
      $(this).addClass('active-menu');
    });
+   */
 
    // Dropdown open and close
    $('#user-add-icon').click(function(){
@@ -635,10 +637,12 @@
 <script type="text/javascript" src="{{asset('js/angular.min.js') }}"></script>
 <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 <script type="text/javascript">
+/*
    $('.nav-sidebar').on('click', 'li', function() {
      $('.nav-sidebar li.active-menu').removeClass('active-menu');
      $(this).addClass('active-menu');
    });
+   */
 </script>
 <script type="text/javascript">
    $(document).ready(function() {
@@ -784,10 +788,12 @@ $(function () {
 <script type="text/javascript" src="{{asset('js/angular.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 <script type="text/javascript">
+/*
    $('.nav-sidebar').on('click', 'li', function() {
      $('.nav-sidebar li.active-menu').removeClass('active-menu');
      $(this).addClass('active-menu');
    });
+   */
 </script>
 <script type="text/javascript">
    $(document).ready(function() {
@@ -928,10 +934,12 @@ $(function () {
 @section('end_listing_layout')
 <script type="text/javascript">
    // Sidebar active menu js
+   /*
    $('.nav-sidebar').on('click', 'li', function() {
     $('.nav-sidebar li.active-menu').removeClass('active-menu');
        $(this).addClass('active-menu');
    });
+   */
 
    // Mobile Menu active Js
    function myFunction() {
@@ -960,11 +968,12 @@ $(function () {
      $('.nav-tabs li.active-tabs').removeClass('active-tabs');
      $(this).addClass('active-tabs');
    });
-
+   /*
    $('.nav-sidebar').on('click', 'li', function() {
      $('.nav-sidebar li.active-menu').removeClass('active-menu');
      $(this).addClass('active-menu');
    });
+   */
 </script>
 <script type="text/javascript">
    $(document).ready(function() {
@@ -1095,6 +1104,33 @@ $(document).ready(function() {
      
            
      });
+     
+     
+   
+   $(document).ready(function() {
+     $('.date-spent').datepicker({ format: "mm/dd/yyyy",changeMonth:true, changeYear:true });
+   }); 
+   $('.nav-sidebar').on('click', 'li a', function() {
+      $('.nav-sidebar li.active-menu').removeClass('active-menu');
+      $(this).addClass('active-menu');
+   });
+
+   $(document).ready(function(){
+     $(".sub-menu a").click(function () {
+        $(this).parent(".sub-menu").children(".sub-menu-dropdpwn").slideToggle('100');
+        $(this).find(".down-icon").toggleClass("fa-angle-up fa-angle-down");
+     });
+   });
+   
+   
+   $('html').on("click",".btn-spent-edit",function(){
+     $(this).parent().parent().parent().parent().slideUp();
+     $(this).parent().parent().parent().parent().next().slideDown();
+   });
+   $('html').on("click",".btn-spent-close",function(){
+     $(this).parent().parent().slideUp();
+     $(this).parent().parent().prev().slideDown();
+   });
      
 });
 </script>

@@ -129,10 +129,14 @@ Route::any('/deleteassessments', [App\Http\Controllers\AssessmentController::cla
 Route::get('/authorizations-listing', [App\Http\Controllers\AuthorizationController::class, 'index'])->name('authorizations-listing');
 Route::any('/authorizations-add', [App\Http\Controllers\AuthorizationController::class, 'addAuthorization'])->name('authorizations-add');
 Route::any('/authorizations-edit/{id}', [App\Http\Controllers\AuthorizationController::class, 'editAuthorization'])->name('authorizations-edit');
-Route::get('/authorizations-details', [App\Http\Controllers\AuthorizationController::class, 'authorizationDetail'])->name('authorizations-details');
+Route::get('/authorizations-details/{id}', [App\Http\Controllers\AuthorizationController::class, 'authorizationDetail'])->name('authorizations-details');
 Route::any('/getauthorizations', [App\Http\Controllers\AuthorizationController::class, 'getAuthorizations'])->name('getauthorizations');
 Route::any('/deleteauthorizations', [App\Http\Controllers\AuthorizationController::class, 'deleteAuthorizations'])->name('deleteauthorizations');
 Route::any('/pdfauthorizations', [App\Http\Controllers\AuthorizationController::class, 'pdfauthorizationAll'])->name('pdfauthorizations');
+Route::any('/authorization-pdf/{id}', [App\Http\Controllers\AuthorizationController::class, 'pdfAuthorization'])->name('authorization-pdf');
+Route::any('/authorization-mail/{id}', [App\Http\Controllers\AuthorizationController::class, 'mailAuthorization'])->name('authorization-mail');
+Route::any('/authorizations-spendtime', [App\Http\Controllers\AuthorizationController::class, 'spendTime'])->name('authorizations-spendtime');
+Route::any('/authorizations-getspendtimes', [App\Http\Controllers\AuthorizationController::class, 'getSpendtimes'])->name('authorizations-getspendtimes');
 
 
 Route::get('/assessment-types', [App\Http\Controllers\AssessmentController::class, 'assessmentType'])->name('assessment-types');

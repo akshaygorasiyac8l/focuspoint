@@ -60,17 +60,30 @@ class AssessmentController extends Controller
                 $consumer = DB::table('consumers')->where('id',$data->consumer_id)->first();
                 $name = $consumer->fname.' '.$consumer->lname;
                 
+                $payer_name = '';
+                $payer = DB::table('consumer_payers')->where('consumer_id',$data->consumer_id)->first();
+                if($payer){
+                    $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
+                    if($payer_data){
+                        $payer_name = $payer_data->title;
+                    }
+                }
                 
+                $assignee_name = 'Unassigned';
+                $assignee = DB::table('users')->where('id',$data->assignee)->first();
+                if($assignee){
+                    $assignee_name = $assignee->fname.' '.$assignee->lname;
+                }
                 $dataarray[$i]= (object) array(
                                     'id'=>$data->id,       
                                     'assessment_no'=>$data->assessment_no,
                                     'location'=>$data->location,
                                     'consumer'=>$name,
                                     'communication'=>$data->communication,
-                                    'payer_name'=>'payer_name',
-                                    'employee_name'=>'employee_name',
+                                    'payer_name'=>$payer_name,
+                                    'assignee_name'=>$assignee_name,
                                     'assessment_date'=>$data->assessment_date,
-                                    'total_hours'=>'total_hours',
+                                    'total_hours'=>'0',
                                     'created_at'=>$data->created_date,
                                     'status'=>$status,
                                     );
@@ -355,6 +368,8 @@ class AssessmentController extends Controller
             $data = array();        
             $data['assessment_types'] = DB::table('assessment_types')->get();
             $data['consumers'] = DB::table('consumers')->get();
+            $assessment_data= DB::table('assessments')->orderBy('id', 'DESC')->first();
+            $data['assessment_id'] = $assessment_data->id +1;
             $data['services'] = DB::table('services')->get();
             $data['relations'] = DB::table('relations')->get();
             $data['users'] = DB::table('users')->where('role_id','!=',0)->get();
@@ -914,7 +929,7 @@ class AssessmentController extends Controller
         $consumers = DB::table('consumers')->where('id',$assessments->consumer_id)->first();
         $assessments->consumer_id = $consumers->fname.' '.$consumers->lname;
         
-        $assessments->assignee = 'Unassign';
+        $assessments->assignee = 'Unassigned';
         if($assessments->assignee!=0){
             $users = DB::table('users')->where('id',$assessments->assignee)->first();
             $assessments->assignee = $users->fname.' '.$users->lname;

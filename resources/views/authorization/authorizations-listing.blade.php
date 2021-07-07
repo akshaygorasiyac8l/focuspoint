@@ -155,7 +155,7 @@
                 {"data": "created_date", "name": "created_date"},
                 {"data": "auth_no", "name": "auth_no"},
                 {"data": "consumer", "name": "consumer"},
-                {"data": "assignee", "name": "assignee"},
+                {"data": "payer_name", "name": "payer_name"},
                 {"data": "services", "name": "services"},
                 {"data": "created_date", "name": "created_date"},
                 {"data": "expiry_date", "name": "expiry_date"},

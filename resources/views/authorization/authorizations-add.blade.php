@@ -53,7 +53,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Auth #</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="intan" disabled class="form-control authno"  value="AUTH-000001">
+                                          <input type="text" name="intan" disabled class="form-control authno"  value="AUTH-00000<?php echo $authorization_id;?>">
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -89,7 +89,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Record #</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="record" class="form-control without-background record_no" placeholder="?">
+                                             <input type="text" name="record" class="form-control without-background record_no" value="RCNO_<?php echo rand('111111111','999999999'); ?>">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -121,16 +121,17 @@
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
                                             <select class="form-control active-status assignee" name="assignee">
-                                                <option value="1">Gregory-Harris</option>
-                                                <option value="2">Name 2</option>
-                                                <option value="3">Name 3</option>
+                                                <option value="">Unassigned</option>
+                                                @foreach($users  as $user)
+                                                <option value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
+                                                @endforeach
                                              </select>
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background spent_time" id="spent-time-add" placeholder="?">
+                                             <input type="text" name="spent-time" class="form-control without-background spent_time" disabled id="spent-time-add" placeholder="?">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -262,6 +263,7 @@
                                  </div>
                                  
                               </div> 
+                              
                               <div class="row">
                                  <div class="col-md-12">
                                     <div class="form-group">
@@ -278,7 +280,9 @@
                         <div class="card-footer">
                            <button type="button" class="btn btn-info saveauth">Save</button>
                            <button type="submit" class="btn btn-default float-right">Cancel</button>
+                           <!--
                            <a href="#myModal" class="spent-time common-button space-remove-btn" data-toggle="modal"><i class="fa fa-hourglass common-icons"></i>Add Spent Time</a>
+                           -->
                          </div>
                      </div>
                   </section>

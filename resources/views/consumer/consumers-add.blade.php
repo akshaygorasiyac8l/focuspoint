@@ -156,8 +156,10 @@
                                        <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                        <div class="col-md-7">
                                          <select class="form-control active-status apprroved  assigneeval" name="assignee">
-                                             <option value="0">Unassigned</option>
-                                             <option value="1">Assigned</option>
+                                             <option value="">Unassigned</option>
+                                             @foreach ($supervisors as $supervisor)
+                                                <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
+                                             @endforeach
                                           </select>
                                        </div>
                                     </div>

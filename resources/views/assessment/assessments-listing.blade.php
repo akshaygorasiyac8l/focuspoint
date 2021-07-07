@@ -83,7 +83,7 @@
                                    <th>Assessment #</th>
                                    <th>Consumer Name</th>
                                    <th>Payer Name</th>
-                                   <th>Employee Name</th>
+                                   <th>Assignee Name</th>
                                    <th>Date Entry</th>
                                    <th>Total Hours</th>
                                    <th>Status</th>
@@ -196,7 +196,7 @@
                 {"data": "assessment_no", "name": "assessment_no"},
                 {"data": "consumer", "name": "consumer"},
                 {"data": "payer_name", "name": "payer_name"},
-                {"data": "employee_name", "name": "employee_name"},
+                {"data": "assignee_name", "name": "assignee_name"},
                 {"data": "created_at", "name": "created_at"},
                 {"data": "total_hours", "name": "total_hours"},
                 {"data": "status", "name": "status"},

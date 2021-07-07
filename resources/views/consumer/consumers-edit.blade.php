@@ -190,7 +190,10 @@
                                        <div class="col-md-7">
                                          <select class="form-control active-status apprroved  assigneeval" name="assignee">
                                              <option {{ $consumer->assignee =='0'  ? 'selected' : ''}} value="0">Unassigned</option>
-                                             <option {{ $consumer->assignee =='1'  ? 'selected' : ''}} value="1">Assigned</option>
+                                             
+                                             @foreach ($supervisors as $supervisor)
+                                                <option {{ $consumer->assignee ==$supervisor->id  ? 'selected' : ''}} value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
+                                             @endforeach
                                           </select>
                                        </div>
                                     </div>
