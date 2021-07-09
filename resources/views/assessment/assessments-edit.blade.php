@@ -100,16 +100,16 @@
                                        <label class="col-md-3 col-form-label">Service</label>
                                        <div class="col-md-9 add-more-services-dropdown">
                                           @foreach($services as $k=>$v)
-                                             <div class="row" style="margin-top: 15px;"> 
-                                                <div class="col-md-11">                                                      
-                                                   <select class="form-control droupdown serviceslist" name="assessmenttype">
+                                             <div class="row new_item_row" > 
+                                                <div class="select_box">                                                      
+                                                   <select class="form-control droupdown serviceslist desktop-textbox" name="assessmenttype">
                                                      <option value="">Select Service</option>
                                                       @foreach($servicesdatas  as $service)
                                                       <option {{$k==$service->id ? "selected" : ""}} value="{{$service->id}}">{{$service->title}}</option>
                                                       @endforeach
                                                   </select> 
                                                 </div>
-                                                <div class="col-md-1"><div class="delete-section new-delete-add consumer-delete"><i class="fa fa-close delete-button delete"></i></div></div>
+                                                <div class="delete-row-icon"><div class="delete-section new-delete-add consumer-delete"><i class="fa fa-close delete-button delete"></i></div></div>
                                              </div>                                            
                                           @endforeach                                         
                                        </div>
@@ -315,7 +315,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control person_desc">{{$assessments->person_desc}}</textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -482,7 +482,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes behaviors">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control behavior_desc">{{$assessments->behavior_desc}}</textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -544,7 +544,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes behaviors">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control assessor_desc">{{$assessments->assessor_desc}}</textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -917,6 +917,11 @@ $(function () {
             var status = $('.active-status').val();
             
             
+            var person_desc = $('.person_desc').val();
+            var behavior_desc = $('.behavior_desc').val();
+            var assessor_desc = $('.assessor_desc').val();
+            
+            
             var assignee  = $('.assignee').val();            
             var spent_time = $('#spent-time-add').val();
             var due_date = $('.due_date').val();         
@@ -1101,6 +1106,9 @@ $(function () {
                               editproblems_array:editproblems_array,
                               editbehaviors_array:editbehaviors_array,
                               editassessors_array:editassessors_array,
+                              person_desc: person_desc, 
+                              behavior_desc: behavior_desc, 
+                              assessor_desc: assessor_desc,    
  
                            };
            
@@ -1285,7 +1293,7 @@ $(function () {
    
    
      // Dropdown Add for Assessment Page
-  $(document).ready(function() {
+$(document).ready(function() {
      var max_fields      = 100;
      var wrapper         = $(".add-more-services-dropdown"); 
      var add_button      = $(".add-more-services"); 
@@ -1297,14 +1305,14 @@ $(function () {
               if(clength < max_fields){
                x++; 
              var htmlData = '';  
-             htmlData += '<div class="row"><div class="col-md-11">'+
+             htmlData += '<div class="row new_item_row"><div class="select_box">'+
              '<select class="form-control droupdown desktop-textbox serviceslist" name="assessmenttype">'+
              '<option value="">Select Service</option>';
              @foreach($servicesdatas  as $service)
             htmlData += '<option value="{{$service->id}}">{{$service->title}}</option>';
             @endforeach
              htmlData += '<option value="Family Therapy- 0-60min-90846">Family Therapy- 0-60min-90846</option>'+
-             '</select></div><div class="col-md-1"><div class="delete-section new-delete-add consumer-delete">'+
+             '</select></div><div class="delete-row-icon"><div class="delete-section new-delete-add consumer-delete">'+
              '<i class="fa fa-close delete-button delete"></i></div></div></div>';
              $(wrapper).append(htmlData); //add input box
          }

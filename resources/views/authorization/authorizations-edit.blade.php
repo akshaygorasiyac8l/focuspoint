@@ -236,10 +236,30 @@
                                           </div>
                                         </div>                                        
                                         <div class="spent-edit-time">
-                                          <div class="spent-edit-textbox">
-                                            <input type="text" class="form-control date-spent" name="" value="10 Jun 2021">
-                                            <input type="text" class="form-control spent-timetitle" name="" value="1h 20m">
-                                            <textarea style="height: 40px;" class="form-control">The work item automatically added by the timer.</textarea>
+                                          <div class="row">
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
+                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
+                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-8">
+                                                <div class="form-group">
+                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
+                                                </div>
+                                             </div>
                                           </div>
                                           <div class="btn-section-spent">
                                             <button type="button" class="btn btn-info">Save</button>
@@ -249,28 +269,86 @@
                                       </div>
                                       
                                     </div>
+                                    
+                                    
+                                    
+                                    <div class="spent-time-details">
+                                      <div class="spent-time-display">
+                                        <div class="spent-details-box">
+                                          <div class="sparate-icon">
+                                            <i class="fa fa-hourglass common-icons timer-icon"></i>
+                                            <span class="border-spent"></span>
+                                          </div>
+                                          <div class="spent-part">
+                                            <h6 class="user-name-title">Gregory-Harris</h6>
+                                            <div class="spent-time-parts">
+                                              <p class="spent-date">10 Jun 2021</p>
+                                              <p class="spent-time-title">1h 20m</p>
+                                              <p class="spent-title">The work item automatically added by the timer.</p>
+                                              <p class="spent-datetime">10 Jun 2021 12:00</p>
+                                              <p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>
+                                            </div>
+                                          </div>
+                                        </div>                                        
+                                        <div class="spent-edit-time">
+                                          <div class="row">
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
+                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
+                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-8">
+                                                <div class="form-group">
+                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="btn-section-spent">
+                                            <button type="button" class="btn btn-info">Save</button>
+                                            <button type="button" class="btn btn-default btn-spent-close">Cancel</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                 
+                                 
+                                 
                                  </div>
                               </div>
                               <div class="row">
-                                 <div class="col-md-3 short-col">
+                                 <div class="col-md-2 short-col">
                                     <div class="form-group">
-                                       <div class="starttime" id='startdatetimepicker'>
+                                       <div class="starttime startdatetimepicker" id='startdatetimepicker'>
                                           <input type="text" placeholder="Start Date And Start Time" class="form-control  start_date_time" />   
                                           <span class="input-group-addon calendar">
                                           </span>
                                       </div>
                                     </div>
                                  </div>
-                                 <div class="col-md-3 short-col">
+                                 <div class="col-md-2 short-col">
                                     <div class="form-group">
-                                       <div class="starttime" id='enddatetimepicker'>
+                                       <div class="starttime enddatetimepicker" id='enddatetimepicker'>
                                           <input type="text" placeholder="End Date And End Time" class="form-control end_date_time" />   
                                           <span class="input-group-addon calendar">
                                           </span>
                                       </div>
                                     </div>
                                  </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-8">
                                     <div class="form-group">
                                        <input type="text" name="" class="form-control commentvallue" placeholder="Write a comment">
                                     </div>
@@ -321,29 +399,29 @@
               'X-CSRF-TOKEN': $('#csrf_token').val()
           }
         });
-        $('.date-spent').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.date-spent').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         $(document).on('focus','.date-spent',function(){
            $('.date-spent').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
         });
                
         
-        $('.approval_date,.expiry_date,.discharge_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.approval_date,.expiry_date,.discharge_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $(document).on('focus','.approval_date,.expiry_date,.discharge_date',function(){
            $('.approval_date,.expiry_date,.discharge_date').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
         });
         
-        getSpendtimes();
+        //getSpendtimes();
         function getSpendtimes(){
             
             var url = "{{ url('authorizations-getspendtimes') }}";
@@ -380,10 +458,10 @@
                                           '</div>'+
                                         '</div>     '+                                   
                                         '<div class="spent-edit-time">'+
-                                          '<div class="spent-edit-textbox">'+
-                                            '<input type="text" class="form-control date-spent date-spent'+data.data[t].authorization_id+'" name="" value="'+data.data[t].created_date+'">'+
-                                            '<input type="text" class="form-control spent-timetitle spent-timetitle'+data.data[t].authorization_id+'" name="" value="'+data.data[t].totalspendtime+'">'+
-                                            '<textarea style="height: 40px;" class="form-control  cmtdata'+data.data[t].authorization_id+'">'+data.data[t].comment+'</textarea>'+
+                                          '<div class="spent-edit-textbox row">'+
+                                            '<input type="text" class="form-control col-md-2 start_date_time date-spent'+data.data[t].authorization_id+'" name="" value="'+data.data[t].created_date+'">'+
+                                            '<input type="text" class="form-control col-md-2 end_date_time spent-timetitle'+data.data[t].authorization_id+'" name="" value="'+data.data[t].totalspendtime+'">'+
+                                            '<textarea style="height: 40px;" class="form-control col-md-8  cmtdata'+data.data[t].authorization_id+'">'+data.data[t].comment+'</textarea>'+
                                           '</div>'+
                                           '<div class="btn-section-spent">'+
                                             '<button type="button" class="btn btn-info savespendtimebyid"  data="'+data.data[t].authorization_id+'" >Save</button>'+
@@ -580,7 +658,7 @@
 
 // Date and Time Picker
 $(function () {
-   $('#startdatetimepicker').datetimepicker({ 
+   $('.startdatetimepicker').datetimepicker({ 
       allowInputToggle: true,
       format: 'YYYY-MMM-DD HH:mm',
       inline: false,
@@ -588,7 +666,7 @@ $(function () {
    }); 
 });
 $(function () {
-   $('#enddatetimepicker').datetimepicker({ 
+   $('.enddatetimepicker').datetimepicker({ 
       allowInputToggle: true,
       format: 'YYYY-MMM-DD HH:mm',
       inline: false,

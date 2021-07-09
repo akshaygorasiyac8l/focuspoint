@@ -15,7 +15,7 @@
                <section class="content-header">
                   <div class="container-fluid">
                      <div class="row">
-                        <div class="col-md-4 page-background">
+                        <div class="col-md-6 page-background">
                            <h1 class="page-title listing-dropdown">
                            	
                            	<div class="form-group select dropdown-box" id="dropdown-box-03"> 
@@ -41,7 +41,7 @@
 
                            </h1>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                         <div class="icon-box">
                             <button class="btn-icons-consumer downloaddata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
                             <button class="btn-icons-consumer deletedata"><i class="fa fa-trash icon-common"></i></button>
@@ -144,7 +144,7 @@
                         </div>
                   </div>
                </section>
-               <section class="content" id="user-listing-section">
+               <section class="content listing-tabel-section" id="user-listing-section">
                   <div class="container-fluid">
                      <div class="row">
                         <div class="col-md-12 consumer-section renderdatahtmlData">
@@ -301,18 +301,12 @@
         }else{
           $(".add-new-icon").each(function(){
             $(this).prop("checked",false);
+            $('.icon-box').slideUp();
           });
         }
       });
       
-      $('html').on("click",".add-new-icon",function(){
-          if($(this).is(':checked')) {
-            $('.icon-box').slideDown();
-          }
-          else {
-            $('.icon-box').slideUp();  
-          }
-      });
+      
       
 
       $('html').on("click",".downloaddata",function(){

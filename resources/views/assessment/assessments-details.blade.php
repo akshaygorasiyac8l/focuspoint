@@ -41,26 +41,23 @@
                               <div class="btn-box">
                                  <div class="edit">
                                     
-                                    <a href="{{route('assessments-edit',$assessments->id)}}" class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</a>
+                                    <a href="{{route('assessments-edit',$assessments->id)}}" class="btn-edit-print"><i class="fa fa-pencil common-edit-btn"></i>Edit</a>
                                  </div>
                                  <div class="mail">
                                     <button type="button" class="btn-edit-print empmail"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
                                  </div>
                                  <div class="pdf">
-                                    <a target="blank" href="{{ url('assessment-pdf') }}/{{$assessments->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
+                                    <a target="blank" href="{{ url('assessment-pdf') }}/{{$assessments->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-text common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-4">
                               <ul class="new-dropdown-hover add-details-drop">
                                  <li class="droupdown-hover-add">
-                                     <ul class="dropdown-details">
-                                       <li><a href="authorizations-add.html">Psychiatric Diagnostic Evaluation with Med Service - 90792</a></li>
-                                       <li><a href="authorizations-add.html">Crisis Stabilization - H2019</a></li>
-                                    </ul>                      
+                                    <a href="{{route('authorizations-add', $assessments->consumer_id)}}" class="create-new-btn">Create an Authorization</a>
+                                    
                                  </li>
                               </ul>
-                              
                            </div>
                         </div>
                      </div>
@@ -77,7 +74,7 @@
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Consumer Name</label>
                                        <label class="col-md-9 col-form-label-assessment name-bold">
-                                       {{$assessments->consumer_id}}
+                                       {{$assessments->consumer_name}}
                                        </label>
                                     </div>
                                     <div class="form-group row common-row">
@@ -220,7 +217,7 @@
                         <div class="row">
                            <div class="col-md-12">
                            @if(count($assessment_problems) > 0 )
-                             <table class="assessments-details-table common-table-info" style="width:100%">
+                             <table class="assessments-details-table common-table-info" style="width:100%; margin-bottom:0;">
                                <thead>
                                  <tr class="common-tr-info">
                                       <th>Author</th>
@@ -241,7 +238,13 @@
                                @endforeach
                                </tbody>
                               </table>
+                              
+                              
                               @endif
+                              <div class="box-total">
+                                 <label class="total-label">Total Score</label>
+                                 <span class="score-total">3</span>
+                              </div>
                            </div>
                         </div>
                      </div>

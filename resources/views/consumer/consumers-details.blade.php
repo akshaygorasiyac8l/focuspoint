@@ -33,7 +33,7 @@
                               </div>
                               <div class="col-md-4 drop-box-control">
                                  <div class="form-group new-transaction">                           
-                                    <select class="form-control new-tran-field new">
+                                    <select class="form-control new-tran-field new onchnagepage">
                                        <option value="">Select </option>
                                        <option value="1">New Assessment</option>
                                        <option value="2">New Authorization</option>
@@ -321,4 +321,15 @@
 @endsection
 @section('end_detail_layout')
    @parent
+   <script>
+   $(document).ready(function() {
+       $("documents").on("change",".onchnagepage",function(){
+           var selval = $(this).val();
+           if(selval=="1"){
+           }else if(selval=="1"){
+           }
+       });
+   });
+   </script>
+   
 @endsection

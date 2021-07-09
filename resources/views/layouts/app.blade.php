@@ -224,7 +224,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
             <nav class="mt-2">
                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                  <li class="nav-item has-treeview active-menu">
+                  <li class="nav-item has-treeview {{ request()->is('home') ? 'active-menu' : '' }}">
                      <a href="{{ route('home') }}" class="nav-link">
                         <i class="fa fa-dashboard"></i>
                         <p>Dashboard</p>
@@ -239,7 +239,8 @@
                   if (isset($permissions['role']) || isset($permissions['certificate_type'])  || isset($permissions['notation_type']) 
                       || (isset($role_id) && $role_id=='0') ){
                   ?>
-                  <li class="nav-item has-treeview sub-menu">
+                  <li class="nav-item has-treeview sub-menu {{ request()->is('roles','certificate-types','notation-types','consumer-note-types',
+                  'reactions','races','ethnicities','languages','services') ? 'active-menu' : '' }}">
                      <a href="javascript:void(0);" class="nav-link">
                         <i class="fa fa-file"></i>
                         <p>Settings</p>
@@ -441,7 +442,7 @@
                   
                   <?php } ?>
                   
-                  <li class="nav-item has-treeview">
+                  <li class="nav-item has-treeview {{ request()->is('employee-listing') ? 'active-menu' : '' }}">
                      <a href="{{ route('employee-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Employees</p>
@@ -449,7 +450,7 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview">
+                  <li class="nav-item has-treeview {{ request()->is('consumers-listing') ? 'active-menu' : '' }}">
                      <a href="{{ route('consumers-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Consumers</p>
@@ -457,14 +458,14 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview">
+                  <li class="nav-item has-treeview {{ request()->is('assessments-listing') ? 'active-menu' : '' }}">
                      <a href="{{ route('assessments-listing') }}" class="nav-link">
                         <i class="fa fa-anchor"></i>
                         <p>Assessments</p>
                      </a>
                   </li> 
                                    
-                  <li class="nav-item has-treeview">
+                  <li class="nav-item has-treeview {{ request()->is('authorizations-listing') ? 'active-menu' : '' }}">
                      <a href="{{ route('authorizations-listing') }}" class="nav-link">
                         <i class="fa fa-check-square-o"></i>
                         <p>Authorizations</p>
@@ -1131,6 +1132,24 @@ $(document).ready(function() {
      $(this).parent().parent().slideUp();
      $(this).parent().parent().prev().slideDown();
    });
+
+   $('html').on("click", ".dropdown-listing", function(){
+      $('.dropdown-listing').toggleClass('add-newlist-dropdown');
+   });
+   
+   $('html').on('click', '.spent-details-box > .spent-part > .spent-time-parts > .spent-edit > a', function(){
+     $(this).parent().parent().parent().parent().parent().siblings().find('.spent-edit-time').slideUp();
+     $(this).parent().parent().parent().parent().parent().siblings().find('.spent-details-box').slideDown();
+   });
+   
+   $('html').on("click",".add-new-icon",function(){
+    var checkCount = $('input:checkbox:checked').length;   
+    if(checkCount > 0){
+      $('.icon-box').slideDown();
+    }else{
+      $('.icon-box').slideUp();
+    }
+  });
      
 });
 </script>

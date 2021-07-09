@@ -175,8 +175,8 @@ class AssessmentController extends Controller
     
     
     public function changeDateformate($date){
-        $a = explode("-",$date);
-        $b = $a[2].'-'.$a[0].'-'.$a[1];
+        $a = explode("/",$date);
+        $b = $a[2].'/'.$a[0].'/'.$a[1];
         return $b;
     }
     
@@ -213,6 +213,19 @@ class AssessmentController extends Controller
             $date = date('Y-m-d');
             //dd($request->TotalFiles);
             
+            $person_desc = NULL;
+            if($d->person_desc!=NULL){
+                $person_desc = $d->person_desc;
+            }
+            $behavior_desc = NULL;
+            if($d->behavior_desc!=NULL){
+                $behavior_desc = $d->behavior_desc;
+            }
+            $assessor_desc = NULL;
+            if($d->assessor_desc!=NULL){
+                $assessor_desc = $d->assessor_desc;
+            }
+            
             
             $id = DB::table('assessments')
             ->insertGetId([
@@ -231,6 +244,29 @@ class AssessmentController extends Controller
             ]);
             
             if($id){
+                
+                DB::table('assessment_person_desc')
+                ->insert([
+                     'assessment_id' => $id,
+                     'description' => $person_desc,
+                    'created_date' => $date,
+                ]);
+                
+                DB::table('assessment_behavior_desc')
+                ->insert([
+                     'assessment_id' => $id,
+                     'description' => $behavior_desc,
+                    'created_date' => $date,
+                ]);
+                
+                DB::table('assessment_assessor_desc')
+                ->insert([
+                     'assessment_id' => $id,
+                     'description' => $assessor_desc,
+                    'created_date' => $date,
+                ]);
+            
+            
                 $contact_type_arrays = $d->contact_type_array;
                 foreach($contact_type_arrays as $key => $val){
                     if($val->firstname!=''  && $val->salutation!=''){
@@ -300,7 +336,7 @@ class AssessmentController extends Controller
                 
                 $vrd = 0;
                 foreach($function_arrays as $key => $val){
-                    if($val->medical!=''  ){
+                    
                             DB::table('assessment_functions')
                                 ->insert([
                                     'assessment_id' => $id,
@@ -314,7 +350,7 @@ class AssessmentController extends Controller
                                     'type' => $vrd,
                                     'created_date' => $date,
                                 ]);
-                        }
+                       
                         
                         $vrd++;
                         
@@ -410,6 +446,19 @@ class AssessmentController extends Controller
             $date = date('Y-m-d');
             //dd($request->TotalFiles);
             
+            $person_desc = NULL;
+            if($d->person_desc!=NULL){
+                $person_desc = $d->person_desc;
+            }
+            $behavior_desc = NULL;
+            if($d->behavior_desc!=NULL){
+                $behavior_desc = $d->behavior_desc;
+            }
+            $assessor_desc = NULL;
+            if($d->assessor_desc!=NULL){
+                $assessor_desc = $d->assessor_desc;
+            }
+            
             
             DB::table('assessments')
             ->where('id',$id)
@@ -429,6 +478,31 @@ class AssessmentController extends Controller
             ]);
             
             if($id){
+                
+                
+                DB::table('assessment_person_desc')
+                ->where('assessment_id',$id)
+                ->update([
+                     
+                     'description' => $person_desc,
+                    'updated_date' => $date,
+                ]);
+                
+                DB::table('assessment_behavior_desc')
+                ->where('assessment_id',$id)
+                ->update([
+                    
+                     'description' => $behavior_desc,
+                    'updated_date' => $date,
+                ]);
+                
+                DB::table('assessment_assessor_desc')
+                ->where('assessment_id',$id)
+                ->update([
+                     
+                     'description' => $assessor_desc,
+                    'updated_date' => $date,
+                ]);
                 
                 
                 $editcontacts_arrays = $d->editpersons_array;
@@ -796,6 +870,10 @@ class AssessmentController extends Controller
             $data['relations'] = DB::table('relations')->get();
             $data['users'] = DB::table('users')->where('role_id','!=',0)->get();
             $assessments = DB::table('assessments')->where('id',$id)->first();
+            
+            
+            
+
             $services = array();
             if(isset($assessments->services)){
                 if($assessments->services!=''){
@@ -804,7 +882,9 @@ class AssessmentController extends Controller
                     if(is_array($servicesData)){
                         foreach($servicesData as $service){
                             $service = DB::table('services')->where('id',$service->service)->first();
-                            $services[$service->id] = $service->title;
+                            if($service){
+                                $services[$service->id] = $service->title;
+                            }
                         }
                     }
                 }
@@ -813,6 +893,23 @@ class AssessmentController extends Controller
             $data['services'] = $services;
             
             $assessments->assessment_date = date("m-d-Y",strtotime($assessments->assessment_date));
+            
+            $assessment_person_desc = DB::table('assessment_person_desc')->where('assessment_id',$id)->first();
+            $assessments->person_desc =  '';
+            if($assessment_person_desc){
+                $assessments->person_desc = $assessment_person_desc->description;
+            }
+            $assessment_behavior_desc = DB::table('assessment_behavior_desc')->where('assessment_id',$id)->first();
+            $assessments->behavior_desc =  '';
+            if($assessment_behavior_desc){
+                $assessments->behavior_desc = $assessment_behavior_desc->description;
+            }
+            $assessment_assessor_desc = DB::table('assessment_assessor_desc')->where('assessment_id',$id)->first();
+            $assessments->assessor_desc =  '';
+            if($assessment_assessor_desc){
+                $assessments->assessor_desc = $assessment_assessor_desc->description;
+            }
+            
             $data['assessments'] = $assessments;
             $data['assessment_assessors'] = DB::table('assessment_assessors')->where('assessment_id',$id)->get();
             $data['assessment_assessor_notes'] = DB::table('assessment_assessor_notes')->where('assessment_id',$id)->get();
@@ -927,7 +1024,8 @@ class AssessmentController extends Controller
         }
         $data['services'] = $services;
         $consumers = DB::table('consumers')->where('id',$assessments->consumer_id)->first();
-        $assessments->consumer_id = $consumers->fname.' '.$consumers->lname;
+        $assessments->consumer_name = $consumers->fname.' '.$consumers->lname;
+        
         
         $assessments->assignee = 'Unassigned';
         if($assessments->assignee!=0){

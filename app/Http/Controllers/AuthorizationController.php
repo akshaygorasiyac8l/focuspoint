@@ -35,7 +35,7 @@ class AuthorizationController extends Controller
     
     
     public function changeDateformate($date){
-        $a = explode("-",$date);
+        $a = explode("/",$date);
         $b = $a[2].'-'.$a[0].'-'.$a[1];
         return $b;
     }
@@ -103,6 +103,24 @@ class AuthorizationController extends Controller
                 }
                 
                 
+                
+                $approve_date = '-';
+                if($data->approve_date!=NULL){
+                    $approve_date = date("m/d/Y",strtotime($data->approve_date));
+                }
+                
+                $expiry_date = '-';
+                if($data->expiry_date!=NULL){
+                    $expiry_date = date("m/d/Y",strtotime($data->expiry_date));
+                }
+                
+                $discharge_date = '-';
+                if($data->discharge_date!=NULL){
+                    $discharge_date = date("m/d/Y",strtotime($data->discharge_date));
+                }
+                
+                
+                
                 $dataarray[$i]= (object) array(
                                     'id'=>$data->id,       
                                     'auth_no'=>$data->auth_no,
@@ -116,15 +134,15 @@ class AuthorizationController extends Controller
                                     'total_approved_hours'=>$data->total_approved_hours,
                                     'bill_without_unit'=>$data->bill_without_unit,
                                     'record_no'=>$data->record_no,
-                                    'approve_date'=>date("m/d/Y",strtotime($data->approve_date)),
-                                    'expiry_date'=>date("m/d/Y",strtotime($data->expiry_date)),
+                                    'approve_date'=>$approve_date,
+                                    'expiry_date'=>$expiry_date,
                                     'status'=>$data->status,
                                     'assignee'=>$data->assignee,
                                     'spend_times_h'=>$spend_times_h,
                                     'spend_times_m'=>$spend_times_m,
                                     'payer_name'=>$payer_name,
                                     'spend_time'=>$data->spend_time,
-                                    'discharge_date'=>date("m/d/Y",strtotime($data->discharge_date)),
+                                    'discharge_date'=>$discharge_date,
                                     'created_date'=>date("m/d/Y",strtotime($data->created_date)),
                                     'status'=>$status,
                                     );
@@ -178,7 +196,7 @@ class AuthorizationController extends Controller
     }
     
     
-    public function addAuthorization(Request $request)
+    public function addAuthorization(Request $request,$consumer_id)
     {
         if($request->isMethod('post')){
             $d = json_decode($request->options);
@@ -187,19 +205,42 @@ class AuthorizationController extends Controller
             $authno = $d->authno;
             $intan = $d->intan;
             $insan = $d->insan;
-            $service = $d->service;
+            
             $per_week = $d->per_week;
             $per_day = $d->per_day;
             $tot_units = $d->tot_units;
             $tot_hours = $d->tot_hours;
             $bill_units = $d->bill_units;
             $record_no = $d->record_no;
-            $approval_date = $this->changeDateformate($d->approval_date);
-            $expiry_date = $this->changeDateformate($d->expiry_date);
+            
             $status = $d->status;
-            $assignee = $d->assignee;
+            
             $spent_time = $d->spent_time;
-            $discharge_date = $this->changeDateformate($d->discharge_date);  
+            $service = 0;
+            if($d->service!=NULL){
+                $service = $d->service;
+            }
+            
+            $assignee = 0;
+            if($d->assignee!=NULL){
+                $assignee = $d->assignee;
+            }
+            
+            
+                
+            
+            $approval_date = NULL;
+            if($d->approval_date!=NULL){
+                $approval_date = $this->changeDateformate($d->approval_date);
+            }
+            $expiry_date = NULL;
+            if($d->expiry_date!=NULL){
+                $expiry_date = $this->changeDateformate($d->expiry_date);
+            }
+            $discharge_date = NULL;
+            if($d->discharge_date!=NULL){
+                $discharge_date = $this->changeDateformate($d->discharge_date);
+            }
             
             $date = date('Y-m-d');
            
@@ -236,6 +277,7 @@ class AuthorizationController extends Controller
         }else{
             $data = array();        
             
+            $data['consumer_id'] = $consumer_id;
             $data['consumers'] = DB::table('consumers')->get();
             $data['services'] = DB::table('services')->get();
             $authorization_data= DB::table('authorizations')->orderBy('id', 'DESC')->first();
@@ -255,19 +297,41 @@ class AuthorizationController extends Controller
             $authno = $d->authno;
             $intan = $d->intan;
             $insan = $d->insan;
-            $service = $d->service;
+            
             $per_week = $d->per_week;
             $per_day = $d->per_day;
             $tot_units = $d->tot_units;
             $tot_hours = $d->tot_hours;
             $bill_units = $d->bill_units;
             $record_no = $d->record_no;
-            $approval_date = $this->changeDateformate($d->approval_date);
-            $expiry_date = $this->changeDateformate($d->expiry_date);
+
             $status = $d->status;
-            $assignee = $d->assignee;
+            
             $spent_time = $d->spent_time;
-            $discharge_date = $this->changeDateformate($d->discharge_date);  
+            
+            $service = 0;
+            if($d->service!=NULL){
+                $service = $d->service;
+            }
+            
+            $assignee = 0;
+            if($d->assignee!=NULL){
+                $assignee = $d->assignee;
+            }
+
+            
+            $approval_date = NULL;
+            if($d->approval_date!=NULL){
+                $approval_date = $this->changeDateformate($d->approval_date);
+            }
+            $expiry_date = NULL;
+            if($d->expiry_date!=NULL){
+                $expiry_date = $this->changeDateformate($d->expiry_date);
+            }
+            $discharge_date = NULL;
+            if($d->discharge_date!=NULL){
+                $discharge_date = $this->changeDateformate($d->discharge_date);
+            }
             
             $date = date('Y-m-d');
            
@@ -309,9 +373,9 @@ class AuthorizationController extends Controller
             $data['services'] = DB::table('services')->get();
             $data['users'] = DB::table('users')->where('role_id','!=',0)->get();
             $authorization = DB::table('authorizations')->where("id",$id)->first();
-            $authorization->approve_date = date("m-d-Y",strtotime($authorization->approve_date));
-            $authorization->expiry_date = date("m-d-Y",strtotime($authorization->expiry_date));
-            $authorization->discharge_date = date("m-d-Y",strtotime($authorization->discharge_date));
+            $authorization->approve_date = date("m/d/Y",strtotime($authorization->approve_date));
+            $authorization->expiry_date = date("m/d/Y",strtotime($authorization->expiry_date));
+            $authorization->discharge_date = date("m/d/Y",strtotime($authorization->discharge_date));
             
             
             $authorization->spend_times_h = '0';
@@ -380,9 +444,9 @@ class AuthorizationController extends Controller
         $assignee = DB::table('users')->where('id',$authorization->assignee)->first();
         $authorization->assignee = $assignee->fname.' '.$assignee->lname;
                 
-        $authorization->approve_date = date("m-d-Y",strtotime($authorization->approve_date));
-        $authorization->expiry_date = date("m-d-Y",strtotime($authorization->expiry_date));
-        $authorization->discharge_date = date("m-d-Y",strtotime($authorization->discharge_date));
+        $authorization->approve_date = date("m/d/Y",strtotime($authorization->approve_date));
+        $authorization->expiry_date = date("m/d/Y",strtotime($authorization->expiry_date));
+        $authorization->discharge_date = date("m/d/Y",strtotime($authorization->discharge_date));
         $data['authorization']  = $authorization;
         return view('authorization/authorizations-details',$data);
     }

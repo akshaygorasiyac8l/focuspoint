@@ -245,7 +245,7 @@ class EmployeeController extends Controller
                                     'email'=>$data->email,
                                     'phone'=>$data->phone,
                                     'type'=>$type->role,
-                                    'created_at'=>date('d-m-Y', strtotime($data->created_at)),
+                                    'created_at'=>date('m/d/Y', strtotime($data->created_at)),
                                     'status'=>$status,
 
                                     );
@@ -294,7 +294,7 @@ class EmployeeController extends Controller
                                     'email'=>$data->email,
                                     'phone'=>$data->phone,
                                     'type'=>$type->role,
-                                    'created_at'=>date('d-m-Y', strtotime($data->created_at)),
+                                    'created_at'=>date('m/d/Y', strtotime($data->created_at)),
                                     'status'=>$status,
                                     );
 

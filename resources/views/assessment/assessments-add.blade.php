@@ -60,10 +60,26 @@
                                              @endforeach
                                          </select>
                                          <div class="view-part-consumer">
-                                             <button class="common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
+                                             <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</a>
                                              <span>|</span>
-                                             <button class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</button>
+                                             <a href="javascript:;" class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
                                          </div>
+                                            <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
+                                               <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                    <div class="modal-header">
+                                                       <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                 </div>
+                                               </div>
+                                             </div>
+                                          
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -284,7 +300,7 @@
                                     </tbody>
                                  </table>
                               </div>
-                              <button class="add_form_problems common-button"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
+                              <button class="add_form_problems common-button" id="add_new_item"><i class="fa fa-plus common-icons"></i>Add New Item</button> 
                               <div class="box-total">
                                  <label class="total-label">Total Score</label>
                                  <span class="score-total">0</span>
@@ -296,7 +312,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control person_desc"></textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -454,7 +470,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes behaviors">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control behavior_desc"></textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -510,7 +526,7 @@
                            <div class="col-md-12">
                               <span class="additional-notes behaviors">Additional Notes</span>
                               <div class="form-group">
-                                 <textarea name="" rows="4" class="form-control"></textarea>
+                                 <textarea name="" rows="4" class="form-control assessor_desc"></textarea>
                               </div>
                               <span class="client-word">Use Client Words</span>
                            </div>
@@ -853,7 +869,13 @@ $(function () {
            
            e.preventDefault(); $(this).parent().parent().remove(); x--;
            gettotalscore();
+           if(x == 1){
+               $('.box-total').css('margin-right', '0px');
+           }
          })
+         $('html').on("click","#add_new_item",function(e){
+           $('.box-total').css('margin-right', '16px');
+         });
 
 
 
@@ -897,6 +919,10 @@ $(function () {
             var record_no = $('.record_no').val();
             var date_add = $('.date_add').val();
             var status = $('.active-status').val();
+            
+            var person_desc = $('.person_desc').val();
+            var behavior_desc = $('.behavior_desc').val();
+            var assessor_desc = $('.assessor_desc').val();
             
             
             var assignee  = $('.assignee').val();            
@@ -1037,12 +1063,15 @@ $(function () {
                               status: status,
                               assignee: assignee,            
                               spent_time: spent_time,
-                              due_date: due_date,            
+                              due_date: due_date,
+                              person_desc: person_desc, 
+                              behavior_desc: behavior_desc, 
+                              assessor_desc: assessor_desc,                               
  
                            };
            
            
-           
+
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
@@ -1222,7 +1251,7 @@ $(function () {
    
    
      // Dropdown Add for Assessment Page
-  $(document).ready(function() {
+$(document).ready(function() {
      var max_fields      = 100;
      var wrapper         = $(".add-more-services-dropdown"); 
      var add_button      = $(".add-more-services"); 
@@ -1234,14 +1263,14 @@ $(function () {
               if(clength < max_fields){
                x++; 
              var htmlData = '';  
-             htmlData += '<div class="row"><div class="col-md-11">'+
+             htmlData += '<div class="row new_item_row"><div class="select_box">'+
              '<select class="form-control droupdown desktop-textbox serviceslist" name="assessmenttype">'+
              '<option value="">Select Service</option>';
              @foreach($services  as $service)
             htmlData += '<option value="{{$service->id}}">{{$service->title}}</option>';
             @endforeach
              htmlData += '<option value="Family Therapy- 0-60min-90846">Family Therapy- 0-60min-90846</option>'+
-             '</select></div><div class="col-md-1"><div class="delete-section new-delete-add consumer-delete">'+
+             '</select></div><div class="delete-row-icon"><div class="delete-section new-delete-add consumer-delete">'+
              '<i class="fa fa-close delete-button delete"></i></div></div></div>';
              $(wrapper).append(htmlData); //add input box
          }

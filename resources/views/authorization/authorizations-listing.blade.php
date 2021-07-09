@@ -23,7 +23,7 @@
                <section class="content-header">
                   <div class="container-fluid">
                      <div class="row">
-                        <div class="col-md-3 page-background">
+                        <div class="col-md-6 page-background">
                            <h1 class="page-title listing-dropdown">
                            	
                            	<div class="form-group select dropdown-box" id="dropdown-box-03">           
@@ -50,7 +50,7 @@
 
                            </h1>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                         <div class="icon-box">
                             <button class="btn-icons-consumer downloaddata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
                             <button class="btn-icons-consumer deletedata"><i class="fa fa-trash icon-common"></i></button>
@@ -62,14 +62,14 @@
                         <div class="col-md-3" id="header-btn-section">
                           <ul class="new-dropdown-hover">
                             <li class="droupdown-hover-add">
-                              <a href="{{ route('authorizations-add') }}" class="btn btn-info" id="header-new-btn">New</a>
+                              <a href="{{ route('authorizations-add', '0') }}" class="btn btn-info" id="header-new-btn">New</a>
                             </li>
                             
                           </ul>
                         </div>
                   </div>
                </section>
-               <section class="content" id="authorizations-section">
+               <section class="content listing-tabel-section" id="authorizations-section">
                   <div class="container-fluid">
                      <div class="row">
                         <div class="col-md-12 consumer-section renderdatahtmlData">
@@ -157,7 +157,7 @@
                 {"data": "consumer", "name": "consumer"},
                 {"data": "payer_name", "name": "payer_name"},
                 {"data": "services", "name": "services"},
-                {"data": "created_date", "name": "created_date"},
+                {"data": "approve_date", "name": "approve_date"},
                 {"data": "expiry_date", "name": "expiry_date"},
                 {"data": "status", "name": "status"},
 
@@ -203,18 +203,12 @@
         }else{
           $(".add-new-icon").each(function(){
             $(this).prop("checked",false);
+            $('.icon-box').slideUp();
           });
         }
       });
       
-      $('html').on("click",".add-new-icon",function(){
-          if($(this).is(':checked')) {
-            $('.icon-box').slideDown();
-          }
-          else {
-            $('.icon-box').slideUp();  
-          }
-      });
+      
       
 
       $('html').on("click",".downloaddata",function(){

@@ -35,19 +35,23 @@
                   <section class="content">
                      <div class="container-fluid">
                         <div class="row">
+                           <div class="col-md-12 errorclass">
+                           </div>
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Consumer Name</label>
                                        <div class="col-md-9">
-                                          <select class="form-control droupdown mobile-drop consumername" name="consumername">
+                                          <select @if($consumer_id) disabled @endif class="form-control droupdown mobile-drop consumername" name="consumername">
                                             <option value="">Select Consumer</option>
                                             @foreach($consumers as $consumer)
-                                            <option value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
+                                            <option {{$consumer_id==$consumer->id ? "selected" : ""}} value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
                                             @endforeach
                                          </select>
-                                         <button class="add-more-services common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
+                                         
+                                         <button data="{{$consumer_id}}" class="add-more-services common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
+                                         
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -311,16 +315,25 @@
           }
         });
         
-        $('.approval_date,.expiry_date,.discharge_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.approval_date,.expiry_date,.discharge_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $(document).on('focus','.approval_date,.expiry_date,.discharge_date',function(){
            $('.approval_date,.expiry_date,.discharge_date').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
         });
+        
+        function  renderData(validation_array){
+           var errorhtmldata = '<ul>';
+            $(validation_array).each(function(key,val){
+                errorhtmldata += '<li>'+val+'</li>';
+            });
+            errorhtmldata += '</ul>';
+            $('.errorclass').html(errorhtmldata);
+       }
        
        
 
@@ -373,7 +386,12 @@
                validation_array.push('Please select service');
                
             }
-
+            
+            renderData(validation_array);
+            
+            if(validation_array.length > 0 ){
+                return false;
+            }
 
             
             
@@ -405,7 +423,7 @@
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('authorizations-add') }}";
+            var url = "{{ url('authorizations-add/0') }}";
             $.ajax({
                 url: url,
                 type: "POST",

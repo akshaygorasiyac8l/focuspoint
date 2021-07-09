@@ -208,13 +208,7 @@ function myFunction() {
      });
   });
 
-// Sub menu JS
-$(document).ready(function(){
-  $(".sub-menu a").click(function () {
-     $(this).parent(".sub-menu").children(".sub-menu-dropdpwn").slideToggle("100");
-     $(this).find(".down-icon").toggleClass("fa-angle-up fa-angle-down");
-  });
-});
+
 
 // Sidebar active menu js
 $(document).ready(function(){

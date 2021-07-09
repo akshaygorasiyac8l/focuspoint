@@ -110,7 +110,9 @@
                                              <div class="row">
                                                 <input type="hidden" class="editphones" value="{{$consumer_phone->id}}">
                                                 <div class="col-md-3 short-col">
-                                                   <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
+                                                   <select class="form-control droupdown mobile-drop phonetype desktop-textbox
+
+" name="celltype" autocomplete="off">
                                                       <option value="" >Select</option>
                                                       <option {{$consumer_phone->phonetype=='Home' ? 'selected' : ''}} value="Home">Home</option>
                                                       <option {{$consumer_phone->phonetype=='Work' ? 'selected' : ''}} value="Work">Work</option>
@@ -121,13 +123,13 @@
                                                    </select>
                                                 </div>
                                                 <div class="col-md-8 short-col">
-                                                   <input type="tel" name="cellphone" class="form-control phone"  value="{{$consumer_phone->phone}}">
+                                                   <input type="tel" name="cellphone" class="form-control phone desktop-textbox"  value="{{$consumer_phone->phone}}">
                                                 </div>
                                           @php
                                           $p++
                                           @endphp
                                                 @if($p!=1)
-                                                <div class="col-md-1 short-col"><i class="fa fa-close delete-button delete"></i></div>
+                                                <div class="col-md-1 short-col"><i class="fa fa-close delete-button delete edit_delete"></i></div>
                                                 @endif
                                              </div>
                                           @endforeach
@@ -2237,6 +2239,9 @@ $(function () {
 <style>
 .errorclass,.errorbillingclass{color:#f00;}
 .errorclass ul li,.errorbillingclass ul li {   list-style: inherit;}
+.new-phone-add .row:first-child {
+   margin-top: -17px;
+}
 </style>
 @endsection
 @section('end_listing_layout')

@@ -18,7 +18,7 @@
                <section class="content-header">
                   <div class="container-fluid">
                      <div class="row">
-                        <div class="col-md-3 page-background">
+                        <div class="col-md-6 page-background">
                            <h1 class="page-title listing-dropdown">
                            	
                            	<div class="form-group select dropdown-box" id="dropdown-box-03">  
@@ -45,7 +45,7 @@
 
                            </h1>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                           <div class="icon-box">
                             <button class="btn-icons-consumer downloaddata"><i class="fa fa-print icon-common" aria-hidden="true"></i></button>
                             <button class="btn-icons-consumer deletedata"><i class="fa fa-trash icon-common"></i></button>
@@ -56,12 +56,12 @@
                         <div class="col-md-3" id="header-btn-section">
                           <ul class="new-dropdown-hover">
                             <li class="droupdown-hover-add">
-                              <a href="{{ route('assessments-add') }}" class="btn btn-info" id="header-new-btn">New</a><i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i>
+                              <a href="{{ route('assessments-add') }}" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
                               <ul class="dropdown-notes">
-                                <li><a href="">Attach Assessment</a></li>
-                                <li><a href="">Behavior Health Assessment - H0031 (Part1)</a></li>
-                                <li><a href="">Behavior Health Assessment - H0031 (Part2)</a></li>
-                                <li><a href="">Child/Adolescent Treatment Plan - H0032</a></li>
+                                <li><a href="{{ route('assessments-add') }}">Attach Assessment</a></li>
+                                <li><a href="{{ route('assessments-add') }}">Behavior Health Assessment - H0031 (Part1)</a></li>
+                                <li><a href="{{ route('assessments-add') }}">Behavior Health Assessment - H0031 (Part2)</a></li>
+                                <li><a href="{{ route('assessments-add') }}">Child/Adolescent Treatment Plan - H0032</a></li>
                               </ul>
                             </li>
                             <li>
@@ -71,7 +71,7 @@
                      </div>
                   </div>
                </section>
-               <section class="content" id="assessments-section-table">
+               <section class="content listing-tabel-section" id="assessments-section-table">
                   <div class="container-fluid">
                      <div class="row">
                         <div class="col-md-12 consumer-section renderdatahtmlData">
@@ -84,7 +84,7 @@
                                    <th>Consumer Name</th>
                                    <th>Payer Name</th>
                                    <th>Assignee Name</th>
-                                   <th>Date Entry</th>
+                                   <th>Created Date</th>
                                    <th>Total Hours</th>
                                    <th>Status</th>
                                </tr>
@@ -157,18 +157,13 @@
             }else{
               $(".add-new-icon").each(function(){
                 $(this).prop("checked",false);
+
+                $('.icon-box').slideUp();
               });
             }
         });
         
-        $('html').on("click",".add-new-icon",function(){
-          if($(this).is(':checked')) {
-            $('.icon-box').slideDown();
-          }
-          else {
-            $('.icon-box').slideUp();  
-          }
-      });
+
     
         
         
