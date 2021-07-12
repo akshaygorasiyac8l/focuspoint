@@ -49,9 +49,24 @@
                                             <option {{$consumer_id==$consumer->id ? "selected" : ""}} value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
                                             @endforeach
                                          </select>
-                                         
-                                         <button data="{{$consumer_id}}" class="add-more-services common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
-                                         
+                                         <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Consumer Details</a>
+                                         <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
+                                               <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                 <!--
+                                                    <div class="modal-header">
+                                                       <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
+                                                    </div>
+                                                    -->
+                                                    <div class="modal-body  consumerdetailsData">
+                                                         
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                 </div>
+                                               </div>
+                                             </div>
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -283,7 +298,8 @@
                      <div class="container-fluid">
                         <div class="card-footer">
                            <button type="button" class="btn btn-info saveauth">Save</button>
-                           <button type="submit" class="btn btn-default float-right">Cancel</button>
+                           
+                           <a href="{{ route('authorizations-listing') }}" class="btn btn-default float-right">Cancel</a>
                            <!--
                            <a href="#myModal" class="spent-time common-button space-remove-btn" data-toggle="modal"><i class="fa fa-hourglass common-icons"></i>Add Spent Time</a>
                            -->
@@ -336,7 +352,38 @@
        }
        
        
+              $('html').on('click', '.clickonviewconsumerdet', function (e) {
+            //.consumerdetailsData
+            $('.consumerdetailsData').html('');
+            var consumername = $('.consumername').val();
+            var url = "{{ route('getconsumerbyid') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {consumer_id:consumername},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '<h2>'+data.consumers.salutation+' '+data.consumers.fname+' '+data.consumers.lname+'</h2>';
+                        htmlData += '<p>DOB: '+data.consumers.dob+'</p>';
+                        htmlData += '<p>Email: '+data.consumers.email+'</p>';
+                        htmlData += '<p>Record NO: '+data.consumers.record_no+'</p>';
+                        htmlData += '<p>Case Name: '+data.consumers.case_name+'</p>';
+                        $('.consumerdetailsData').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
 
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        }); 
            
         
         $('html').on('click', '.saveauth', function (e) {

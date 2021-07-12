@@ -634,7 +634,10 @@ $(document).ready(function() {
 });
         
     
-    
+
+    $('html').on("click", ".dropdown-listing", function(){
+      $('.dropdown-listing').toggleClass('add-newlist-dropdown');
+   });   
     
     
     </script>

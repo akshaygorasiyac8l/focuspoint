@@ -51,13 +51,13 @@
                               <div class="btn-box">
                                  <div class="edit">
                                  
-                                    <a href="{{route('employee-edit',$employee->id)}}" class="btn-edit-print"><i class="fa fa-edit common-edit-btn"></i>Edit</a>
+                                    <a href="{{route('employee-edit',$employee->id)}}" class="btn-edit-print"><i class="fa fa-pencil common-edit-btn"></i>Edit</a>
                                  </div>
                                  <div class="mail">
                                     <button type="button" class="btn-edit-print empprint"><i class="fa fa-envelope common-edit-btn"></i>Mail</button>
                                  </div>
                                  <div class="pdf">
-                                    <a target="blank" href="{{ url('employee-pdf') }}/{{$employee->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-pdf-o common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
+                                    <a target="blank" href="{{ url('employee-pdf') }}/{{$employee->id}}" class="btn-edit-print emppdf"><i class="fa fa-file-text common-edit-btn" aria-hidden="true"></i>PDF/Print</a>
                                  </div>
                               </div>
                            </div>

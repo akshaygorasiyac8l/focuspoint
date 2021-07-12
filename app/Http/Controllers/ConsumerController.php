@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use PDF;
 use Storage;
 use Illuminate\Support\Facades\File; 
-
+use stdClass;
 class ConsumerController extends Controller
 {
     /**
@@ -1489,10 +1489,140 @@ class ConsumerController extends Controller
     }
     
     
-    
+    public function getConsumerbyid(Request $request)
+    {
+        $consumers = DB::table('consumers')->where('id',$request->consumer_id)->first();
+        $consumers->dob = date('m/d/Y', strtotime($consumers->dob));
+        if($consumers){
+            return response()->json(['success' => 1, 'consumers' => $consumers]);
+        }else{
+            return response()->json(['success' => 0]);
+        }
+    }
     public function consumerDetail($id)
     {
         $data['consumer'] = DB::table('consumers')->where('id',$id)->first();
+        $assessments = DB::table('assessments')->where('consumer_id',$id)->get();
+        foreach($assessments as $assessment){
+            
+                $assessment->assignee_name = 'Unassigned';
+                $assignee = DB::table('users')->where('id',$assessment->assignee)->first();
+                if($assignee){
+                    $assessment->assignee_name = $assignee->fname.' '.$assignee->lname;
+                }
+                
+                $assessment->payer_name = '';
+                $payer = DB::table('consumer_payers')->where('consumer_id',$assessment->consumer_id)->first();
+                if($payer){
+                    $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
+                    if($payer_data){
+                        $assessment->payer_name = $payer_data->title;
+                    }
+                }
+                
+                
+                
+                if($assessment->status=='0'){
+                    $assessment->status = 'Open';
+                }else if($assessment->status=='1'){
+                    $assessment->status = 'Fixed';
+                }else if($assessment->status=='2'){
+                    $assessment->status = 'Completed';
+                }else if($assessment->status=='3'){
+                    $assessment->status = 'In-Progress';
+                }else{
+                    $assessment->status = '-';
+                }
+                $assessment->assessment_date = date('m/d/y', strtotime($assessment->assessment_date));
+                $assessment->created_date = date('m/d/y H:i', strtotime($assessment->created_date));
+                $assessment->total_hours = '0';
+        }
+        $data['assessments'] =       $assessments;  
+        $authorizations = DB::table('authorizations')->where('consumer_id',$id)->get();
+        foreach($authorizations as $authorization){
+                $consumer = DB::table('consumers')->where('id',$authorization->consumer_id)->first();
+                $authorization->consumer_name = $consumer->fname.' '.$consumer->lname;
+                
+                $authorization->payer_name = '-';
+                $payer = DB::table('consumer_payers')->where('consumer_id',$authorization->consumer_id)->first();
+                if($payer){
+                    $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
+                    if($payer_data){
+                        $authorization->payer_name = $payer_data->title;
+                    }
+                }
+                
+                $authorization->service_name = '-';
+                $services = DB::table('services')->where('id',$authorization->services)->first();
+                if($services){
+                    $authorization->service_name = $services->title;
+                }
+                
+                
+                if($authorization->status=='0'){
+                    $authorization->status = 'Open';
+                }else if($authorization->status=='1'){
+                    $authorization->status = 'Fixed';
+                }else if($authorization->status=='2'){
+                    $authorization->status = 'Completed';
+                }else if($authorization->status=='3'){
+                    $authorization->status = 'In-Progress';
+                }else{
+                    $authorization->status = '-';
+                }
+                
+                $authorization->created_date = date("m/d/Y",strtotime($authorization->created_date));
+                $authorization->approve_date = date("m/d/Y",strtotime($authorization->approve_date));
+                $authorization->expiry_date = date("m/d/Y",strtotime($authorization->expiry_date));
+        }
+        $data['authorizations'] = $authorizations;
+        $data['authorization_addresses']  = '';
+        $consumer_addresses = DB::table('consumer_addresses')->where('consumer_id',$id)->first();
+        
+        if($consumer_addresses){
+            
+                //$authorization_addresses->state_name = $authorization_addresses->state;
+                $states = DB::table('states')->where('id',$consumer_addresses->state)->first();
+                $authorization_addresses=(object) array();
+                $authorization_addresses->state_name = '';
+                if($states){
+                    $authorization_addresses->state_name = $states->name;
+                }else{
+                    
+                    $authorization_addresses->state_name = '';
+                }
+                //echo $authorization->state_name;
+                //$authorization_addresses->country_name = $authorization_addresses->country;
+                $countries = DB::table('countries')->where('id',$consumer_addresses->country)->first();
+                if($countries){
+                    $authorization_addresses->country_name = $countries->name;
+                }else{
+                    
+                    $authorization_addresses->country_name = '';
+                }
+                $authorization_addresses->address1 = $consumer_addresses->address1;
+                $authorization_addresses->address2 = $consumer_addresses->address2;
+                $authorization_addresses->city = $consumer_addresses->city;
+                $authorization_addresses->zipcode  = $consumer_addresses->zipcode;
+            
+        }else{
+            
+            $authorization_addresses=(object) array();
+            $authorization_addresses->country_name = '';
+            $authorization_addresses->state_name = '';
+            $authorization_addresses->address1 = '';
+            $authorization_addresses->address2 = '';
+            $authorization_addresses->city = '';
+            $authorization_addresses->zipcode = '';
+        }
+        $data['authorization_addresses'] = $authorization_addresses;
+        
+        $authorization_phones = DB::table('consumer_phones')->where('consumer_id',$id)->first();
+        $authorization_phones->phone_no =  '';
+        if($authorization_phones){
+            $authorization_phones->phone_no = $authorization_phones->phone;
+        }
+        $data['phone_no'] = $authorization_phones->phone_no;
         
         return view('consumer/consumers-details',$data);
     }

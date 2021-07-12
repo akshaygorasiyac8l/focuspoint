@@ -41,6 +41,7 @@
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
+                                    <!--
                                     <div class="form-group">
 		                     				<select class="form-control assessment_id" name="assessment">
                                                 <option value="">Select assessment</option>
@@ -50,28 +51,31 @@
 			                                    
 			                                </select>
 		                     			</div>
+                                        -->
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Consumer Name</label>
                                        <div class="col-md-9">
-                                          <select class="form-control droupdown mobile-drop common-selectbox consumername" name="consumername">
+                                          <select @if($consumer_id) disabled @endif class="form-control droupdown mobile-drop common-selectbox consumername" name="consumername">
                                              <option value="">Select Consumer</option>
                                              @foreach($consumers  as $consumer)
-                                             <option value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
+                                             <option {{$consumer_id==$consumer->id ? "selected" : ""}} value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
                                              @endforeach
                                          </select>
                                          <div class="view-part-consumer">
-                                             <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</a>
+                                             <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Consumer Details</a>
                                              <span>|</span>
                                              <a href="javascript:;" class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
                                          </div>
                                             <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
                                                <div class="modal-dialog">
                                                  <div class="modal-content">
+                                                 <!--
                                                     <div class="modal-header">
                                                        <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
                                                     </div>
-                                                    <div class="modal-body">
-                                                      
+                                                    -->
+                                                    <div class="modal-body  consumerdetailsData">
+                                                         
                                                     </div>
                                                     <div class="modal-footer">
                                                       <button class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -630,7 +634,10 @@
                         <div class="card-footer">
                            <button type="button" class="btn btn-info saveassessment">Save</button>
                            <a href="{{ route('assessments-listing') }}" class="btn btn-default float-right">Cancel</a>
+                           <!--
                            <a href="#myModal" class="spent-time common-button space-remove-btn" data-toggle="modal"><i class="fa fa-hourglass common-icons"></i>Add Spent Time</a>
+                           
+                           -->
                          </div>
                      </div>
                   </section>
@@ -904,7 +911,38 @@ $(function () {
        
        
        
+        $('html').on('click', '.clickonviewconsumerdet', function (e) {
+            //.consumerdetailsData
+            $('.consumerdetailsData').html('');
+            var consumername = $('.consumername').val();
+            var url = "{{ route('getconsumerbyid') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {consumer_id:consumername},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '<h2>'+data.consumers.salutation+' '+data.consumers.fname+' '+data.consumers.lname+'</h2>';
+                        htmlData += '<p>DOB: '+data.consumers.dob+'</p>';
+                        htmlData += '<p>Email: '+data.consumers.email+'</p>';
+                        htmlData += '<p>Record NO: '+data.consumers.record_no+'</p>';
+                        htmlData += '<p>Case Name: '+data.consumers.case_name+'</p>';
+                        $('.consumerdetailsData').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
 
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });
            
         
         $('html').on('click', '.saveassessment', function (e) {
@@ -1075,7 +1113,7 @@ $(function () {
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('assessments-add') }}";
+            var url = "{{ url('assessments-add/0') }}";
             $.ajax({
                 url: url,
                 type: "POST",

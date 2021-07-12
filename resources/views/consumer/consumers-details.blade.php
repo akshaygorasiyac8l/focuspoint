@@ -35,12 +35,12 @@
                                  <div class="form-group new-transaction">                           
                                     <select class="form-control new-tran-field new onchnagepage">
                                        <option value="">Select </option>
-                                       <option value="1">New Assessment</option>
-                                       <option value="2">New Authorization</option>
-                                       <option value="3">New Service Plan</option>
-                                       <option value="4">New Consumer Notes</option>
-                                       <option value="5">New Document</option>
-                                       <option value="6">New Invoice</option>
+                                       <option value="1">Assessment</option>
+                                       <option value="2">Authorization</option>
+                                       <option value="3">Service Plan</option>
+                                       <option value="4">Consumer Notes</option>
+                                       <option value="5">Document</option>
+                                       <option value="6">Invoice</option>
                                     </select>
                                     <i class="fa fa-angle-down new-tran"></i>
                                  </div>
@@ -96,13 +96,19 @@
                            <div class="other-details-sub">
                               <h4 class="overview-title-sub">{{$consumer->salutation}}.{{$consumer->fname}} {{$consumer->lname}}</h4>
                               <p>{{$consumer->email}}</p>
-                              <p>+16179804444</p>
-                              <a href="javascript:;">Delete</a>
+                              <p>{{$phone_no}}</p>
+                              <a href="javascript:;" class="deleteconsumer" data="{{$consumer->id}}" >Delete</a>
                               <h4 class="address-title">Address</h4>
-                              <span class="address-info">7229 Andystorley <br>
-                              New Island Street, <br>
-                              Richey, Florida <br>
-                              34653, U.S.A.
+                              <span class="address-info">{{$authorization_addresses->address1}} <br>
+                              @if($authorization_addresses->address2)
+                              {{$authorization_addresses->address2}}, <br>
+                              @endif
+                              @if($authorization_addresses->city)
+                              {{$authorization_addresses->city}}, 
+                          @endif
+                          {{$authorization_addresses->state_name}} <br>
+                          @if($authorization_addresses->zipcode)
+                              {{$authorization_addresses->zipcode}},@endif @if($authorization_addresses->country_name){{$authorization_addresses->country_name}}.@endif
                               </span>
                            </div>
                         </div>
@@ -110,11 +116,11 @@
                            <div class="row chris-section">
                               <div class="col-md-4 total-payment">
                                  <h2 class="tot-title">Total Payment</h2>
-                                 <a href="#myModal" data-toggle="modal" class="price">$2050</a>
+                                 <a href="#myModal" data-toggle="modal" class="price">$0</a>
                               </div>
                               <div class="col-md-4 total-price">
                                  <h2 class="tot-title">Outstanding Receivables</h2>
-                                 <a href="#myModal" data-toggle="modal" class="sec-price">$375</a>
+                                 <a href="#myModal" data-toggle="modal" class="sec-price">$0</a>
                               </div>
                               <div class="col-md-4">
                                  
@@ -271,37 +277,67 @@
                                    <th>Assessment #</th>
                                    <th>Payer Name</th>
                                    <th>Employee Name</th>
-                                   <th>Date Entry</th>
+                                   <th>Created Date</th>
                                    <th>Total Hours</th>
                                    <th>Status</th>
                                </tr>
                             </thead>
                             <tbody>
+                              @foreach($assessments as $assessment)
                               <tr class="table-body">
-                                <td><a class="name-class">07/22/2020</a></td>
-                                <td>ASMT-000501</td>
-                                <td>Anthem Blue Cross Blue Shield</td>
-                                <td>Gregory-Harris,Tracee</td>
-                                <td>07/31/2020 13:32</td>
-                                <td>01:15</td>
-                                <td>Completed</td>
+                                <td><a class="name-class">{{$assessment->assessment_date}}</a></td>
+                                <td>{{$assessment->assessment_no}}</td>
+                                <td>{{$assessment->payer_name}}</td>
+                                <td>{{$assessment->assignee_name}}</td>
+                                <td>{{$assessment->created_date}}</td>
+                                <td>{{$assessment->total_hours}}</td>
+                                <td>{{$assessment->status}}</td>
                               </tr>
-                              <tr class="table-body">
-                                  <td><a class="name-class">07/11/2020</a></td>
-                                  <td>ASMT-000500</td>
-                                  <td>VA Premiere Eliite</td>
-                                  <td>Gregory-Harris,Tracee</td>
-                                  <td>07/12/2020 15:40</td>
-                                  <td>02:30</td>
-                                  <td>Pending Approval</td>
-                              </tr>
+                              @endforeach
+                              
                             </tbody>
                           </table>
                         </div>
                      </div>
                   </div>
                </section>
-               <section class="contentsection" id="authorizations"></section>
+               <section class="contentsection" id="authorizations">
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-md-12 consumer-section">
+                          <table id="table-general" class="display assessment-table" style="width:100%">
+                            <thead>
+                              <tr class="table-header">
+                                   <th>Date</th>
+                                   <th>Auth #</th>
+                                   <th>Consumer Name</th>
+                                   <th>Payer Name</th>
+                                   <th>Service Name	</th>
+                                   <th>Start Date</th>
+                                   <th>End Date</th>
+                                   <th>Status</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($authorizations as $authorization)
+                              <tr class="table-body">
+                                <td><a class="name-class">{{$authorization->created_date}}</a></td>
+                                <td>{{$authorization->auth_no}}</td>
+                                <td>{{$authorization->consumer_name}}</td>
+                                <td>{{$authorization->payer_name}}</td>
+                                <td>{{$authorization->service_name}}</td>
+                                <td>{{$authorization->approve_date}}</td>
+                                <td>{{$authorization->expiry_date}}</td>
+                                <td>{{$authorization->status}}</td>
+                              </tr>
+                              @endforeach
+                              
+                            </tbody>
+                          </table>
+                        </div>
+                     </div>
+                  </div>
+               </section>
                <section class="contentsection" id="service-plans"></section>
                <section class="contentsection" id="consumer-notes"></section>
                <section class="contentsection" id="documents"></section>
@@ -323,10 +359,14 @@
    @parent
    <script>
    $(document).ready(function() {
-       $("documents").on("change",".onchnagepage",function(){
+       
+       $("html").on("change",".onchnagepage",function(){
            var selval = $(this).val();
+          
            if(selval=="1"){
-           }else if(selval=="1"){
+               window.location.href = "{{route('assessments-add', $consumer->id)}}";
+           }else if(selval=="2"){
+               window.location.href = "{{route('authorizations-add', $consumer->id)}}";
            }
        });
    });

@@ -442,7 +442,10 @@ class AuthorizationController extends Controller
         
         
         $assignee = DB::table('users')->where('id',$authorization->assignee)->first();
-        $authorization->assignee = $assignee->fname.' '.$assignee->lname;
+        $authorization->assignee = '';
+        if($assignee){
+            $authorization->assignee = $assignee->fname.' '.$assignee->lname;
+        }
                 
         $authorization->approve_date = date("m/d/Y",strtotime($authorization->approve_date));
         $authorization->expiry_date = date("m/d/Y",strtotime($authorization->expiry_date));
@@ -514,6 +517,37 @@ class AuthorizationController extends Controller
         
     }
     
+    
+    public function  getUpdateSpendtimes(Request $request){
+        if($request->isMethod('post')){
+            $start_date_time = date('Y-m-d H:i:s',strtotime($request->start_date_time));
+            $end_date_time = date('Y-m-d H:i:s',strtotime($request->end_date_time));
+            $assignee = $request->assignee;
+            $comment = $request->comment;
+            $date = date('Y-m-d H:i:s');
+            $id = $request->id;
+            
+            DB::table('authorization_spend_times')
+            ->where("id",$id)
+            ->update([
+                //'assignee_id' => $assignee,
+                'start_date_time' => $start_date_time,
+                'end_date_time' => $end_date_time,
+                'comment' => $comment,
+                'updated_date' => $date,
+            ]);
+            
+            
+            if($id){
+              return response()->json(['message' => 'Updated Successfully!','class' => 'success']);
+            }else{
+                return response()->json(['message' => 'Something Wrong!','class' => 'danger']);
+            }
+            
+            
+        }
+    }
+    
     public function  spendTime(Request $request){
         if($request->isMethod('post')){
             $start_date_time = date('Y-m-d H:i:s',strtotime($request->start_date_time));
@@ -543,6 +577,87 @@ class AuthorizationController extends Controller
             
         }
     }
+    
+    
+    function getTotaltime($start,$end){
+
+        
+        $date1 = strtotime($start);
+        $date2 = strtotime($end);
+
+        // Formulate the Difference between two dates
+        $diff = abs($date2 - $date1);
+
+
+        // To get the year divide the resultant date into
+        // total seconds in a year (365*60*60*24)
+        $years = floor($diff / (365*60*60*24));
+
+
+        // To get the month, subtract it with years and
+        // divide the resultant date into
+        // total seconds in a month (30*60*60*24)
+        $months = floor(($diff - $years * 365*60*60*24)
+                                    / (30*60*60*24));
+
+
+        // To get the day, subtract it with years and
+        // months and divide the resultant date into
+        // total seconds in a days (60*60*24)
+        $days = floor(($diff - $years * 365*60*60*24 -
+                    $months*30*60*60*24)/ (60*60*24));
+
+
+        // To get the hour, subtract it with years,
+        // months & seconds and divide the resultant
+        // date into total seconds in a hours (60*60)
+        $hours = floor(($diff - $years * 365*60*60*24
+            - $months*30*60*60*24 - $days*60*60*24)
+                                        / (60*60));
+
+
+        // To get the minutes, subtract it with years,
+        // months, seconds and hours and divide the
+        // resultant date into total seconds i.e. 60
+        $minutes = floor(($diff - $years * 365*60*60*24
+                - $months*30*60*60*24 - $days*60*60*24
+                                - $hours*60*60)/ 60);
+
+
+        // To get the minutes, subtract it with years,
+        // months, seconds, hours and minutes
+        $seconds = floor(($diff - $years * 365*60*60*24
+                - $months*30*60*60*24 - $days*60*60*24
+                        - $hours*60*60 - $minutes*60));
+
+
+                    
+                    if($years > 0){
+                       
+                        $data = $years.'y '.$months.'m '.$days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                        
+                    }else if($months > 0){
+                        
+                        $data = $months.'m '.$days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($days > 0){
+                        
+                       $data = $days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($hours > 0){
+                        
+                        $data = $hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($minutes > 0){
+                       
+                       $data = $minutes.'m '.$seconds.'s ';
+                    
+                    }else if($seconds > 0){
+                       
+                        $data = $seconds.'s ';
+                    }
+                    
+                    return $data;
+
+
+    }
 
     public function  getSpendtimes(Request $request){
         if($request->isMethod('post')){
@@ -556,7 +671,11 @@ class AuthorizationController extends Controller
                 $authorization_spend_time->assignee_id = $users->fname.' '.$users->lname;
                 $authorization_spend_time->created_date = date('d M Y',strtotime($authorization_spend_time->created_date));
                 $authorization_spend_time->created_date_val = date('d M Y H:i',strtotime($authorization_spend_time->created_date));
-                $authorization_spend_time->totalspendtime = '1h 20m';
+                $authorization_spend_time->start_time = date('Y-M-d H:i',strtotime($authorization_spend_time->start_date_time));
+                $authorization_spend_time->end_time = date('Y-M-d H:i',strtotime($authorization_spend_time->end_date_time));
+                
+                $totalspendtime = $this->getTotaltime($authorization_spend_time->start_date_time,$authorization_spend_time->end_date_time);
+                $authorization_spend_time->totalspendtime = $totalspendtime;
                 if($authorization_spend_time->comment==null){
                     $authorization_spend_time->comment = '';
                 }

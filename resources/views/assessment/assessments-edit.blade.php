@@ -41,6 +41,7 @@
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
+                                 <!--
                                     <div class="form-group">
 		                     				<select class="form-control assessment_id" name="assessment">
                                                 <option value="">Select assessment</option>
@@ -50,6 +51,7 @@
 			                                    
 			                                </select>
 		                     			</div>
+                                        -->
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Consumer Name</label>
                                        <div class="col-md-9">
@@ -60,10 +62,27 @@
                                              @endforeach
                                          </select>
                                          <div class="view-part-consumer">
-                                             <button class="common-button-addmore"><i class="fa fa-user view-user"></i>View Consumer Details</button>
+                                             <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Consumer Details</a>
                                              <span>|</span>
-                                             <button class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</button>
+                                             <a href="javascript:;" class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
                                          </div>
+                                         <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
+                                               <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                 <!--
+                                                    <div class="modal-header">
+                                                       <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
+                                                    </div>
+                                                    -->
+                                                    <div class="modal-body  consumerdetailsData">
+                                                         
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                 </div>
+                                               </div>
+                                             </div>
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -155,7 +174,7 @@
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
                                             <select class="form-control  assignee apprroved" name="assignee">
-                                                <option value="">Unassigned</option>
+                                                <option value="0">Unassigned</option>
                                                 @foreach($users  as $user)
                                                 <option {{$assessments->status==$user->id ? "selected" : ""}} value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
                                                 @endforeach
@@ -588,6 +607,9 @@
                         </div>
                      </div>
                   </section>
+             
+                  
+                  
                   <div class="modal add-spent-time-popup fade" id="myModal" role="dialog">
                      <div class="modal-dialog">
                         <div class="modal-content">
@@ -596,51 +618,141 @@
                            </div>
                            <div class="modal-body">
                               <div class="row">
-                                 <div class="col-md-12">
-                                    <table class="add-spent-tabel common-table-info">
-                                       <tr>
-                                          <th>Employee Name</th>
-                                          <th>Spent Time</th>
-                                          <th>Comment</th>
-                                          <th>Created Date</th>
-                                       </tr>
-                                       <tr>
-                                          <td>Edward Gao</td>
-                                          <td>1h 35m</td>
-                                          <td></td>
-                                          <td>12/22/2020 13:35</td>
-                                       </tr>
-                                       <tr>
-                                          <td>Gregory-Harris, Tracee</td>
-                                          <td>2h 20m</td>
-                                          <td>Went to office</td>
-                                          <td>12/25/2020 13:35</td>
-                                       </tr>
-                                    </table>
+                                 <div class="col-md-12  allsepndtimes">
+                                    <div class="spent-time-details">
+                                      <div class="spent-time-display">
+                                        <div class="spent-details-box">
+                                          <div class="sparate-icon">
+                                            <i class="fa fa-hourglass common-icons timer-icon"></i>
+                                            <span class="border-spent"></span>
+                                          </div>
+                                          <div class="spent-part">
+                                            <h6 class="user-name-title">Gregory-Harris</h6>
+                                            <div class="spent-time-parts">
+                                              <p class="spent-date">10 Jun 2021</p>
+                                              <p class="spent-time-title">1h 20m</p>
+                                              <p class="spent-title">The work item automatically added by the timer.</p>
+                                              <p class="spent-datetime">10 Jun 2021 12:00</p>
+                                              <p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>
+                                            </div>
+                                          </div>
+                                        </div>                                        
+                                        <div class="spent-edit-time">
+                                          <div class="row">
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
+                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
+                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-8">
+                                                <div class="form-group">
+                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="btn-section-spent">
+                                            <button type="button" class="btn btn-info">Save</button>
+                                            <button type="button" class="btn btn-default btn-spent-close">Cancel</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div class="spent-time-details">
+                                      <div class="spent-time-display">
+                                        <div class="spent-details-box">
+                                          <div class="sparate-icon">
+                                            <i class="fa fa-hourglass common-icons timer-icon"></i>
+                                            <span class="border-spent"></span>
+                                          </div>
+                                          <div class="spent-part">
+                                            <h6 class="user-name-title">Gregory-Harris</h6>
+                                            <div class="spent-time-parts">
+                                              <p class="spent-date">10 Jun 2021</p>
+                                              <p class="spent-time-title">1h 20m</p>
+                                              <p class="spent-title">The work item automatically added by the timer.</p>
+                                              <p class="spent-datetime">10 Jun 2021 12:00</p>
+                                              <p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>
+                                            </div>
+                                          </div>
+                                        </div>                                        
+                                        <div class="spent-edit-time">
+                                          <div class="row">
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
+                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-2 short-col">
+                                                <div class="form-group">
+                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
+                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
+                                                      <span class="input-group-addon calendar">
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-md-8">
+                                                <div class="form-group">
+                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="btn-section-spent">
+                                            <button type="button" class="btn btn-info">Save</button>
+                                            <button type="button" class="btn btn-default btn-spent-close">Cancel</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                 
+                                 
+                                 
                                  </div>
                               </div>
                               <div class="row">
-                                 <div class="col-md-4 short-col">
+                                 <div class="col-md-2 short-col">
                                     <div class="form-group">
-                                       <div class="starttime" id='startdatetimepicker'>
-                                          <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
+                                       <div class="starttime startdatetimepicker" id='startdatetimepicker'>
+                                          <input type="text" placeholder="Start Date And Start Time" class="form-control  start_date_time" />   
                                           <span class="input-group-addon calendar">
                                           </span>
                                       </div>
                                     </div>
                                  </div>
-                                 <div class="col-md-4 short-col">
+                                 <div class="col-md-2 short-col">
                                     <div class="form-group">
-                                       <div class="starttime" id='enddatetimepicker'>
-                                          <input type="text" placeholder="End Date And End Time" class="form-control" />   
+                                       <div class="starttime enddatetimepicker" id='enddatetimepicker'>
+                                          <input type="text" placeholder="End Date And End Time" class="form-control end_date_time" />   
                                           <span class="input-group-addon calendar">
                                           </span>
                                       </div>
                                     </div>
                                  </div>
-                                 <div class="col-md-4">
+                                 <div class="col-md-8">
                                     <div class="form-group">
-                                       <input type="text" name="" class="form-control" placeholder="Write a comment">
+                                       <input type="text" name="" class="form-control commentvallue" placeholder="Write a comment">
                                     </div>
                                  </div>
                                  
@@ -648,7 +760,7 @@
                               <div class="row">
                                  <div class="col-md-12">
                                     <div class="form-group">
-                                       <button class="add-new-btn">Add Spent Time</button>
+                                       <button type="button" class="add-new-btn  addspendtime">Add Spent Time</button>
                                     </div>
                                  </div>
                               </div>
@@ -656,6 +768,7 @@
                         </div>
                      </div>
                   </div>
+
                   <section class="footer-section">
                      <div class="container-fluid">
                         <div class="card-footer">
@@ -831,7 +944,204 @@ $(function () {
            });
         });
        
+
+        
+        getSpendtimes();
+        function getSpendtimes(){
+            
+            var url = "{{ url('assessments-getspendtimes') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { 
+                        
+                        assessment_id:"{{$assessments->id}}",
+
+                     },
+                success: function (data) {
+                     console.log(data);
+                     var htmlData = '';
+                     if(data.class='success'){
+                         if(data.data.length> 0 ){
+                         for(var t=0;t<data.data.length;t++){
+                             
+                             htmlData +='<div class="spent-time-details displayshn'+data.data[t].id+'">'+
+                                      '<div class="spent-time-display">'+
+                                        '<div class="spent-details-box">'+
+                                          '<div class="sparate-icon">'+
+                                            '<i class="fa fa-hourglass common-icons timer-icon"></i>'+
+                                            '<span class="border-spent"></span>'+
+                                          '</div>'+
+                                          '<div class="spent-part">'+
+                                            '<h6 class="user-name-title">'+data.data[t].assignee_id+'</h6>'+
+                                            '<div class="spent-time-parts">'+
+                                              '<p class="spent-date">'+data.data[t].created_date+'</p>'+
+                                              '<p class="spent-time-title">'+data.data[t].totalspendtime+'</p>'+
+                                              '<p class="spent-title">'+data.data[t].comment+'</p>'+
+                                              '<p class="spent-datetime">'+data.data[t].created_date_val+'</p>'+
+                                              '<p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div> '+                                       
+                                        '<div class="spent-edit-time">'+
+                                          '<div class="row">'+
+                                             '<div class="col-md-2 short-col">'+
+                                                '<div class="form-group">'+
+                                                   '<div class="starttime startdatetimepicker" id="startdatetimepicker">'+
+                                                      '<input type="text" placeholder="Start Date And Start Time" value="'+data.data[t].start_time+'" class="form-control starttimes'+data.data[t].id+'" />'+   
+                                                      '<span class="input-group-addon calendar">'+
+                                                      '</span>'+
+                                                  '</div>'+
+                                                '</div>'+
+                                             '</div>'+
+                                             '<div class="col-md-2 short-col">'+
+                                                '<div class="form-group">'+
+                                                   '<div class="starttime enddatetimepicker" id="enddatetimepicker">'+
+                                                      '<input type="text" placeholder="End Date And End Time" value="'+data.data[t].end_time+'" class="form-control endtimes'+data.data[t].id+'" />'+   
+                                                      '<span class="input-group-addon calendar">'+
+                                                      '</span>'+
+                                                  '</div>'+
+                                                '</div>'+
+                                             '</div>'+
+                                             '<div class="col-md-8">'+
+                                                '<div class="form-group">'+
+                                                   '<input type="text" name="" class="form-control comments'+data.data[t].id+'" value="'+data.data[t].comment+'">'+
+                                                '</div>'+
+                                             '</div>'+
+                                          '</div>'+
+                                          '<div class="btn-section-spent">'+
+                                            '<button type="button" data="'+data.data[t].id+'" class="btn btn-info  saveonedit">Save</button>'+
+                                            '<button type="button" data="'+data.data[t].id+'" class="btn btn-default btn-spent-close">Cancel</button>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+                                      
+                                    '</div>';
+                                    
+                              }
+                         }
+                                    
+                                    $('.allsepndtimes').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
        
+       
+       
+       $('html').on('click', '.saveonedit', function (e) {
+           var selval = $(this).attr('data');
+           var start_date_time = $('.starttimes'+selval).val();
+            var end_date_time = $('.endtimes'+selval).val();
+            var comment = $('.comments'+selval).val();
+            var assignee = $('.assignee').val();
+            
+            if(start_date_time=='' || start_date_time==null){
+                $('.starttimes'+selval).css('border','1px solid #f00');
+                return false;
+            }
+            $('.starttimes'+selval).css('border','1px solid #ced4da');
+            
+            if(end_date_time=='' || end_date_time==null){
+                $('.endtimes'+selval).css('border','1px solid #f00');
+                return false;
+            }
+            $('.endtimes'+selval).css('border','1px solid #ced4da');
+            
+            
+            var url = "{{ url('assessments-updatespendtime') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { 
+                        start_date_time: start_date_time,
+                        end_date_time: end_date_time,            
+                        comment: comment,
+                        assignee: assignee,  
+                        id:selval
+                        
+
+                     },
+                success: function (data) {
+                     console.log(data);
+                     if(data.class='success'){
+                        getSpendtimes();
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+            
+       });
+         
+        $('html').on('click', '.addspendtime', function (e) {
+            var start_date_time = $('.start_date_time').val();
+            var end_date_time = $('.end_date_time').val();
+            var comment = $('.commentvallue').val();
+            var assignee = $('.assignee').val();
+            
+            
+            if(start_date_time=='' || start_date_time==null){
+                $('.start_date_time').css('border','1px solid #f00');
+                return false;
+            }
+            $('.start_date_time').css('border','1px solid #ced4da');
+            
+            if(end_date_time=='' || end_date_time==null){
+                $('.end_date_time').css('border','1px solid #f00');
+                return false;
+            }
+            $('.end_date_time').css('border','1px solid #ced4da');
+            
+            var url = "{{ url('assessments-spendtime') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { 
+                        start_date_time: start_date_time,
+                        end_date_time: end_date_time,            
+                        comment: comment,
+                        assignee: assignee,            
+                        assessment_id:"{{$assessments->id}}",
+
+                     },
+                success: function (data) {
+                     console.log(data);
+                     if(data.class='success'){
+                        $('.start_date_time').val('');
+                        $('.end_date_time').val('');
+                        $('.commentvallue').val('');
+                        getSpendtimes();
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+            
+        });          
        
        function  renderData(validation_array){
            var errorhtmldata = '<ul>';
@@ -901,13 +1211,44 @@ $(function () {
        
        gettotalscore();
 
-           
+        $('html').on('click', '.clickonviewconsumerdet', function (e) {
+            //.consumerdetailsData
+            $('.consumerdetailsData').html('');
+            var consumername = $('.consumername').val();
+            var url = "{{ route('getconsumerbyid') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {consumer_id:consumername},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '<h2>'+data.consumers.salutation+' '+data.consumers.fname+' '+data.consumers.lname+'</h2>';
+                        htmlData += '<p>DOB: '+data.consumers.dob+'</p>';
+                        htmlData += '<p>Email: '+data.consumers.email+'</p>';
+                        htmlData += '<p>Record NO: '+data.consumers.record_no+'</p>';
+                        htmlData += '<p>Case Name: '+data.consumers.case_name+'</p>';
+                        $('.consumerdetailsData').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });   
         
         $('html').on('click', '.saveassessment', function (e) {
             
             
             var consumername = $('.consumername').val();
-            var assessment_id = $('.assessment_id').val();
+            //var assessment_id = $('.assessment_id').val();
             var assessment_no = $('.assessment_no').val();
             var location_name = $('.location_name').val();
             var communication = $('.communication').val();
@@ -1086,7 +1427,7 @@ $(function () {
             
             var dataValues = { 
                               consumername: consumername,
-                              assessment_id: assessment_id,            
+                              //assessment_id: assessment_id,            
                               assessment_no: assessment_no,
                               location_name: location_name,            
                               communication: communication,
@@ -1325,7 +1666,45 @@ $(document).ready(function() {
          e.preventDefault(); $(this).parent().parent().parent().remove(); x--;
      });
   });
+
+
+
    
+// Date and Time Picker
+$(function () {
+   $('.startdatetimepicker').datetimepicker({ 
+      allowInputToggle: true,
+      format: 'YYYY-MMM-DD HH:mm',
+      inline: false,
+      sideBySide: true
+   }); 
+});
+$(function () {
+   $('.enddatetimepicker').datetimepicker({ 
+      allowInputToggle: true,
+      format: 'YYYY-MMM-DD HH:mm',
+      inline: false,
+      sideBySide: true
+   }); 
+});
+$(document).on('focus','.startdatetimepicker',function(){
+    $('.startdatetimepicker').datetimepicker({ 
+      allowInputToggle: true,
+      format: 'YYYY-MMM-DD HH:mm',
+      inline: false,
+      sideBySide: true
+   }); 
+});
+
+$(document).on('focus','.enddatetimepicker',function(){
+    $('.enddatetimepicker').datetimepicker({ 
+      allowInputToggle: true,
+      format: 'YYYY-MMM-DD HH:mm',
+      inline: false,
+      sideBySide: true
+   }); 
+});
+
 
 </script>
 <style>

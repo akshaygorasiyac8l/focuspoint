@@ -114,10 +114,10 @@ Route::get('/consumers-details/{id}', [App\Http\Controllers\ConsumerController::
 Route::any('/deleteconsumers', [App\Http\Controllers\ConsumerController::class, 'deleteConsumers'])->name('deleteconsumers');
 Route::any('/searchconsumers', [App\Http\Controllers\ConsumerController::class, 'searchConsumers'])->name('searchconsumers');
 Route::any('/pdfconsumers', [App\Http\Controllers\ConsumerController::class, 'pdfConsumerAll'])->name('pdfconsumers');
-
+Route::any('/getconsumerbyid', [App\Http\Controllers\ConsumerController::class, 'getConsumerbyid'])->name('getconsumerbyid');
 
 Route::get('/assessments-listing', [App\Http\Controllers\AssessmentController::class, 'index'])->name('assessments-listing');
-Route::any('/assessments-add', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
+Route::any('/assessments-add/{consumer_id}', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
 Route::get('/assessments-details/{id}', [App\Http\Controllers\AssessmentController::class, 'assessmentDetail'])->name('assessments-details');
 Route::any('/getassessments', [App\Http\Controllers\AssessmentController::class, 'getAssessments'])->name('getassessments');
 Route::any('/assessments-edit/{id}', [App\Http\Controllers\AssessmentController::class, 'editAssessment'])->name('assessments-edit');
@@ -125,6 +125,11 @@ Route::any('/assessment-mail/{id}', [App\Http\Controllers\AssessmentController::
 Route::any('/assessment-pdf/{id}', [App\Http\Controllers\AssessmentController::class, 'pdfAssessment'])->name('assessment-pdf');
 Route::any('/pdfassessments', [App\Http\Controllers\AssessmentController::class, 'pdfAssessmentAll'])->name('pdfassessments');
 Route::any('/deleteassessments', [App\Http\Controllers\AssessmentController::class, 'deleteAssessments'])->name('deleteassessments');
+Route::any('/assessments-spendtime', [App\Http\Controllers\AssessmentController::class, 'spendTime'])->name('assessments-spendtime');
+Route::any('/assessments-getspendtimes', [App\Http\Controllers\AssessmentController::class, 'getSpendtimes'])->name('assessments-getspendtimes');
+Route::any('/assessments-updatespendtime', [App\Http\Controllers\AssessmentController::class, 'getUpdateSpendtimes'])->name('assessments-updatespendtime');
+
+
 
 Route::get('/authorizations-listing', [App\Http\Controllers\AuthorizationController::class, 'index'])->name('authorizations-listing');
 Route::any('/authorizations-add/{consumer_id}', [App\Http\Controllers\AuthorizationController::class, 'addAuthorization'])->name('authorizations-add');
@@ -137,6 +142,7 @@ Route::any('/authorization-pdf/{id}', [App\Http\Controllers\AuthorizationControl
 Route::any('/authorization-mail/{id}', [App\Http\Controllers\AuthorizationController::class, 'mailAuthorization'])->name('authorization-mail');
 Route::any('/authorizations-spendtime', [App\Http\Controllers\AuthorizationController::class, 'spendTime'])->name('authorizations-spendtime');
 Route::any('/authorizations-getspendtimes', [App\Http\Controllers\AuthorizationController::class, 'getSpendtimes'])->name('authorizations-getspendtimes');
+Route::any('/authorizations-updatespendtime', [App\Http\Controllers\AuthorizationController::class, 'getUpdateSpendtimes'])->name('authorizations-updatespendtime');
 
 
 Route::get('/assessment-types', [App\Http\Controllers\AssessmentController::class, 'assessmentType'])->name('assessment-types');

@@ -56,12 +56,12 @@
                         <div class="col-md-3" id="header-btn-section">
                           <ul class="new-dropdown-hover">
                             <li class="droupdown-hover-add">
-                              <a href="{{ route('assessments-add') }}" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
+                              <a href="{{ route('assessments-add','0') }}" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
                               <ul class="dropdown-notes">
-                                <li><a href="{{ route('assessments-add') }}">Attach Assessment</a></li>
-                                <li><a href="{{ route('assessments-add') }}">Behavior Health Assessment - H0031 (Part1)</a></li>
-                                <li><a href="{{ route('assessments-add') }}">Behavior Health Assessment - H0031 (Part2)</a></li>
-                                <li><a href="{{ route('assessments-add') }}">Child/Adolescent Treatment Plan - H0032</a></li>
+                                <li><a href="{{ route('assessments-add','0') }}">Attach Assessment</a></li>
+                                <li><a href="{{ route('assessments-add','0') }}">Behavior Health Assessment - H0031 (Part1)</a></li>
+                                <li><a href="{{ route('assessments-add','0') }}">Behavior Health Assessment - H0031 (Part2)</a></li>
+                                <li><a href="{{ route('assessments-add','0') }}">Child/Adolescent Treatment Plan - H0032</a></li>
                               </ul>
                             </li>
                             <li>
