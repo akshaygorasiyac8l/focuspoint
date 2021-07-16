@@ -25,7 +25,7 @@
                   <section class="content-header">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-12 page-background">
+                           <div class="col-md-12 page-background" id="consumer-section">
                               <h1 class="page-title"> {{$employee->fname}} {{$employee->lname}}</h1>
                            </div>
                         </div>
@@ -40,7 +40,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Employee Name</label>
+                                       <label class="col-md-3 col-form-label">Employee Name<span class="required-mark">*</span></label>
                                        <div class="col-md-9">
                                           <div class="row salutions">
                                              <div class="col-md-3 time-add">
@@ -63,7 +63,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Gender</label>
+                                       <label class="col-md-3 col-form-label">Gender<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text">
                                           <select class="form-control droupdown width-add gender" name="gender">
                                              <option value="" selected="selected" disabled="disabled">Select</option>
@@ -74,7 +74,7 @@
                                     </div>
                                     
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Email Address</label>
+                                       <label class="col-md-3 col-form-label">Email Address<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <input disabled type="email" name="email" class="form-control width-add email"  placeholder="" value="{{$employee->email}}">
                                        </div>
@@ -82,18 +82,18 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Phone</label>
                                        <div class="col-md-9">
-                                          <div class="row">
-                                             <div class="col-md-3 time-add">
+                                          <div class="row phone-row-new">
+                                             <div class="col-md-6 time-add">
                                                 <input type="tel" name="workphone" class="form-control mobile-drop workphone"  placeholder="Work Phone" value="{{$employee->phone}}">
                                              </div>
-                                             <div class="col-md-8 time-add">
+                                             <div class="col-md-6 time-add">
                                                 <input type="tel" name="mobile" class="form-control mobile"  placeholder="Mobile" value="{{$employee->mobile}}">
                                              </div>
                                           </div>                                             
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Role</label>
+                                       <label class="col-md-3 col-form-label">Role<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add role_id" name="role_id">
                                              <option value="" selected="selected" disabled="disabled">Select</option>
@@ -104,7 +104,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Supervisor</label>
+                                       <label class="col-md-3 col-form-label">Supervisor<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add supervisor" name="supervisor">
                                              <option value="0" selected="selected" disabled="disabled">Select</option>
@@ -152,38 +152,63 @@
                   </section>
                   <section class="contentsection" id="services-employee-add">
                      <div class="container-fluid">
-                        
                         <div class="row">
-                           <div class="col-md-4">
-                              <?php $ic = 0;?>
-                              @foreach ($services as $service)
-                                               
-                                 <div class="checkbox-parts">
-                                    <label for="services{{$service->id}}" class="emp-label-add">
-                                    <input style="margin-right:10px;"
-                                    @if(in_array($service->id,$serviceData))
-                                        checked
-                                    @endif
-                                    type="checkbox" name="services" class="services" id="services{{$service->id}}" value="{{$service->id}}">
-                                    {{$service->title}}</label>
-                                 </div>
-                                 <?php 
-                              $ic++;
-                              if($ic%16 == 0){
-                                  echo '</div><div class="col-md-4">';
-                              }else{
-                              }
-                              ?>
-                              @endforeach
-                              
-                   
-                           
+                           <div class="col-md-12">
+                              <a href="#myModal" class="btn btn-primary add-member" data-toggle="modal">Add Services...</a>
+                              <a id="remove-id" class="team-remove">Remove Services</a>
+                              <div class="check-sec">
+							  @if(count($serviceData) > 0 )
+							  @for($i=0; $i<count($serviceData);$i++)
+								<div class="check-parts">
+									<input type="checkbox" value="{{$serviceData[$i]['service_id']}}" name="teams" class="check-input  teams">
+									<label class="lbl-check">{{$serviceData[$i]['name']}}</label>
+								</div>
+							  @endfor
+							  @endif
+                              </div>
                            </div>
-                
-                        
                         </div>
+                        <div class="modal fade add-new-team-member" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true">x</button> -->
+                                  <i class="fa fa-close button-close" data-dismiss="modal" aria-hidden="true"></i>
+                                  <h4 class="modal-title">Add Services</h4>
+                                </div>
+                                <div class="modal-body">
+                                 <form class="team-form" id="submit-form">
+                                    <div class="row model-row">
+                                       <div class="col-md-4">
+                                          <label class="col-form-label user">Services</label>
+                                       </div>
+                                       <div class="col-md-8">
+                                           <div class="common-textbox">
+                                             <select name="select" class="form-control droupdown  selectedemp" name="user">
+                                                <optgroup class="dropdown-title" label="Users">
+                                                <option selected="selected" data="0" value="0" >Select</option>
+													@foreach ($services as $service)
+													<option data="{{$service->id}}" value="{{$service->title}}">{{$service->title}}</option>
+													@endforeach
+                                                </optgroup>
+                                             </select>
+                                          </div>
+                                          <div class="btn-section">
+                                             <button type="button" class="btn btn-primary btn-add" data-dismiss="modal">Add</button>
+                                             <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </form>
+                                </div>
+                              </div>
+                           </div>
+                       </div>
                      </div>
-                  </section>
+				  
+					
+	  
+				  </section>
                   <section class="contentsection" id="logins">
                      <div class="container-fluid">
                         <div class="row">
@@ -204,14 +229,14 @@
                                     </div>
                                     -->
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">New Password</label>
+                                       <label class="col-md-4 col-form-label">New Password<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="password" name="newpass" class="form-control newpass"  placeholder="" id="newpassword">
                                           <p style="color:#f00;" class="passworddata"></p>
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Confirm Password</label>
+                                       <label class="col-md-4 col-form-label">Confirm Password<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="password" name="confirmpass" class="form-control confirmpass"  placeholder="">
                                           <p style="color:#f00;" class="confirmpassworddata"></p>
@@ -263,7 +288,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Zip code</label>
+                                       <label class="col-md-4 col-form-label">Zip code<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="text" name="zip-code" class="form-control zipcode" placeholder="" value="{{$employee->zipcode}}">
                                        </div>
@@ -306,7 +331,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Hire Date</label>
+                                       <label class="col-md-4 col-form-label">Hire Date<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="text" name="hire-date" class="form-control hire-date" placeholder="" value="{{$employee->hire_date}}">
                                        </div>
@@ -393,7 +418,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div class="table-scrollbar">
-                                 <table class="table-contact-user common-table-info">
+                                 <table class="table-contact-user-employee common-table-info">
                                     <thead>
                                      <tr>
                                        <th>Contact Type</th>
@@ -493,24 +518,24 @@
                   <section class="contentsection" id="documents">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-7">
+                           <div class="col-md-12">
                               <div class="card-body">
                                  <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                        <label class="attach-file-lbl attach-file-label">Attach Files</label>
                                        <div class="file-upload-multiple">
                                           <label class="lbl-multiple-files">Select Multiple Files</label>
                                           <input type="file" name="filenames[]" class="form-control multiple-image-upload" id="file-upload" multiple="" accept=".jpg, .jpeg, .png, .txt">
                                        </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                        <div id="uploadPreview" class="employee-image">
                                        @foreach($documents as $document)
                                        <?php
                                              $varpath = 'public/files/'.$document->document;
                                           ?>
                                           @if(file_exists($varpath)) 
-                                              <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image">{{$document->document}}</p></div><div class="col-md-2"><span class="delete-image removeimg"  data="{{$document->id}}"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
+                                              <div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">{{$document->document}}</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
                                           @else                                
                                           @endif
                                        @endforeach
@@ -521,7 +546,6 @@
                                  </div>
                               </div>   
                            </div>
-                           <div class="col-md-5"></div>
                            
                            
                         </div>
@@ -584,33 +608,6 @@
    }); 
 
 
-   // Scroolbar scroll
-   var $hs = $('.table-scrollbar');
-   var $sLeft = 0;
-   var $hsw = $hs.outerWidth(true);
-   $( window ).resize(function() {
-     $hsw = $hs.outerWidth(true);
-   });
-   function scrollMap($sLeft) {
-     $hs.scrollLeft($sLeft);
-   }
-   $hs.on('mousewheel', function(e) {
-     var $max = $hsw * 2 + (-e.originalEvent.wheelDeltaY);
-     if ($sLeft > -1){
-       $sLeft = $sLeft + (-e.originalEvent.wheelDeltaY);
-     } else {
-       $sLeft = 0;
-     }
-     if ($sLeft > $max) {
-       $sLeft = $max;
-     }
-     if(($sLeft > 0) && ($sLeft < $max)) {
-       e.preventDefault();
-       e.stopPropagation(); 
-     }
-     scrollMap($sLeft);
-   });
-
    $('#user-add-icon').click(function(){
       $("#drop-down-profile").toggleClass('show');
    });
@@ -659,7 +656,7 @@ function readImage(file) {
       }         
       var n = file.name;
       
-      $('#uploadPreview').append('<div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image">' + n + '</p></div><div class="col-md-2"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
+      $('#uploadPreview').append('<div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">' + n + '</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
       $('.delete-image').click(function(){
         $(this).parent().parent().parent().remove();
       });
@@ -717,17 +714,17 @@ $(function () {
           }
         });
         
-        $('.dob').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.date-of-birth').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.hire-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.termination-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.dl-expiration').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-        $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.dob').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.date-of-birth').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.hire-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.termination-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.dl-expiration').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+        $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $('html').on('focus', '.custom-problems-field', function (e) {
-            $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
-            $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+            $('.expiry_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
+            $('.received_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         });
         
         
@@ -738,6 +735,8 @@ $(function () {
             });
             errorhtmldata += '</ul>';
             $('.errorclass').html(errorhtmldata);
+            var elem = document.getElementById("consumer-section");
+            elem.scrollIntoView();
        }
        
        function loginnfo(){
@@ -848,7 +847,7 @@ $(function () {
             
             
             var services_array= [];
-            $('.services:checked').each(function(i, value) {
+            $('.teams').each(function(i, value) {
                
                services_array.push({
                   services: $(this).val(), 
@@ -894,33 +893,33 @@ $(function () {
             var validation_array= [];
             
             if(salution==null ||  salution==''){
-               validation_array.push('Please select salutation');
+               validation_array.push('Please select Salutation');
                
             }
             
             if(fname==null ||  fname==''){
-               validation_array.push('Please enter first name');
+               validation_array.push('Please enter First Name');
                
             }
 
             
             if(lname==null  ||  lname==''){
-               validation_array.push('Please enter last name');
+               validation_array.push('Please enter Last Name');
                
             }
             
             
             if(gender==null  ||  gender==''){
-               validation_array.push('Please select gender');
+               validation_array.push('Please select Gender');
                
             }  
             
             if(role_id=='' || role_id==null){
-                validation_array.push('Please select role'); 
+                validation_array.push('Please select Role'); 
             }
             
             if(supervisor=='' || supervisor==null){
-                validation_array.push('Please select supervisor'); 
+                validation_array.push('Please select Supervisor'); 
             }
             
             
@@ -938,13 +937,13 @@ $(function () {
                var pswlen = newpass.length;
                if (pswlen < 8) {
                    loginnfo();
-                   validation_login_array.push('new password length should be 8');                   
+                   validation_login_array.push('New Password length should be 8');                   
                    
                }else {
                   
                   if (newpass != confirmpass) {
                       loginnfo();
-                       validation_login_array.push('confirm password does not match');   
+                       validation_login_array.push('Confirm Password does not match');   
                    }               
 
                }
@@ -966,7 +965,7 @@ $(function () {
             var address_array= [];
             
             if(zipcode=='' || zipcode==null){
-                address_array.push('Please enter zipcode'); 
+                address_array.push('Please enter Zipcode'); 
                 addressinfo();
             }
             
@@ -985,7 +984,7 @@ $(function () {
             var other_array= [];
             
             if(hire_date=='' || hire_date==null){
-                other_array.push('Please select hire date'); 
+                other_array.push('Please select Hire Date'); 
                 otherinfo();
             }
             
@@ -1098,7 +1097,7 @@ $(function () {
    
    $(document).ready(function() {
        var max_fields      = 100;
-       var wrapper         = $(".table-contact-user"); 
+       var wrapper         = $(".table-contact-user-employee"); 
        var add_button      = $(".add_form_contact_user"); 
        
        var empData = '';
@@ -1299,8 +1298,52 @@ $(function () {
           
       });
       
+$('html').on("click",".btn-add",function(){
+		 if(empName!='0'){
+			var empName = $('.selectedemp').val();
+			var empId = $('.selectedemp option:selected').attr('data');
 
-   
+			var htmlData = '<div class="check-parts">'+
+								'<input type="checkbox" value="'+empId+'" name="teams" class="check-input  teams">'+
+								'<label class="lbl-check">'+empName+'</label>'+
+							 '</div>';
+			$('.selectedemp option:selected').hide();
+			$('.check-sec').append(htmlData);
+			$('.selectedemp').val('0');
+		}
+     });
+	 
+	 $('html').on("click",".team-remove",function(){
+		 $('.teams').each(function(){
+			 if($(this).is(':checked')){
+				 var selVal = $(this).val();
+				 //$('.selectedemp option=[value='+selVal+']').show();
+				 $('.selectedemp option[data="'+selVal+'"]').show();
+				 $(this).parent('.check-parts').remove();
+			 }
+		 });
+	 
+     });
+	 
+	 @if(count($serviceData) > 0 )
+	  @for($i=0; $i<count($serviceData);$i++)
+				 $('.selectedemp option[data="{{$serviceData[$i]["service_id"]}}"]').hide();
+	  @endfor
+	  @endif
+	  
+	 $('.team-remove').hide();
+	  function hideRemoveOption() {
+		  $('.team-remove').hide();
+		  if($('.teams:checked').length > 0){  
+			$('.team-remove').show();
+		  }
+	  }
+	  $(document).on("change",".teams",function(){
+		  hideRemoveOption();
+	  });
+	  $(document).on("click",".team-remove",function(){
+		  hideRemoveOption();
+	  });   
 
 </script>
 <style>

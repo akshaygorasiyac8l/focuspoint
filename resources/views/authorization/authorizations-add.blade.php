@@ -41,7 +41,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Consumer Name</label>
+                                       <label class="col-md-3 col-form-label">Consumer Name<span class="required-mark">*</span></label>
                                        <div class="col-md-9">
                                           <select @if($consumer_id) disabled @endif class="form-control droupdown mobile-drop consumername" name="consumername">
                                             <option value="">Select Consumer</option>
@@ -70,26 +70,18 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Auth #</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="intan" disabled class="form-control authno"  value="AUTH-00000<?php echo $authorization_id;?>">
+                                       <label class="col-md-3 col-form-label">Assessments</label>
+                                       <div class="col-md-9  selectedAssessments">
+                                          <select class="form-control droupdown assessment_id" name="assessment_id">
+
+                                            <option value="">Select Assessment</option>
+                                            
+                                         </select>
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Intan</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="intan" disabled class="form-control intan"  value="INTAN-000001">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Insan</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="insan" class="form-control insan"  placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Service</label>
-                                       <div class="col-md-9">
+                                       <label class="col-md-3 col-form-label">Service<span class="required-mark">*</span></label>
+                                       <div class="col-md-9 selectedServices">
                                           <select class="form-control droupdown services" name="type">
 
                                             <option value="">Select Service</option>
@@ -99,6 +91,26 @@
                                          </select>
                                        </div>
                                     </div>
+                                    
+                                    <div class="form-group row">
+                                       <label class="col-md-3 col-form-label">Auth #</label>
+                                       <div class="col-md-9">
+                                          <input type="text" name="intan" disabled class="form-control authno"  value="AUTH-00000<?php echo $authorization_id;?>">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label class="col-md-3 col-form-label">INTAN</label>
+                                       <div class="col-md-9">
+                                          <input type="text" name="intan" disabled class="form-control intan"  value="INTAN-000001">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label class="col-md-3 col-form-label">INSAN</label>
+                                       <div class="col-md-9">
+                                          <input type="text" name="insan" class="form-control insan"  placeholder="">
+                                       </div>
+                                    </div>
+                                    
                                  </div>
                               </div>
                            </div>
@@ -173,7 +185,7 @@
                                  <div class="col-md-3">
                                     <span class="max-unit-title">Max Units</span>
                                  </div>
-                                 <div class="col-md-9">
+                                 <div class="col-md-9 cols-space-add">
                                     <div class="row">
                                        <div class="col-md-6 time-add">
                                           <div class="form-group">
@@ -194,7 +206,7 @@
                                  <div class="col-md-3">
                                     <span class="max-unit-title">Total Approved</span>
                                  </div>
-                                 <div class="col-md-9">
+                                 <div class="col-md-9 cols-space-add">
                                     <div class="row">
                                        <div class="col-md-4 time-add">
                                           <div class="form-group">
@@ -342,6 +354,23 @@
            });
         });
         
+        
+        var consumer_id = $('.consumername').val();
+        checkviewlinks(consumer_id);
+        
+        $('html').on("change",".consumername",function(e){
+           var consumer_id = $(this).val(); 
+           checkviewlinks(consumer_id);
+        });
+       
+        function checkviewlinks(consumer_id){
+            $('.clickonviewconsumerdet').show();
+            if(consumer_id==''){
+               $('.clickonviewconsumerdet').hide();
+            }
+        }
+        
+        
         function  renderData(validation_array){
            var errorhtmldata = '<ul>';
             $(validation_array).each(function(key,val){
@@ -352,7 +381,105 @@
        }
        
        
-              $('html').on('click', '.clickonviewconsumerdet', function (e) {
+       function getServiceOptions(assessment_id){
+            $('.selectedServices').html('');
+            var url = "{{ route('getservicesbyassessmentid') }}";
+           
+           $.ajax({
+                url: url,
+                type: "POST",
+                data: {assessment_id:assessment_id},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '<select class="form-control droupdown services" name="type">';
+
+                             htmlData +='<option value="">Select Service</option>';
+                             if(data.services.length> 0){
+                                for(var i=0;i<data.services.length;i++){
+                                    htmlData +='<option value="'+data.services[i].id+'">'+data.services[i].title+'</option>';
+                                }
+                             }else{
+                             }
+                             
+                             
+                                            
+                             htmlData +='</select>';
+                       
+                        $('.selectedServices').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+        
+        
+        $('html').on('change', '.assessment_id', function (e) {
+           var assessment_id = $(this).val();
+           getServiceOptions(assessment_id);
+           
+       });
+       
+
+
+       
+       function getAssessmentOptions(){
+           var consumer_id = $('.consumername').val();
+           $('.selectedAssessments').html('');
+           $('.selectedServices').html('<select class="form-control droupdown services" name="type"><option value="">Select Service</option></select>');
+           var url = "{{ route('getassessmentsbyconsumerid') }}";
+           
+           $.ajax({
+                url: url,
+                type: "POST",
+                data: {consumer_id:consumer_id},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '<select class="form-control droupdown assessment_id" name="assessment_id">';
+
+                             htmlData +='<option value="">Select Assessment</option>';
+                             $(data.assessments).each(function(index){
+                                 htmlData +='<option value="'+data.assessments[index].id+'">'+data.assessments[index].assessment_no+'</option>';
+                             });
+                             
+                             
+                                            
+                             htmlData +='</select>';
+                       
+                        $('.selectedAssessments').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+       }
+
+       getAssessmentOptions();
+       $('html').on('change', '.consumername', function (e) {
+           
+            getAssessmentOptions();
+           
+       });
+       
+       
+       
+         $('html').on('click', '.clickonviewconsumerdet', function (e) {
             //.consumerdetailsData
             $('.consumerdetailsData').html('');
             var consumername = $('.consumername').val();
@@ -424,13 +551,13 @@
             
 
             if(consumername==null ||  consumername==''){
-               validation_array.push('Please select consumer');
+               validation_array.push('Please select Consumer');
                
             }
             
             
             if(service==null ||  service==''){
-               validation_array.push('Please select service');
+               validation_array.push('Please select Service');
                
             }
             

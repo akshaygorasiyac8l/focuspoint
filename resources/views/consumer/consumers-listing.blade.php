@@ -65,6 +65,8 @@
                             </li>
                           </ul>
                           
+                          </div>
+                          
                         <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                              <div class="modal-dialog" id="modal-consumer">
                                 <div class="modal-content">
@@ -224,7 +226,7 @@
       
       
       
-                        </div>
+                        
                   </div>
                </section>
                <section class="content listing-tabel-section" id="user-listing-section">
@@ -238,7 +240,7 @@
                                    <th>Name</th>
                                    <th>Payer Name</th>
                                    <th>Phone</th>
-                                   <th>Coordinator</th>
+                                   <th>Program Supervisor</th>
                                    <th>Status</th>
                                </tr>
                             </thead>
@@ -479,7 +481,7 @@
                                                     '<th>Name</th>'+
                                                     '<th>Payer Name</th>'+
                                                     '<th>Phone</th>'+
-                                                    '<th>Coordinator</th>'+
+                                                    '<th>Program Supervisor</th>'+
                                                     '<th>Status</th>'+ 
                                                 '</tr>'+
                                             '</thead><tbody class="ticket-records">';
@@ -600,7 +602,7 @@
        <style>
     table#table-general1 tr td,table#table-general1 tr th{padding: 8px;}
     .fade{opacity: 1;}
-    .modal-dialog{margin: 15% auto !important;}
+
     .dataTables_filter{display:none;}
     
     </style> 

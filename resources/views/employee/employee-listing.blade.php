@@ -60,7 +60,11 @@
                             </li>
                           </ul>
                           
-                          <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                         
+                        </div>
+                        
+                                                  <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                              <div class="modal-dialog" id="modal-consumer">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -141,7 +145,7 @@
                          
                          
                          
-                        </div>
+                         
                   </div>
                </section>
                <section class="content listing-tabel-section" id="user-listing-section">

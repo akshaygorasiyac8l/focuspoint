@@ -35,7 +35,7 @@
                                  <div class="form-group new-transaction">                           
                                     <select class="form-control new-tran-field new onchnagepage">
                                        <option value="">Select </option>
-                                       <option value="1">Assessment</option>
+                                       <!--<option value="1">Assessment</option>-->
                                        <option value="2">Authorization</option>
                                        <option value="3">Service Plan</option>
                                        <option value="4">Consumer Notes</option>
@@ -48,9 +48,9 @@
                               <div class="col-md-4 drop-box-control">
                                  <div class="drop-down-section">
                                     <div class="form-group more-drop">                           
-                                       <select class="form-control new-tran-field more" style="-webkit-appearance: none;">
+                                       <select class="form-control new-tran-field more onchangeData" style="-webkit-appearance: none;">
                                           <option>More</option>
-                                          <option value="1">Mark as Inactive</option>
+                                          <option value="1">Suspended</option>
                                           <option value="0">Delete</option>
                                        </select>
                                     </div>
@@ -80,9 +80,11 @@
                        <li class="nav-item">
                          <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" role="tab" aria-controls="custom-content-below-settings" aria-selected="true" onclick="openTabs(event, 'consumer-notes')">Consumer Notes</a>
                        </li>
+                       <!--
 			              <li class="nav-item">
 			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" role="tab" aria-controls="custom-content-below-settings" aria-selected="true" onclick="openTabs(event, 'documents')">Documents</a>
 			              </li>
+                        -->
 			              <li class="nav-item">
 			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" role="tab" aria-controls="custom-content-below-settings" aria-selected="true" onclick="openTabs(event, 'invoices')">Invoices</a>
 			              </li>
@@ -97,7 +99,7 @@
                               <h4 class="overview-title-sub">{{$consumer->salutation}}.{{$consumer->fname}} {{$consumer->lname}}</h4>
                               <p>{{$consumer->email}}</p>
                               <p>{{$phone_no}}</p>
-                              <a href="javascript:;" class="deleteconsumer" data="{{$consumer->id}}" >Delete</a>
+                              <a href="{{route('consumers-delete', $consumer->id)}}" class="deleteconsumer" data="{{$consumer->id}}" >Delete</a>
                               <h4 class="address-title">Address</h4>
                               <span class="address-info">{{$authorization_addresses->address1}} <br>
                               @if($authorization_addresses->address2)
@@ -360,11 +362,22 @@
    <script>
    $(document).ready(function() {
        
+       
+       $("html").on("change",".onchangeData",function(){
+           var selval = $(this).val();
+          
+           if(selval=="1"){
+               window.location.href = "{{route('consumers-suspended', $consumer->id)}}";
+           }else if(selval=="0"){
+               window.location.href = "{{route('consumers-delete', $consumer->id)}}";
+           }
+       });
+       
        $("html").on("change",".onchnagepage",function(){
            var selval = $(this).val();
           
            if(selval=="1"){
-               window.location.href = "{{route('assessments-add', $consumer->id)}}";
+               window.location.href = "{{route('assessments-add', [1,$consumer->id])}}";
            }else if(selval=="2"){
                window.location.href = "{{route('authorizations-add', $consumer->id)}}";
            }

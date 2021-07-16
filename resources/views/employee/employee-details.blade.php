@@ -354,25 +354,31 @@
                      </div>
                   </section>
                   <section class="contentsection" id="document-employee">
-                     <div class="col-md-6">
-                        <div id="uploadPreview" class="employee-image">
-                           @foreach($documents as $document)
-                              <?php
-                                 $varpath = 'public/files/'.$document->document;
-                              ?>
-                              @if(file_exists($varpath)) 
-                                <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div><div class="col-md-2"></div></div></div>
-                              @else
-                                
-                              @endif
-                              
-                                    
-                           @endforeach
-                           
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div id="uploadPreview" class="employee-image image-details">
+                             @foreach($documents as $document)
+                                <?php
+                                   $varpath = 'public/files/'.$document->document;
+                                ?>
+                                @if(file_exists($varpath)) 
+                                  <div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div></div></div>
 
-                        </div>
-                        
-                     </div>
+                                @else
+                                  
+                                @endif
+                                
+                                      
+                             @endforeach
+                             
+
+                          </div>
+                          
+                       </div>
+                      </div>
+                    </div>
+                     
                   </section>
                </div>
             </form>

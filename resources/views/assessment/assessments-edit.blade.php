@@ -53,7 +53,19 @@
 		                     			</div>
                                         -->
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Consumer Name</label>
+                                       <label class="col-md-3 col-form-label">Assessment Type<span class="required-mark">*</span></label>
+                                       <div class="col-md-9">
+                                          <select  class="form-control droupdown mobile-drop common-selectbox assessment_type" name="assessment_type">
+                                             <option value="0">Select Assessment Type</option>
+                                             @foreach($assessment_types  as $assessment_type)
+                                             <option  {{$assessment_type->id==$assessments->assessment_type ? "selected" : ""}} value="{{$assessment_type->id}}">{{$assessment_type->title}} </option>
+                                             @endforeach
+                                         </select>
+                                       </div>
+                                    </div> 
+                                    
+                                    <div class="form-group row">
+                                       <label class="col-md-3 col-form-label">Consumer Name<span class="required-mark">*</span></label>
                                        <div class="col-md-9">
                                           <select class="form-control droupdown mobile-drop common-selectbox consumername" name="consumername">
                                              <option value="">Select Consumer</option>
@@ -64,7 +76,7 @@
                                          <div class="view-part-consumer">
                                              <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Consumer Details</a>
                                              <span>|</span>
-                                             <a href="javascript:;" class="common-button-addmore"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
+                                             <a href="#view_auth_details" data-toggle="modal" class="common-button-addmore clickonviewauthdet"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
                                          </div>
                                          <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
                                                <div class="modal-dialog">
@@ -83,6 +95,26 @@
                                                  </div>
                                                </div>
                                              </div>
+                                             
+                                             
+                                             <div class="modal add-spent-time-popup fade" id="view_auth_details" role="dialog">
+                                               <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                 <!--
+                                                    <div class="modal-header">
+                                                       <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
+                                                    </div>
+                                                    -->
+                                                    <div class="modal-body  authdetailsData">
+                                                         
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                 </div>
+                                               </div>
+                                             </div>
+                                             
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -154,7 +186,7 @@
                                        
 
                                        <div class="form-group row tool-box">
-                                          <label class="col-md-5 col-form-label assigned-label">Date</label>
+                                          <label class="col-md-5 col-form-label assigned-label">Date<span class="required-mark">*</span></label>
                                           <div class="col-md-7">
                                              <input type="text" name="date" class="form-control date-select without-background date_add" value="{{$assessments->assessment_date}}">
                                           </div>
@@ -173,7 +205,7 @@
                                        <div class="form-group row tool-box add-new-selectbox">
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
-                                            <select class="form-control  assignee apprroved" name="assignee">
+                                            <select class="form-control active-status assignee apprroved" name="assignee">
                                                 <option value="0">Unassigned</option>
                                                 @foreach($users  as $user)
                                                 <option {{$assessments->status==$user->id ? "selected" : ""}} value="{{$user->id}}">{{$user->fname}} {{$user->lname}}</option>
@@ -184,7 +216,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" value="{{$assessments->spent_time}}">
+                                             <input type="text" disabled name="spent-time" class="form-control without-background date-add" id="spent-time-add" value="{{$assessments->spent_time}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -573,10 +605,10 @@
                   <section class="contentsection" id="document-assessment">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-8">
+                           <div class="col-md-12">
                               <div class="card-body">
                                  <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                        <label class="attach-file-lbl attach-file-label">Attach Files</label>
                                        <div class="file-upload-multiple">
                                           <label class="lbl-multiple-files">Select Multiple Files</label>
@@ -584,14 +616,14 @@
                                           <p class="image-note-title">You can upload a maximum of 5 files, 5MB each</p>
                                       </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8 image_preview_border">
                                        <div id="uploadPreview" class="employee-image">
                                        @foreach($assessment_documents as $document)
                                           <?php
                                              $varpath = 'public/files/'.$document->document;
                                           ?>
                                           @if(file_exists($varpath)) 
-                                            <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div><div class="col-md-2"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
+                                            <div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">{{$document->document}}</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>
                                           @else
                                             
                                           @endif
@@ -603,7 +635,6 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-md-4"></div>
                         </div>
                      </div>
                   </section>
@@ -618,116 +649,14 @@
                            </div>
                            <div class="modal-body">
                               <div class="row">
-                                 <div class="col-md-12  allsepndtimes">
-                                    <div class="spent-time-details">
-                                      <div class="spent-time-display">
-                                        <div class="spent-details-box">
-                                          <div class="sparate-icon">
-                                            <i class="fa fa-hourglass common-icons timer-icon"></i>
-                                            <span class="border-spent"></span>
-                                          </div>
-                                          <div class="spent-part">
-                                            <h6 class="user-name-title">Gregory-Harris</h6>
-                                            <div class="spent-time-parts">
-                                              <p class="spent-date">10 Jun 2021</p>
-                                              <p class="spent-time-title">1h 20m</p>
-                                              <p class="spent-title">The work item automatically added by the timer.</p>
-                                              <p class="spent-datetime">10 Jun 2021 12:00</p>
-                                              <p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>
-                                            </div>
-                                          </div>
-                                        </div>                                        
-                                        <div class="spent-edit-time">
-                                          <div class="row">
-                                             <div class="col-md-2 short-col">
-                                                <div class="form-group">
-                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
-                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
-                                                      <span class="input-group-addon calendar">
-                                                      </span>
-                                                  </div>
-                                                </div>
-                                             </div>
-                                             <div class="col-md-2 short-col">
-                                                <div class="form-group">
-                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
-                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
-                                                      <span class="input-group-addon calendar">
-                                                      </span>
-                                                  </div>
-                                                </div>
-                                             </div>
-                                             <div class="col-md-8">
-                                                <div class="form-group">
-                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="btn-section-spent">
-                                            <button type="button" class="btn btn-info">Save</button>
-                                            <button type="button" class="btn btn-default btn-spent-close">Cancel</button>
-                                          </div>
-                                        </div>
-                                      </div>
+                                 <div class="col-md-12  ">
+                                    <div class="spent-time-details allsepndtimes">
                                       
                                     </div>
                                     
                                     
                                     
-                                    <div class="spent-time-details">
-                                      <div class="spent-time-display">
-                                        <div class="spent-details-box">
-                                          <div class="sparate-icon">
-                                            <i class="fa fa-hourglass common-icons timer-icon"></i>
-                                            <span class="border-spent"></span>
-                                          </div>
-                                          <div class="spent-part">
-                                            <h6 class="user-name-title">Gregory-Harris</h6>
-                                            <div class="spent-time-parts">
-                                              <p class="spent-date">10 Jun 2021</p>
-                                              <p class="spent-time-title">1h 20m</p>
-                                              <p class="spent-title">The work item automatically added by the timer.</p>
-                                              <p class="spent-datetime">10 Jun 2021 12:00</p>
-                                              <p class="spent-edit"><a href="#" class="btn-spent-edit"><i class="fa fa-pencil"></i></a></p>
-                                            </div>
-                                          </div>
-                                        </div>                                        
-                                        <div class="spent-edit-time">
-                                          <div class="row">
-                                             <div class="col-md-2 short-col">
-                                                <div class="form-group">
-                                                   <div class="starttime startdatetimepicker" id='startdatetimepicker'>
-                                                      <input type="text" placeholder="Start Date And Start Time" class="form-control" />   
-                                                      <span class="input-group-addon calendar">
-                                                      </span>
-                                                  </div>
-                                                </div>
-                                             </div>
-                                             <div class="col-md-2 short-col">
-                                                <div class="form-group">
-                                                   <div class="starttime enddatetimepicker" id='enddatetimepicker'>
-                                                      <input type="text" placeholder="End Date And End Time" class="form-control" />   
-                                                      <span class="input-group-addon calendar">
-                                                      </span>
-                                                  </div>
-                                                </div>
-                                             </div>
-                                             <div class="col-md-8">
-                                                <div class="form-group">
-                                                   <input type="text" name="" class="form-control" placeholder="Write a comment">
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="btn-section-spent">
-                                            <button type="button" class="btn btn-info">Save</button>
-                                            <button type="button" class="btn btn-default btn-spent-close">Cancel</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      
-                                    </div>
-                                 
-                                 
+
                                  
                                  </div>
                               </div>
@@ -805,35 +734,6 @@
 </script>
 <script type="text/javascript">
    
-
-
-   // Scroolbar scroll
-   var $hs = $('.table-scrollbar');
-   var $sLeft = 0;
-   var $hsw = $hs.outerWidth(true);
-   $( window ).resize(function() {
-     $hsw = $hs.outerWidth(true);
-   });
-   function scrollMap($sLeft) {
-     $hs.scrollLeft($sLeft);
-   }
-   $hs.on('mousewheel', function(e) {
-     var $max = $hsw * 2 + (-e.originalEvent.wheelDeltaY);
-     if ($sLeft > -1){
-       $sLeft = $sLeft + (-e.originalEvent.wheelDeltaY);
-     } else {
-       $sLeft = 0;
-     }
-     if ($sLeft > $max) {
-       $sLeft = $max;
-     }
-     if(($sLeft > 0) && ($sLeft < $max)) {
-       e.preventDefault();
-       e.stopPropagation(); 
-     }
-     scrollMap($sLeft);
-   });
-
    $('#user-add-icon').click(function(){
       $("#drop-down-profile").toggleClass('show');
    });
@@ -913,7 +813,8 @@ $(function () {
       allowInputToggle: true,
       format: 'YYYY-MMM-DD HH:mm',
       inline: false,
-      sideBySide: true
+      sideBySide: true,
+
    }); 
 });
 $(function () {
@@ -924,6 +825,8 @@ $(function () {
       sideBySide: true
    }); 
 });
+
+
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -933,18 +836,57 @@ $(function () {
           }
         });
         
-        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate,.date-select').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate,.date-select').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $(document).on('focus','.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate,.date-select',function(){
            $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate,.date-select').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
         });
        
+       
+         var consumer_id = $('.consumername').val();
+         checkviewlinks(consumer_id);
 
+         $('html').on("change",".consumername",function(e){
+           var consumer_id = $(this).val(); 
+           checkviewlinks(consumer_id);
+         });
+
+         function checkviewlinks(consumer_id){
+            $('.view-part-consumer').show();
+            if(consumer_id==''){
+               $('.view-part-consumer').hide();
+            }
+         }
+        
+
+
+         function gettotalSpendTime(){
+           var url = "{{ route('getTotalSpendtimeByAssessmentId', $assessments->id) }}";
+           
+           $.ajax({
+                url: url,
+                type: "POST",
+                data: { 
+         
+                        assessment_id:"{{$assessments->id}}",
+
+                     },
+                success: function (data) {
+                     console.log(data);
+                     $('#spent-time-add').val(data);
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+       }
+       
         
         getSpendtimes();
         function getSpendtimes(){
@@ -965,8 +907,7 @@ $(function () {
                          if(data.data.length> 0 ){
                          for(var t=0;t<data.data.length;t++){
                              
-                             htmlData +='<div class="spent-time-details displayshn'+data.data[t].id+'">'+
-                                      '<div class="spent-time-display">'+
+                             htmlData +='<div class="spent-time-display displayshn'+data.data[t].id+'">'+
                                         '<div class="spent-details-box">'+
                                           '<div class="sparate-icon">'+
                                             '<i class="fa fa-hourglass common-icons timer-icon"></i>'+
@@ -1011,12 +952,10 @@ $(function () {
                                           '</div>'+
                                           '<div class="btn-section-spent">'+
                                             '<button type="button" data="'+data.data[t].id+'" class="btn btn-info  saveonedit">Save</button>'+
-                                            '<button type="button" data="'+data.data[t].id+'" class="btn btn-default btn-spent-close">Cancel</button>'+
+                                            '<button type="button" data="'+data.data[t].id+'" class="btn btn-default float-right btn-spent-close">Cancel</button>'+
                                           '</div>'+
                                         '</div>'+
                                       '</div>';
-                                      
-                                    '</div>';
                                     
                               }
                          }
@@ -1075,6 +1014,7 @@ $(function () {
                      console.log(data);
                      if(data.class='success'){
                         getSpendtimes();
+                        gettotalSpendTime();
                      }else{
                         alert('Something wrong');
                         return false;
@@ -1095,7 +1035,10 @@ $(function () {
             var end_date_time = $('.end_date_time').val();
             var comment = $('.commentvallue').val();
             var assignee = $('.assignee').val();
-            
+            if(assignee=='0'){
+                alert('Please select Assignee.');
+                return false;
+            }
             
             if(start_date_time=='' || start_date_time==null){
                 $('.start_date_time').css('border','1px solid #f00');
@@ -1128,6 +1071,7 @@ $(function () {
                         $('.end_date_time').val('');
                         $('.commentvallue').val('');
                         getSpendtimes();
+                        gettotalSpendTime();
                      }else{
                         alert('Something wrong');
                         return false;
@@ -1210,6 +1154,45 @@ $(function () {
        });  
        
        gettotalscore();
+       
+                $('html').on('click', '.clickonviewauthdet', function (e) {
+            //.consumerdetailsData
+            $('.authdetailsData').html('');
+            var consumername = $('.consumername').val();
+            var url = "{{ route('getauthsbyid') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {consumer_id:consumername},
+                success: function (data) {
+                     console.log(data);
+                     if(data.success='1'){
+                        var  htmlData = '';
+                        htmlData += '<table class="table">';
+                        htmlData += '<tr><th>Consumer Name</th><th>Approve Date</th><th>Expiry Date</th><th>Discharge Date</th></tr>';
+                        
+                        $(data.authorizations).each(function(i, value) {
+                           
+                           htmlData += '<tr><td>'+data.authorizations[i].name+'</td><td>'+data.authorizations[i].approve_date+'</td><td>'+data.authorizations[i].expiry_date+'</td><td>'+data.authorizations[i].discharge_date+'</td></tr>';
+                        });
+                        
+                        htmlData += '</table>';
+                        $('.authdetailsData').html(htmlData);
+                        
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+
+
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+            
+        });
+        
 
         $('html').on('click', '.clickonviewconsumerdet', function (e) {
             //.consumerdetailsData
@@ -1246,7 +1229,7 @@ $(function () {
         
         $('html').on('click', '.saveassessment', function (e) {
             
-            
+            var assessment_type = $('.assessment_type').val();
             var consumername = $('.consumername').val();
             //var assessment_id = $('.assessment_id').val();
             var assessment_no = $('.assessment_no').val();
@@ -1270,29 +1253,32 @@ $(function () {
             $('.errorclass').html('');
             var validation_array= [];
             
+            if(assessment_type ==null ||  assessment_type==''){
+               validation_array.push('Please select Assessment Type');               
+            }
 
             if(consumername==null ||  consumername==''){
-               validation_array.push('Please select consumer');               
+               validation_array.push('Please select Consumer');               
             }           
             
             if(assessment_no==null ||  assessment_no==''){
-               validation_array.push('Please enter assessment no');
+               validation_array.push('Please enter Assessment No');
             }
 
             if(location_name==null  ||  location_name==''){
-               validation_array.push('Please enter location ');               
+               validation_array.push('Please enter Location ');               
             }            
             
             if(communication==null  ||  communication==''){
-               validation_array.push('Please select communication');               
+               validation_array.push('Please select Communication');               
             }  
             
             if(record_no==null  ||  record_no==''){
-               validation_array.push('Please select record no');               
+               validation_array.push('Please select Record No');               
             }
 
             if(date_add ==null  ||  date_add ==''){
-               validation_array.push('Please select Assessment date ');               
+               validation_array.push('Please select Assessment Date ');               
             }             
 
 
@@ -1426,6 +1412,7 @@ $(function () {
             
             
             var dataValues = { 
+                              assessment_type:assessment_type,
                               consumername: consumername,
                               //assessment_id: assessment_id,            
                               assessment_no: assessment_no,

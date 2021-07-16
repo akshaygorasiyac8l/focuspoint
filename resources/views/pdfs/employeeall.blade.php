@@ -17,7 +17,6 @@ $total_users = sizeof($users);
         <th>Email</th>
         <th>Phone</th>
         <th>Role</th>
-        <th>Created Date</th>
         <th>Status</th>
      
     </tr>
@@ -28,7 +27,7 @@ $total_users = sizeof($users);
         <td>{{$users[$i]['email']}}</td>
         <td>{{$users[$i]['phone']}}</td>
         <td>{{$users[$i]['role_id']}}</td>
-        <td>{{$users[$i]['created_at']}}</td>
+
         <td>{{$users[$i]['status']}}</td>
      
     </tr>

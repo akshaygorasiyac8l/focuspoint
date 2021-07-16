@@ -56,19 +56,114 @@
                         <div class="col-md-3" id="header-btn-section">
                           <ul class="new-dropdown-hover">
                             <li class="droupdown-hover-add">
-                              <a href="{{ route('assessments-add','0') }}" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
+                              <a href="javascript:;" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
                               <ul class="dropdown-notes">
-                                <li><a href="{{ route('assessments-add','0') }}">Attach Assessment</a></li>
-                                <li><a href="{{ route('assessments-add','0') }}">Behavior Health Assessment - H0031 (Part1)</a></li>
-                                <li><a href="{{ route('assessments-add','0') }}">Behavior Health Assessment - H0031 (Part2)</a></li>
-                                <li><a href="{{ route('assessments-add','0') }}">Child/Adolescent Treatment Plan - H0032</a></li>
+                                <li><a href="{{ url('assessments-add',[1,0]) }}">Behavior Health Assessment</a></li>
+                                <li><a href="{{ url('assessments-add',[2,0]) }}">Child/Adolescent Treatment Plan</a></li>
                               </ul>
                             </li>
                             <li>
-                              <button type="button" class="btn" id="header-search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>    
+                              <a href="#myModal" data-toggle="modal" class="btn-search-icon"><i class="fa fa-search" aria-hidden="true"></i></a>   
                             </li>
                           </ul>
-                     </div>
+                          </div>
+                             <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                             <div class="modal-dialog" id="modal-consumer">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                  </div>
+                                  <div class="modal-body" id="body-consumer">
+                                      <div class="row">
+                                        
+                                            
+                                         <div class="col-md-6">
+                                            <div class="form-group row">
+                                               <label class="col-md-3 col-form-label">Client Name</label>
+                                               <div class="col-md-9">
+                                                  <input type="text" name="search_name" class="form-control search_name" placeholder="">
+                                               </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <div class="form-group row">
+                                               <label class="col-md-3 col-form-label">Employee Name</label>
+                                               <div class="col-md-9">
+                                                  <input type="text" name="emp_name" class="form-control emp_name" placeholder="">
+                                               </div>
+                                            </div>
+                                            <!--
+                                            <div class="form-group row">
+                                               
+                                               <div class="col-md-12">
+                                                  <div class="row">
+                                                    <div class="col-md-2 left-cols">
+                                                        <label class="col-form-label">Start Date</label>
+                                                     </div>
+                                                     <div class="col-md-4">
+                                                        <input type="text" name="start_date" class="form-control start_date" placeholder="mm-dd-yyyy">
+                                                        <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
+                                                     </div>
+                                                     <div class="col-md-2 left-cols">
+                                                        <label class="col-form-label">End Date</label>
+                                                     </div>
+                                                     <div class="col-md-4 left-cols">
+                                                        <input type="text" name="end_date" class="form-control end_date" placeholder="mm-dd-yyyy">
+                                                        <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
+                                                     </div>
+                                                  </div>
+                                               </div>
+                                            </div>
+                                            -->
+                                            
+                                             
+                                         </div>
+                                         <div class="col-md-6">
+                                           
+                                            
+                                            
+                                            
+                                            
+                                            <div class="form-group row">
+                                               <label class="col-md-3 col-form-label">Created Date</label>
+                                               <div class="col-md-9">
+                                                  <input type="text" name="created_date" class="form-control created_date" placeholder="mm-dd-yyyy">
+                                                  <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
+                                               </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="form-group row">
+                                               <label class="col-md-3 col-form-label">Status</label>
+                                               <div class="col-md-9">
+                                                  <select class="form-control selstatus" name="status">
+                                                     <option value="">Select Status</option>
+                                                     <option value="0">Open</option>
+                                                     <option value="1">Fixed</option>
+                                                     <option value="2">Completed</option>
+                                                     <option value="3">In-Progress</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            
+                                            
+                                         </div>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                   <div class="btn-section-consumer">
+                                      <button type="button" class="btn btn-primary btn-add-search searchbtn" data-dismiss="modal">Search</button>
+                                      <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+                                   </div>
+                                  </div>
+                                </div>
+                             </div>
+                         </div>                     
+                     
                   </div>
                </section>
                <section class="content listing-tabel-section" id="assessments-section-table">
@@ -115,10 +210,10 @@
         });
         
         
-        $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
         
-        $(document).on('focus','.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date',function(){
-           $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date').datepicker({
+        $(document).on('focus','.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date',function(){
+           $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date').datepicker({
                changeMonth: true,changeYear: true,
                dateFormat: 'mm-dd-yy',
                autoclose: true,
@@ -161,6 +256,108 @@
                 $('.icon-box').slideUp();
               });
             }
+        });
+        
+        
+        
+        
+        function searchData(){
+          var search_name = $('.search_name').val();
+          var emp_name = $('.emp_name').val();
+          var start_date = $('.start_date').val();
+          var end_date = $('.end_date').val();
+          var created_date = $('.created_date').val();
+          var status = $('.selstatus').val();
+          
+          
+          var url = "{{ route('searchassessments') }}";
+          
+          
+            $.ajax({
+                url: url,
+                type: "POST",
+                data:  {
+                    search_name:search_name,
+                    emp_name:emp_name,
+                    start_date:start_date,
+                    end_date:end_date,
+                    created_date:created_date,                    
+                    status:status,
+                },
+                success: function(data)
+                {
+
+                    if(data.length > 0){
+                        
+
+                        
+                            var htmlData = '';
+                            htmlData += '<table id="table-general1" class="display user-table" style="width:100%">'+
+                                            '<thead>'+
+                                                '<tr>'+
+                                                    '<th class="check-box-title"><input id="checkbox-sellectAll" type="checkbox" class="selectAll add-new-icon" name="selectAll" value="all"></th>'+
+                                                    '<th>Date</th>'+
+                                                    '<th>Assessment #</th>'+
+                                                    '<th>Consumer Name</th>'+
+                                                    '<th>Payer Name	</th>'+
+                                                    '<th>Assignee Name</th>'+
+                                                    '<th>Created Date</th>'+
+                                                    '<th>Total Hours</th>'+
+                                                    '<th>Status</th>'+ 
+                                                '</tr>'+
+                                            '</thead><tbody class="ticket-records">';
+
+                            for(var i=0;i<data.length;i++){
+                                fname = data[i].fname;
+                                lname = data[i].lname;
+
+                                if(fname==null){
+                                    fname = '';
+                                }
+                                if(lname==null){
+                                    lname = '';
+                                }
+   
+                                
+
+                                htmlData += '<tr><td><input value="'+data[i].id+'"  name="empids" type="checkbox" class="add-new-icon" /></td>'+
+                                '<td>'+data[i].assessment_date+'</td>'+
+                                
+                                '<td><a href="assessments-details/'+data[i].id+'" data="'+data[i].id+'" class="editdata" >'+data[i].assessment_no+'</a></td>'+
+                                '<td>'+data[i].consumer_name+'</td>'+
+                                '<td>'+data[i].payer_name+'</td>'+
+                                '<td>'+data[i].assignee+'</td>'+
+                                '<td>'+data[i].created_date+'</td>'+
+                                '<td>'+data[i].total_hours+'</td>'+
+                                '<td>'+data[i].status+'</td>'+
+                                '</tr>';
+
+
+                            }
+                            
+                            $('.renderdatahtmlData').html(htmlData);
+                            renderTable();
+                    
+                    
+                     }else{
+                        alert('No record found!');
+                        return false;
+                     }
+                     
+                    
+                    
+                    
+                },
+                error: function() 
+                {
+                } 
+            });
+      }
+        
+        
+        $('html').on("click",".searchbtn",function(){
+          searchData();
+        
         });
         
 
@@ -275,120 +472,7 @@
           });
         });   
 
-        function searchData(){
-          var fname = $('.search_fname').val();
-          var lname = $('.search_lname').val();
-          var searchcasename = $('.searchcasename').val();
-          var admission_discharge_date = $('.admission-discharge-date').val();
-          var admission_to_date = $('.admission-to-date').val();
-          var insuranceid = $('.insuranceid').val();
-          //mulltiple
-          //var searchpayer = $('.searchpayer').val();
-          var searchcoordinator = $('.searchcoordinator').val();
-          var date_of_birth = $('.date-of-birth').val();
-          var selrecordno = $('.selrecordno').val();
-          var discharge_from_date = $('.discharge-from-date').val();
-          var discharge_to_date = $('.discharge-to-date').val();
-          var sellead = $('.sellead').val();
-          
-          var status = $('.selstatus').val();
-          
-          
-          var url = "{{ route('searchconsumers') }}";
-          
-          
-            $.ajax({
-                url: url,
-                type: "POST",
-                data:  {
-                    fname:fname,
-                    lname:lname,
-                    searchcasename:searchcasename,
-                    admission_discharge_date:admission_discharge_date,
-                    admission_to_date:admission_to_date,
-                    insuranceid:insuranceid,
-                    searchcoordinator:searchcoordinator,
-                    date_of_birth:date_of_birth,
-                    selrecordno:selrecordno,
-                    discharge_from_date:discharge_from_date,
-                    discharge_to_date:discharge_to_date,
-                    sellead:sellead,
-                    status:status,
-                },
-                success: function(data)
-                {
-
-                    if(data.length > 0){
-                        
-
-                        
-                            var htmlData = '';
-                            htmlData += '<table id="table-general1" class="display user-table" style="width:100%">'+
-                                            '<thead>'+
-                                                '<tr>'+
-                                                    '<th class="check-box-title"><input id="checkbox-sellectAll" type="checkbox" class="selectAll add-new-icon" name="selectAll" value="all"></th>'+
-                                                    '<th>Name</th>'+
-                                                    '<th>Payer Name</th>'+
-                                                    '<th>Phone</th>'+
-                                                    '<th>Coordinator</th>'+
-                                                    '<th>Status</th>'+ 
-                                                '</tr>'+
-                                            '</thead><tbody class="ticket-records">';
-
-                            for(var i=0;i<data.length;i++){
-                                fname = data[i].fname;
-                                lname = data[i].lname;
-
-                                if(fname==null){
-                                    fname = '';
-                                }
-                                if(lname==null){
-                                    lname = '';
-                                }
-   
-                                action = '';
-                                if(data[i].status=='Active'){
-                                    action = '<button value="'+data[i].id+'"   class="btn btn-warning suspenduser" >Suspend</button>';
-                                }else if(data[i].status=='Suspend'){
-                                    action = '<button value="'+data[i].id+'"   class="btn btn-primary suspenduser" >Reactive</button>';
-                                }else{
-                                }
-
-                                htmlData += '<tr><td><input value="'+data[i].id+'"  name="empids" type="checkbox" class="add-new-icon" /></td>'+
-                                '<td><a href="employee-details/'+data[i].id+'" data="'+data[i].id+'" class="editdata" >'+fname+' '+lname+'</a></td>'+
-                                '<td>'+data[i].consumer_payer+'</td>'+
-                                '<td>'+data[i].consumer_phone+'</td>'+
-                                '<td>'+data[i].cordinate_name+'</td>'+
-                                '<td>'+data[i].status+'</td>'+
-                                '</tr>';
-
-
-                            }
-                            
-                            $('.renderdatahtmlData').html(htmlData);
-                            renderTable();
-                    
-                    
-                     }else{
-                        alert('No record found!');
-                        return false;
-                     }
-                     
-                    
-                    
-                    
-                },
-                error: function() 
-                {
-                } 
-            });
-      }
         
-        
-        $('html').on("click",".searchbtn",function(){
-          searchData();
-        
-        });
         
         
         
@@ -447,7 +531,7 @@
        <style>
     table#table-general1 tr td,table#table-general1 tr th{padding: 8px;}
     .fade{opacity: 1;}
-    .modal-dialog{margin: 15% auto !important;}
+
     .dataTables_filter{display:none;}
     
     </style> 

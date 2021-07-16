@@ -33,27 +33,7 @@ function myFunction() {
 
 
    
-   //Form Submit data add
-   $(document).ready(function(){
-     $('.btn-add').click(function(){
-       var datastring=$("#submit-form").serialize();
-       $.ajax({
-           type:"POST",
-           url:"https://httpbin.org/post",
-           data:datastring,
-           dataType:"json",
-           success:function(data){
-        var obj=JSON.stringify(data);
-       $('.check-sec').append('<div class="check-parts"><input type="checkbox" name="" class="check-input"><label class="lbl-check">'+data['form']['select']+'</label></div>');
-       },
-       error:function(){
-       $('.check-sec').append('error handing here');
-       }
-       });
-     });
-   });
 
-    // User New Contact
 
 
 
@@ -258,35 +238,6 @@ $(document).ready(function(){
          });
       });
    })( jQuery, window, document );
-});
-
-// Tabel Scrollbar scroll JS
-$(document).ready(function(){
-  var $hs = $('.table-scrollbar');
-   var $sLeft = 0;
-   var $hsw = $hs.outerWidth(true);
-   $( window ).resize(function() {
-     $hsw = $hs.outerWidth(true);
-   });
-   function scrollMap($sLeft) {
-     $hs.scrollLeft($sLeft);
-   }
-   $hs.on('mousewheel', function(e) {
-     var $max = $hsw * 2 + (-e.originalEvent.wheelDeltaY);
-     if ($sLeft > -1){
-       $sLeft = $sLeft + (-e.originalEvent.wheelDeltaY);
-     } else {
-       $sLeft = 0;
-     }
-     if ($sLeft > $max) {
-       $sLeft = $max;
-     }
-     if(($sLeft > 0) && ($sLeft < $max)) {
-       e.preventDefault();
-       e.stopPropagation(); 
-     }
-     scrollMap($sLeft);
-   });
 });
 
 // User Profile icon click menu show

@@ -33,6 +33,36 @@ class AuthorizationController extends Controller
         return view('authorization/authorizations-listing');
     }
     
+    public function getAuthorizationList()
+    {
+        if(request()->ajax()) {
+            $datas = DB::table('authorizations')->get();
+
+            $dataarray =  array();
+            $i=0;
+            
+            foreach($datas as $data){
+
+                
+                $name = $data->auth_no;
+
+               
+                $dataarray[$i]= (object) array(
+                                    'id'=>$data->id,       
+                                    'name'=>$name,
+
+
+                                    );
+
+                
+                $i++;
+            }
+            
+            $collection = collect($dataarray);
+            return $collection;
+        }
+        
+    }
     
     public function changeDateformate($date){
         $a = explode("/",$date);
@@ -69,7 +99,7 @@ class AuthorizationController extends Controller
                 
                 
                 $payer_name = '-';
-                $payer = DB::table('consumer_payers')->where('consumer_id',$data->consumer_id)->first();
+                $payer = DB::table('consumer_payers')->where('consumer_id',$data->consumer_id)->where('makeasprimary',1)->first();
                 if($payer){
                     $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
                     if($payer_data){
@@ -288,6 +318,92 @@ class AuthorizationController extends Controller
         
     }
     
+    
+    public function getAssessmentsByConsumerId(Request $request)
+    {
+        $assessments = DB::table('assessments')->where('consumer_id',$request->consumer_id)->get();
+        
+        if($assessments){
+            return response()->json(['success' => 1, 'assessments' => $assessments]);
+        }else{
+            return response()->json(['success' => 0]);
+        }
+    }
+    
+    
+    public function getServicesByassessmentId(Request $request)
+    {
+        $assessments = DB::table('assessments')->where('id',$request->assessment_id)->first();
+        
+        if($assessments->services!=''){
+            $assessments->services =  unserialize($assessments->services);
+           
+        }else{
+            $assessments->services = array();
+        }
+        
+        $services = $assessments->services;
+        $serviceData = array();
+        if(sizeof($services) > 0 ){
+            for($i=0;$i<sizeof($services);$i++){
+                //dd($services[$i]->service);
+                
+                $servicesget = DB::table('services')->where('id',$services[$i]->service)->first();
+                $title = '';
+                if($servicesget){
+                    $title = $servicesget->title;
+                }
+                
+                $serviceData[$i] =  array('id' =>$services[$i]->service, 'title'=>$title);
+            }
+        }
+        
+        if($assessments){
+            return response()->json(['success' => 1, 'services' => $serviceData]);
+        }else{
+            return response()->json(['success' => 0]);
+        }
+    }
+    
+    
+    public function getAuthsById(Request $request)
+    {
+        $authorizations = DB::table('authorizations')->where('consumer_id',$request->consumer_id)->get();
+        if($authorizations){
+            
+            foreach($authorizations as $authorization){
+                
+                $consumer = DB::table('consumers')->where('id',$authorization->consumer_id)->first();
+                $authorization->name = $consumer->fname.' '.$consumer->lname;
+                
+                
+
+                if($authorization->approve_date!=NULL){
+                    $authorization->approve_date = date("m/d/Y",strtotime($authorization->approve_date));
+                }else{
+                     $authorization->approve_date = '-';
+                }
+                
+                
+                if($authorization->expiry_date!=NULL){
+                    $authorization->expiry_date = date("m/d/Y",strtotime($authorization->expiry_date));
+                }else{
+                     $authorization->expiry_date = '-';
+                }
+                
+                
+                if($authorization->discharge_date!=NULL){
+                    $authorization->discharge_date = date("m/d/Y",strtotime($authorization->discharge_date));
+                }else{
+                     $authorization->discharge_date = '-';
+                }
+            }
+                
+            return response()->json(['success' => 1, 'authorizations' => $authorizations]);
+        }else{
+            return response()->json(['success' => 0]);
+        }
+    }
     public function editAuthorization(Request $request,$id)
     {
         if($request->isMethod('post')){
@@ -380,7 +496,7 @@ class AuthorizationController extends Controller
             
             $authorization->spend_times_h = '0';
             $authorization->spend_times_m = '0';
-            
+            $authorization->spent_time = $this->getTotalSpendtimeByAuthId($authorization->id);
             $authorization_spend_times = DB::table('authorization_spend_times')->where('authorization_id',$id)->get();
             //dd($authorization_spend_times);
             if($authorization_spend_times){
@@ -425,7 +541,7 @@ class AuthorizationController extends Controller
         }else{
             $authorization->bill_without_unit = 'No';
         }
-        
+        $authorization->spent_time = $this->getTotalSpendtimeByAuthId($authorization->id);
         
         if($authorization->status=='0'){
             $authorization->status = 'Open';
@@ -578,6 +694,96 @@ class AuthorizationController extends Controller
         }
     }
     
+    
+    function getTotalSpendtime($start,$end){
+        $date1 = strtotime($start);
+        $date2 = strtotime($end);
+        $diff = abs($date2 - $date1);
+        return $diff;
+            
+    }
+    function getTotalSpendtimeByAuthId($id){
+        
+        $diff = 0;
+        $authorization_spend_times = DB::table('authorization_spend_times')
+            ->where('authorization_id',$id)
+            ->get();
+            foreach($authorization_spend_times as $authorization_spend_time){
+
+                
+                $totalspendtime = $this->getTotalSpendtime($authorization_spend_time->start_date_time,$authorization_spend_time->end_date_time);
+                $diff  += $totalspendtime;
+
+            }
+            
+            // To get the year divide the resultant date into
+        // total seconds in a year (365*60*60*24)
+        $years = floor($diff / (365*60*60*24));
+
+
+        // To get the month, subtract it with years and
+        // divide the resultant date into
+        // total seconds in a month (30*60*60*24)
+        $months = floor(($diff - $years * 365*60*60*24)
+                                    / (30*60*60*24));
+
+
+        // To get the day, subtract it with years and
+        // months and divide the resultant date into
+        // total seconds in a days (60*60*24)
+        $days = floor(($diff - $years * 365*60*60*24 -
+                    $months*30*60*60*24)/ (60*60*24));
+
+
+        // To get the hour, subtract it with years,
+        // months & seconds and divide the resultant
+        // date into total seconds in a hours (60*60)
+        $hours = floor(($diff - $years * 365*60*60*24
+            - $months*30*60*60*24 - $days*60*60*24)
+                                        / (60*60));
+
+
+        // To get the minutes, subtract it with years,
+        // months, seconds and hours and divide the
+        // resultant date into total seconds i.e. 60
+        $minutes = floor(($diff - $years * 365*60*60*24
+                - $months*30*60*60*24 - $days*60*60*24
+                                - $hours*60*60)/ 60);
+
+
+        // To get the minutes, subtract it with years,
+        // months, seconds, hours and minutes
+        $seconds = floor(($diff - $years * 365*60*60*24
+                - $months*30*60*60*24 - $days*60*60*24
+                        - $hours*60*60 - $minutes*60));
+
+                $data = '0h 0m';
+                    
+                    if($years > 0){
+                       
+                        $data = $years.'y '.$months.'m '.$days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                        
+                    }else if($months > 0){
+                        
+                        $data = $months.'m '.$days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($days > 0){
+                        
+                       $data = $days.'d '.$hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($hours > 0){
+                        
+                        $data = $hours.'h '.$minutes.'m '.$seconds.'s ';
+                    }else if($minutes > 0){
+                       
+                       $data = $minutes.'m '.$seconds.'s ';
+                    
+                    }else if($seconds > 0){
+                       
+                        $data = $seconds.'s ';
+                    }
+                    
+                    return $data;
+                    
+    }
     
     function getTotaltime($start,$end){
 

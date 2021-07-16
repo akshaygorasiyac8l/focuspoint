@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\DemoCron::class,
     ];
 
     /**
@@ -25,7 +26,20 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        //$schedule->command('demo:cron')->everyMinute();
+                 
+                 $schedule->call(function () {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://localhost/laravel/laravel8/focuspoint/certificationreminder");
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_exec($ch);
+                curl_close($ch);
+            })->everyMinute();
+            
     }
+    
+    
+    
 
     /**
      * Register the commands for the application.

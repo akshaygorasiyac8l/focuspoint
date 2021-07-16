@@ -16,7 +16,7 @@ $total_assessments = sizeof($assessments);
         <th>Location</th>
         <th>Communication</th>
         <th>Record No</th>
-        <th>Assessment Date</th>
+
 
      
     </tr>
@@ -26,7 +26,7 @@ $total_assessments = sizeof($assessments);
         <td>{{$assessments[$i]['location']}}</td>
         <td>{{$assessments[$i]['communication']}}</td>
         <td>{{$assessments[$i]['record_no']}}</td>
-        <td>{{$assessments[$i]['assessment_date']}}</td>
+
 
      
     </tr>

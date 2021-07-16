@@ -20,7 +20,7 @@ class EmployeeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -34,6 +34,53 @@ class EmployeeController extends Controller
         $data['employees'] = DB::table('users')->where('role_id','!=',0)->get();
         $data['roles'] = DB::table('roles')->get();
         return view('employee/employee-listing',$data);
+    }
+    
+    public function certificationReminder(){
+        $employee_certifications = DB::table('employee_certifications')->get();
+        foreach($employee_certifications as $employee_certification){
+            $expiry_date = $employee_certification->expiry_date;
+            $now_date = date('Y-m-d');
+            $datediff = strtotime($expiry_date) - strtotime($now_date);
+            $days = round($datediff / (60 * 60 * 24));
+            //echo $days.'<br>';
+            if($days==30 || $days==15 || $days==7 || $days==1){
+                
+                
+                $data = array();
+
+                
+                $employeedata = DB::table('users')->where('id',$employee_certification->employee_id)->first();
+                
+                if($employeedata){
+                    
+                   
+                   
+                    $employeedata->hire_date = date("m/d/Y",strtotime($employeedata->hire_date));
+                    $employeedata->termination_date  = date("m/d/Y",strtotime($employeedata->termination_date));
+                    $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
+                    $data['employee'] = $employeedata;
+                     
+                    $mailsend_to_employee =  Mail::send('mails.employee_reminder',
+                       $data, function($message)
+                           {
+                               $message->from('sarvesh.patel@cre8ivelabs.com');
+                               $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('For Employee ');
+                           });
+                    $mailsend_to_admin =  Mail::send('mails.admin_employee_reminder',
+                       $data, function($message)
+                           {
+                               $message->from('sarvesh.patel@cre8ivelabs.com');
+                               $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('For Admin ');
+                           });
+                           
+                }
+                
+                
+            }
+            
+        }
+        
     }
   
 
@@ -127,7 +174,7 @@ class EmployeeController extends Controller
     public function getEmployeeList()
     {
         if(request()->ajax()) {
-            $datas = DB::table('users')->where('role_id','!=',0)->get();
+            $datas = DB::table('users')->where('status',1)->where('role_id','!=',0)->get();
 
             $dataarray =  array();
             $i=0;
@@ -149,7 +196,7 @@ class EmployeeController extends Controller
                
                 $dataarray[$i]= (object) array(
                                     'id'=>$data->id,       
-                                    'fname'=>$data->fname,
+                                    'name'=>$name,
                                     'lname'=>$data->lname,
                                     'email'=>$data->email,
                                     'phone'=>$data->phone,
@@ -335,7 +382,7 @@ class EmployeeController extends Controller
     
     
     public function changeDateformate($date){
-        $a = explode("-",$date);
+        $a = explode("/",$date);
         $b = $a[2].'-'.$a[0].'-'.$a[1];
         return $b;
     }
@@ -579,7 +626,7 @@ class EmployeeController extends Controller
             $data['relations'] = DB::table('relations')->get();
             $data['countries'] = DB::table('countries')->get();
             $data['states'] = DB::table('states')->get();
-            $data['services'] = DB::table('services')->get();
+
             $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
             return view('employee/employee-add',$data);
         }
@@ -918,8 +965,8 @@ class EmployeeController extends Controller
             $data['documents'] = DB::table('user_documents')->where('user_id',$id)->get();
             $certificates = DB::table('employee_certifications')->where('employee_id',$id)->get();
             foreach($certificates  as $certificate){
-                $certificate->receive_date = date("m-d-Y",strtotime($certificate->receive_date));
-                $certificate->expiry_date = date("m-d-Y",strtotime($certificate->expiry_date));
+                $certificate->receive_date = date("m/d/Y",strtotime($certificate->receive_date));
+                $certificate->expiry_date = date("m/d/Y",strtotime($certificate->expiry_date));
             }
             $data['certificates'] = $certificates;
             
@@ -939,6 +986,28 @@ class EmployeeController extends Controller
             }
             
             $data['serviceData'] = $serviceData;
+			
+			
+			$serviceData1 =  array();
+			if($employeedata->services=='' ||  $employeedata->services=='N!' || $employeedata->services==null){
+				$serviceData1 = array();
+			}else{
+				$services = unserialize($employeedata->services);
+				$i=0;
+				//dd($teams);
+				foreach($services as $service){
+					$service = DB::table('services')->where('id',$service->services)->first();
+					if($service){
+						$serviceData1[$i]['name'] = $service->title;
+						$serviceData1[$i]['service_id'] = $service->id;
+						$i++;
+					}
+					
+				}
+			
+			}
+			//dd($datas);
+			$data['serviceData'] = $serviceData1;
             
             
             $qualifications = unserialize($employeedata->qualification);
@@ -956,21 +1025,21 @@ class EmployeeController extends Controller
             
             
             if($employeedata->bod!=NULL){
-                $employeedata->bod = date("m-d-Y",strtotime($employeedata->bod));
+                $employeedata->bod = date("m/d/Y",strtotime($employeedata->bod));
             }
 
             
             if($employeedata->hire_date!=NULL){
-                $employeedata->hire_date = date("m-d-Y",strtotime($employeedata->hire_date));
+                $employeedata->hire_date = date("m/d/Y",strtotime($employeedata->hire_date));
             }
 
             
             if($employeedata->termination_date!=NULL){
-                $employeedata->termination_date  = date("m-d-Y",strtotime($employeedata->termination_date));
+                $employeedata->termination_date  = date("m/d/Y",strtotime($employeedata->termination_date));
             }
             
             if($employeedata->dl_expiration!=NULL){
-                $employeedata->dl_expiration  = date("m-d-Y",strtotime($employeedata->dl_expiration));
+                $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
             }
             $data['employee'] = $employeedata;
             $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->where('id','!=',$id)->get();
@@ -1018,9 +1087,9 @@ class EmployeeController extends Controller
         
         $employeedata = DB::table('users')->where('id',$id)->first();
         $employeedata->qualification = unserialize($employeedata->qualification);
-        $employeedata->hire_date = date("Y-m-d",strtotime($employeedata->hire_date));
-        $employeedata->termination_date  = date("Y-m-d",strtotime($employeedata->termination_date));
-        $employeedata->dl_expiration  = date("Y-m-d",strtotime($employeedata->dl_expiration));
+        $employeedata->hire_date = date("m/d/Y",strtotime($employeedata->hire_date));
+        $employeedata->termination_date  = date("m/d/Y",strtotime($employeedata->termination_date));
+        $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
         $data['employee'] = $employeedata;
         
        $mailsend =  Mail::send('mails.employee',
@@ -1056,9 +1125,9 @@ class EmployeeController extends Controller
         
         $employeedata = DB::table('users')->where('id',$id)->first();
         $employeedata->qualification = unserialize($employeedata->qualification);
-        $employeedata->hire_date = date("Y-m-d",strtotime($employeedata->hire_date));
-        $employeedata->termination_date  = date("Y-m-d",strtotime($employeedata->termination_date));
-        $employeedata->dl_expiration  = date("Y-m-d",strtotime($employeedata->dl_expiration));
+        $employeedata->hire_date = date("m/d/Y",strtotime($employeedata->hire_date));
+        $employeedata->termination_date  = date("m/d/Y",strtotime($employeedata->termination_date));
+        $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
         $data['employee'] = $employeedata;
         
         
@@ -1165,19 +1234,19 @@ class EmployeeController extends Controller
         }
             
         
-        $employeeData->hire_date = date('m-d-Y',strtotime($employeeData->hire_date));     
+        $employeeData->hire_date = date('m/d/Y',strtotime($employeeData->hire_date));     
         $employeeData->termination_date = '';
         if($employeeData->termination_date!=NULL){
-            $employeeData->termination_date = date('m-d-Y',strtotime($employeeData->termination_date));
+            $employeeData->termination_date = date('m/d/Y',strtotime($employeeData->termination_date));
         }
         $employeeData->dl_expiration = '';
         if($employeeData->dl_expiration!=NULL){
-            $employeeData->dl_expiration = date('m-d-Y',strtotime($employeeData->dl_expiration));
+            $employeeData->dl_expiration = date('m/d/Y',strtotime($employeeData->dl_expiration));
         }
 
         $employeeData->bod = '';
         if($employeeData->bod!=NULL){
-            $employeeData->bod = date('m-d-Y',strtotime($employeeData->bod));   
+            $employeeData->bod = date('m/d/Y',strtotime($employeeData->bod));   
         }
         //$employeeData->dob_2 = date('m-d-Y',strtotime($employeeData->dob_2)); 
         
@@ -1216,8 +1285,8 @@ class EmployeeController extends Controller
                 'id' =>$certification->id,
                 'employee_id' =>$certification->employee_id,
                 'certification_type_id' =>$certfication_types->title,
-                'receive_date' =>date('m-d-Y',strtotime($certification->receive_date)),
-                'expiry_date' =>date('m-d-Y',strtotime($certification->expiry_date)),
+                'receive_date' =>date('m/d/Y',strtotime($certification->receive_date)),
+                'expiry_date' =>date('m/d/Y',strtotime($certification->expiry_date)),
                 'certificate_file' =>$certification->certificate_file,
                 
             );

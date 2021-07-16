@@ -116,8 +116,13 @@ Route::any('/searchconsumers', [App\Http\Controllers\ConsumerController::class, 
 Route::any('/pdfconsumers', [App\Http\Controllers\ConsumerController::class, 'pdfConsumerAll'])->name('pdfconsumers');
 Route::any('/getconsumerbyid', [App\Http\Controllers\ConsumerController::class, 'getConsumerbyid'])->name('getconsumerbyid');
 
+Route::any('/consumers-suspended/{id}', [App\Http\Controllers\ConsumerController::class, 'ConsumerSuspend'])->name('consumers-suspended');
+Route::any('/consumers-delete/{id}', [App\Http\Controllers\ConsumerController::class, 'ConsumerDelete'])->name('consumers-delete');
+
+
+Route::any('/assessment-list', [App\Http\Controllers\AssessmentController::class, 'getAssessmentList'])->name('assessment-list');
 Route::get('/assessments-listing', [App\Http\Controllers\AssessmentController::class, 'index'])->name('assessments-listing');
-Route::any('/assessments-add/{consumer_id}', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
+Route::any('/assessments-add/{type_id}/{consumer_id}', [App\Http\Controllers\AssessmentController::class, 'addAssessment'])->name('assessments-add');
 Route::get('/assessments-details/{id}', [App\Http\Controllers\AssessmentController::class, 'assessmentDetail'])->name('assessments-details');
 Route::any('/getassessments', [App\Http\Controllers\AssessmentController::class, 'getAssessments'])->name('getassessments');
 Route::any('/assessments-edit/{id}', [App\Http\Controllers\AssessmentController::class, 'editAssessment'])->name('assessments-edit');
@@ -128,9 +133,15 @@ Route::any('/deleteassessments', [App\Http\Controllers\AssessmentController::cla
 Route::any('/assessments-spendtime', [App\Http\Controllers\AssessmentController::class, 'spendTime'])->name('assessments-spendtime');
 Route::any('/assessments-getspendtimes', [App\Http\Controllers\AssessmentController::class, 'getSpendtimes'])->name('assessments-getspendtimes');
 Route::any('/assessments-updatespendtime', [App\Http\Controllers\AssessmentController::class, 'getUpdateSpendtimes'])->name('assessments-updatespendtime');
+Route::any('/searchassessments', [App\Http\Controllers\AssessmentController::class, 'searchAssessments'])->name('searchassessments');
+Route::any('/getTotalSpendtimeByAssessmentId/{id}', [App\Http\Controllers\AssessmentController::class, 'getTotalSpendtimeByAssessmentId'])->name('getTotalSpendtimeByAssessmentId');
+
+Route::any('/assessments-add-sub/{assessment_id}/{subtype_id}', [App\Http\Controllers\AssessmentController::class, 'addSubAssessment'])->name('assessments-add-sub');
+Route::any('/getassessmentbyid', [App\Http\Controllers\AssessmentController::class, 'getAssessmentById'])->name('getassessmentbyid');
 
 
 
+Route::any('/authorization-list', [App\Http\Controllers\AuthorizationController::class, 'getAuthorizationList'])->name('authorization-list');
 Route::get('/authorizations-listing', [App\Http\Controllers\AuthorizationController::class, 'index'])->name('authorizations-listing');
 Route::any('/authorizations-add/{consumer_id}', [App\Http\Controllers\AuthorizationController::class, 'addAuthorization'])->name('authorizations-add');
 Route::any('/authorizations-edit/{id}', [App\Http\Controllers\AuthorizationController::class, 'editAuthorization'])->name('authorizations-edit');
@@ -143,6 +154,11 @@ Route::any('/authorization-mail/{id}', [App\Http\Controllers\AuthorizationContro
 Route::any('/authorizations-spendtime', [App\Http\Controllers\AuthorizationController::class, 'spendTime'])->name('authorizations-spendtime');
 Route::any('/authorizations-getspendtimes', [App\Http\Controllers\AuthorizationController::class, 'getSpendtimes'])->name('authorizations-getspendtimes');
 Route::any('/authorizations-updatespendtime', [App\Http\Controllers\AuthorizationController::class, 'getUpdateSpendtimes'])->name('authorizations-updatespendtime');
+Route::any('/getassessmentsbyconsumerid', [App\Http\Controllers\AuthorizationController::class, 'getAssessmentsByConsumerId'])->name('getassessmentsbyconsumerid');
+
+Route::any('/getservicesbyassessmentid', [App\Http\Controllers\AuthorizationController::class, 'getServicesByassessmentId'])->name('getservicesbyassessmentid');
+Route::any('/getauthsbyid', [App\Http\Controllers\AuthorizationController::class, 'getAuthsById'])->name('getauthsbyid');
+Route::any('/getTotalSpendtimeByAuthId/{id}', [App\Http\Controllers\AuthorizationController::class, 'getTotalSpendtimeByAuthId'])->name('getTotalSpendtimeByAuthId');
 
 
 Route::get('/assessment-types', [App\Http\Controllers\AssessmentController::class, 'assessmentType'])->name('assessment-types');
@@ -175,6 +191,8 @@ Route::any('/employee-ban/{id}', [App\Http\Controllers\EmployeeController::class
 Route::any('/searchemployees', [App\Http\Controllers\EmployeeController::class, 'searchEmployees'])->name('searchemployees');
 Route::any('/printemployees', [App\Http\Controllers\EmployeeController::class, 'printEmployees'])->name('printemployees');
 Route::any('/pdfemployees', [App\Http\Controllers\EmployeeController::class, 'pdfEmployeeAll'])->name('pdfemployees');
+Route::any('/certificationreminder', [App\Http\Controllers\EmployeeController::class, 'certificationReminder'])->name('certificationreminder');
+
 
 Route::any('/userlogin', [App\Http\Controllers\UserController::class, 'login'])->name('userlogin');
 

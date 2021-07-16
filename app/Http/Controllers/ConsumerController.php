@@ -50,6 +50,37 @@ class ConsumerController extends Controller
     
     }
     
+    public function getConsumerList()
+    {
+        if(request()->ajax()) {
+            $datas = DB::table('consumers')->get();
+
+            $dataarray =  array();
+            $i=0;
+            
+            foreach($datas as $data){
+
+                
+                $name = $data->fname.' '.$data->lname;
+
+               
+                $dataarray[$i]= (object) array(
+                                    'id'=>$data->id,       
+                                    'name'=>$name,
+                                    );
+
+                
+                $i++;
+            }
+            
+            $collection = collect($dataarray);
+            return $collection;
+        }
+        
+    }
+    
+    
+    
     public function getConsumers()
     {
         
@@ -128,6 +159,128 @@ class ConsumerController extends Controller
         
     }
     
+    public function ConsumerDelete($consumer_id)
+    {
+        $fileid = $consumer_id;
+        $consumer_phones = DB::table('consumer_phones')->where('consumer_id', $fileid)->first();
+        if($consumer_phones){
+            DB::table('consumer_phones')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_persons = DB::table('consumer_persons')->where('consumer_id', $fileid)->first();
+        if($consumer_persons){
+            DB::table('consumer_persons')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_payers = DB::table('consumer_payers')->where('consumer_id', $fileid)->first();
+        if($consumer_payers){
+            DB::table('consumer_payers')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_medications = DB::table('consumer_medications')->where('consumer_id', $fileid)->first();
+        if($consumer_medications){
+            DB::table('consumer_medications')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_diagnosis = DB::table('consumer_diagnosis')->where('consumer_id', $fileid)->first();
+        if($consumer_diagnosis){
+            DB::table('consumer_diagnosis')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_allergies = DB::table('consumer_allergies')->where('consumer_id', $fileid)->first();
+        if($consumer_allergies){
+            DB::table('consumer_allergies')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_addresses = DB::table('consumer_addresses')->where('consumer_id', $fileid)->first();
+        if($consumer_addresses){
+            DB::table('consumer_addresses')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $consumer_account_notations = DB::table('consumer_account_notations')->where('consumer_id', $fileid)->first();
+        if($consumer_account_notations){
+            DB::table('consumer_account_notations')->where('consumer_id', $fileid)->delete();
+        }
+        
+        
+        $authorizations = DB::table('authorizations')->where('consumer_id', $fileid)->first();
+        if($authorizations){
+            $authorization_spend_times = DB::table('authorization_spend_times')->where('authorization_id', $authorizations->id)->first();
+            if($authorization_spend_times){
+                DB::table('authorization_spend_times')->where('authorization_id', $authorizations->id)->delete();
+            }
+            
+            DB::table('authorizations')->where('consumer_id', $fileid)->delete();
+        }
+        
+        $assessments = DB::table('assessments')->where('consumer_id', $fileid)->first();
+        if($assessments){
+            
+            $assessment_spend_times = DB::table('assessment_spend_times')->where('assessment_id', $assessments->id)->first();
+            if($assessment_spend_times){
+                DB::table('assessment_spend_times')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_problems = DB::table('assessment_problems')->where('assessment_id', $assessments->id)->first();
+            if($assessment_problems){
+                DB::table('assessment_problems')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_person_desc = DB::table('assessment_person_desc')->where('assessment_id', $assessments->id)->first();
+            if($assessment_person_desc){
+                DB::table('assessment_person_desc')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_persons = DB::table('assessment_persons')->where('assessment_id', $assessments->id)->first();
+            if($assessment_persons){
+                DB::table('assessment_persons')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_functions = DB::table('assessment_functions')->where('assessment_id', $assessments->id)->first();
+            if($assessment_functions){
+                DB::table('assessment_functions')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_documents = DB::table('assessment_documents')->where('assessment_id', $assessments->id)->first();
+            if($assessment_documents){
+                DB::table('assessment_documents')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_behavior_desc = DB::table('assessment_behavior_desc')->where('assessment_id', $assessments->id)->first();
+            if($assessment_behavior_desc){
+                DB::table('assessment_behavior_desc')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_behaviors = DB::table('assessment_behaviors')->where('assessment_id', $assessments->id)->first();
+            if($assessment_behaviors){
+                DB::table('assessment_behaviors')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            
+            $assessment_assessor_notes = DB::table('assessment_assessor_notes')->where('assessment_id', $assessments->id)->first();
+            if($assessment_assessor_notes){
+                DB::table('assessment_assessor_notes')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+            $assessment_assessor_desc = DB::table('assessment_assessor_desc')->where('assessment_id', $assessments->id)->first();
+            if($assessment_assessor_desc){
+                DB::table('assessment_assessor_desc')->where('assessment_id', $assessments->id)->delete();
+            }
+            $assessment_assessors = DB::table('assessment_assessors')->where('assessment_id', $assessments->id)->first();
+            if($assessment_assessors){
+                DB::table('assessment_assessors')->where('assessment_id', $assessments->id)->delete();
+            }
+            
+        
+            DB::table('assessments')->where('consumer_id', $fileid)->delete();
+        }
+        
+
+        
+        DB::table('consumers')->where('id', $fileid)->delete();
+        
+        return redirect()->route('consumers-listing');
+    }
     
     public function deleteConsumers(Request $request)
     {
@@ -192,7 +345,79 @@ class ConsumerController extends Controller
                 if($consumer_account_notations){
                     DB::table('consumer_account_notations')->where('consumer_id', $fileid)->delete();
                 }
+
+
+                $authorizations = DB::table('authorizations')->where('consumer_id', $fileid)->first();
+                if($authorizations){
+                    $authorization_spend_times = DB::table('authorization_spend_times')->where('authorization_id', $authorizations->id)->first();
+                    if($authorization_spend_times){
+                        DB::table('authorization_spend_times')->where('authorization_id', $authorizations->id)->delete();
+                    }
+                    
+                    DB::table('authorizations')->where('consumer_id', $fileid)->delete();
+                }
                 
+                $assessments = DB::table('assessments')->where('consumer_id', $fileid)->first();
+                if($assessments){
+                    
+                    $assessment_spend_times = DB::table('assessment_spend_times')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_spend_times){
+                        DB::table('assessment_spend_times')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_problems = DB::table('assessment_problems')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_problems){
+                        DB::table('assessment_problems')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_person_desc = DB::table('assessment_person_desc')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_person_desc){
+                        DB::table('assessment_person_desc')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_persons = DB::table('assessment_persons')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_persons){
+                        DB::table('assessment_persons')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_functions = DB::table('assessment_functions')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_functions){
+                        DB::table('assessment_functions')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_documents = DB::table('assessment_documents')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_documents){
+                        DB::table('assessment_documents')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_behavior_desc = DB::table('assessment_behavior_desc')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_behavior_desc){
+                        DB::table('assessment_behavior_desc')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_behaviors = DB::table('assessment_behaviors')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_behaviors){
+                        DB::table('assessment_behaviors')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    
+                    $assessment_assessor_notes = DB::table('assessment_assessor_notes')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_assessor_notes){
+                        DB::table('assessment_assessor_notes')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                    $assessment_assessor_desc = DB::table('assessment_assessor_desc')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_assessor_desc){
+                        DB::table('assessment_assessor_desc')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    $assessment_assessors = DB::table('assessment_assessors')->where('assessment_id', $assessments->id)->first();
+                    if($assessment_assessors){
+                        DB::table('assessment_assessors')->where('assessment_id', $assessments->id)->delete();
+                    }
+                    
+                
+                    DB::table('assessments')->where('consumer_id', $fileid)->delete();
+                }                
 
                 
                 DB::table('consumers')->where('id', $fileid)->delete();
@@ -367,7 +592,7 @@ class ConsumerController extends Controller
     
     
     public function changeDateformate($date){
-        $a = explode("-",$date);
+        $a = explode("/",$date);
         $b = $a[2].'-'.$a[0].'-'.$a[1];
         return $b;
     }
@@ -409,13 +634,15 @@ class ConsumerController extends Controller
             $ethinicity = $d->ethinicity;
             $casename = $d->casename;
             $lead_person = $d->lead_person;
+			
+			$nurse = $d->nurse;
+			$doctor = $d->doctor;
             
             $allergies_val = $d->allergies_val;
             
+            $team_array = serialize($d->team_array);
             
-            
-            //$nurse = $d->nurse;
-            //$doctor = $d->doctor;
+
             $in_crisis = $d->in_crisis;
             $npi = $d->npi;
             $smoker_status = $d->smoker_status;
@@ -437,7 +664,7 @@ class ConsumerController extends Controller
                 'dob' => $dob,
                 'email' => $email,
                 'identified_as' => '1',
-                'teams' => 'teams',
+                'teams' => $team_array,
                 'record_no' => $record_no,
                 'status' => $statusval,
                 'assignee' => $assigneeval,
@@ -451,8 +678,8 @@ class ConsumerController extends Controller
                 'case_name' => $casename,
                 'lead_person' => $lead_person,
                 'allergy' => $allergies_val,
-                //'nurse' => $nurse,
-                //'doctor' => $doctor,
+                'nurse' => $nurse,
+                'doctor' => $doctor,
                 'in_crisis' => $in_crisis,
                 'npi' => $npi,
                 'smoker_status' => 1,
@@ -551,6 +778,10 @@ class ConsumerController extends Controller
                 
                 $payerid_array = $d->payerid_array; 
                 foreach($payerid_array as $key => $val){
+                    $makeasprimary = 0;
+                    if(isset($val->makeasprimary) && $val->makeasprimary=='on'){
+                        $makeasprimary = 1;
+                    }
                     
                     if($val->payerid!=''  && $val->payerid!=null){
                         
@@ -561,6 +792,7 @@ class ConsumerController extends Controller
                                     'policy_no' => $val->payerpolicyno,
                                     'medical_id' => $val->payerinsurancetype,
                                     'co_payment' => $val->payercopay,
+                                    'makeasprimary' => $makeasprimary,
                                     'created_date' => $date,
                                     
                                 ]);
@@ -712,7 +944,8 @@ class ConsumerController extends Controller
             $data['states'] = DB::table('states')->get();
             $data['payers'] = DB::table('payers')->get();
             $data['consumer_statuses'] = DB::table('consumer_status')->get();
-            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
+            $data['supervisors'] = DB::table('users')->whereIn('role_id',[11,12,15])->get();
+			$data['teams'] = DB::table('users')->where('role_id','!=','0')->get();
             return view('consumer/consumers-add',$data);
         }
         
@@ -732,11 +965,7 @@ class ConsumerController extends Controller
             
             
             
-            function changeDateformate($date){
-                $a = explode("-",$date);
-                $b = $a[2].'-'.$a[0].'-'.$a[1];
-                return $b;
-            }
+
             
             $salutation = $d->salutation;
             $fname = $d->fname;
@@ -751,13 +980,13 @@ class ConsumerController extends Controller
             $servicedate = $d->servicedate;
  
 
-            $servicedate = changeDateformate($servicedate);
+            $servicedate = $this->changeDateformate($servicedate);
 
             $admissiondate = $d->admissiondate;
-            $admissiondate = changeDateformate($admissiondate);
+            $admissiondate = $this->changeDateformate($admissiondate);
             
             $dischargedate = $d->dischargedate;  
-            $dischargedate = changeDateformate($dischargedate);
+            $dischargedate = $this->changeDateformate($dischargedate);
             
             $language = $d->language;
             $race = $d->race;
@@ -766,11 +995,11 @@ class ConsumerController extends Controller
             $casename = $d->casename;
             $lead_person = $d->lead_person;
             
-            
+            $team_array = serialize($d->team_array);
             
             $allergies_val = $d->allergies_val;
-            //$nurse = $d->nurse;
-            //$doctor = $d->doctor;
+            $nurse = $d->nurse;
+            $doctor = $d->doctor;
             $in_crisis = $d->in_crisis;
             $npi = $d->npi;
             $smoker_status = $d->smoker_status;
@@ -793,7 +1022,7 @@ class ConsumerController extends Controller
                 'dob' => $dob,
                 //'email' => $email,
                 'identified_as' => '1',
-                'teams' => 'teams',
+                'teams' => $team_array,
                 'record_no' => $record_no,
                 'status' => $statusval,
                 'assignee' => $assigneeval,
@@ -807,8 +1036,8 @@ class ConsumerController extends Controller
                 'case_name' => $casename,
                 'lead_person' => $lead_person,
                 'allergy' => $allergies_val,
-                //'nurse' => $nurse,
-                //'doctor' => $doctor,
+                'nurse' => $nurse,
+                'doctor' => $doctor,
                 'in_crisis' => $in_crisis,
                 'npi' => $npi,
                 'smoker_status' => 1,
@@ -968,6 +1197,11 @@ class ConsumerController extends Controller
                     $payerpolicyno = $payerid_array[$i]->payerpolicyno;
                     $payerinsurancetype = $payerid_array[$i]->payerinsurancetype;
                     $payercopay = $payerid_array[$i]->payercopay;
+
+                    $makeasprimary = 0;
+                    if(isset($payerid_array[$i]->makeasprimary) && $payerid_array[$i]->makeasprimary=='on'){
+                        $makeasprimary = 1;
+                    }
                     
                     
                     if(isset($payerid_array[$i]->id)){
@@ -979,6 +1213,7 @@ class ConsumerController extends Controller
                                     'policy_no' => $payerpolicyno,
                                     'medical_id' => $payerinsurancetype,
                                     'co_payment' => $payercopay,
+                                    'makeasprimary' => $makeasprimary,                                    
                                     'updated_date' => $date,
                                     
                                 ]);
@@ -1373,19 +1608,6 @@ class ConsumerController extends Controller
             }
             
             
-            
-            
-            
-            
-            
-            
-                
-            
-            
-            
-
-
-
             return response()->json(['message' => 'Updated Successfully!','class' => 'success']);
             
             
@@ -1411,34 +1633,87 @@ class ConsumerController extends Controller
             $data['countries'] = DB::table('countries')->get();
             $data['states'] = DB::table('states')->get();
             $data['payers'] = DB::table('payers')->get();
-            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
+            $data['supervisors'] = DB::table('users')->whereIn('role_id',[11,12,15])->get();
             $consumer = DB::table('consumers')->where('id',$id)->first();
-            $consumer->service_date = date_format(date_create($consumer->service_date), 'm-d-Y');
-            $consumer->admission_date = date_format(date_create($consumer->admission_date), 'm-d-Y');
-            $consumer->discharge_date = date_format(date_create($consumer->discharge_date), 'm-d-Y');
+            $consumer->dob = date_format(date_create($consumer->dob), 'm/d/Y');
+            $consumer->service_date = date_format(date_create($consumer->service_date), 'm/d/Y');
+            $consumer->admission_date = date_format(date_create($consumer->admission_date), 'm/d/Y');
+            $consumer->discharge_date = date_format(date_create($consumer->discharge_date), 'm/d/Y');
+			
+			$datas =  array();
+			if($consumer->teams=='' ||  $consumer->teams=='N!' || $consumer->teams==null){
+				$datas = array();
+			}else{
+				$teams = unserialize($consumer->teams);
+				$i=0;
+				//dd($teams);
+				foreach($teams as $team){
+					$users = DB::table('users')->where('id',$team->team)->first();
+					if($users){
+						$datas[$i]['name'] = $users->fname.' '.$users->lname;
+						$datas[$i]['team_id'] = $users->id;
+						$i++;
+					}
+					
+				}
+			
+			}
+			//dd($datas);
+			$data['teams'] = $datas;
             $data['consumer'] = $consumer;
             $consumer_addresses = DB::table('consumer_addresses')->where('consumer_id',$id)->first();
-            $consumer_addresses->types = unserialize($consumer_addresses->types);
-            $consumer_addresses->a_types = unserialize($consumer_addresses->a_types);
+            if($consumer_addresses){
+                if($consumer_addresses->types!='' || $consumer_addresses->types!='N;'){
+                    $consumer_addresses->types = unserialize($consumer_addresses->types);
+                }else{
+                    $consumer_addresses->types = array();
+                }
+                if($consumer_addresses->a_types!='' || $consumer_addresses->a_types!='N;'){
+                    $consumer_addresses->a_types = unserialize($consumer_addresses->a_types);
+                }else{
+                    $consumer_addresses->a_types = array();
+                }
+            }else{
+                $consumer_addresses =new stdClass;
+                $consumer_addresses->address1 = '';
+                $consumer_addresses->address2 = '';
+                $consumer_addresses->city = '';
+                $consumer_addresses->state = '';
+                $consumer_addresses->zipcode = '';
+                $consumer_addresses->country = '';
+                $consumer_addresses->types = array();
+                $consumer_addresses->notes = '';
+                
+                $consumer_addresses->a_address1 = '';
+                $consumer_addresses->a_address2 = '';
+                $consumer_addresses->a_city = '';
+                $consumer_addresses->a_state = '';
+                $consumer_addresses->a_zipcode = '';
+                $consumer_addresses->a_country = '';
+                $consumer_addresses->a_types = array();
+                $consumer_addresses->a_notes = '';
+            }
             
             $data['consumer_addresses'] = $consumer_addresses;
             
             $data['consumer_persons'] = DB::table('consumer_persons')->where('consumer_id',$id)->get();   
-            $data['consumer_payers'] = DB::table('consumer_payers')->where('consumer_id',$id)->get();  
+            $data['consumer_payers'] = DB::table('consumer_payers')->where('consumer_id',$id)->get(); 
+                
             $data['consumer_phones'] = DB::table('consumer_phones')->where('consumer_id',$id)->get();
             $consumer_diagnosis = DB::table('consumer_diagnosis')->where('consumer_id',$id)->get();
             foreach($consumer_diagnosis as $consumer_diagn){
-                $consumer_diagn->d_date = date_format(date_create($consumer_diagn->d_date), 'm-d-Y');
+                $consumer_diagn->d_date = date_format(date_create($consumer_diagn->d_date), 'm/d/Y');
             }
             $data['consumer_diagnosis']  = $consumer_diagnosis;
             $data['consumer_medications'] = DB::table('consumer_medications')->where('consumer_id',$id)->get();
             $data['consumer_allergies'] = DB::table('consumer_allergies')->where('consumer_id',$id)->get();
             $consumer_account_notations = DB::table('consumer_account_notations')->where('consumer_id',$id)->get();
             foreach($consumer_account_notations as $consumer_account_notation){
-                $consumer_account_notation->notation_date = date_format(date_create($consumer_account_notation->notation_date), 'm-d-Y');
+                $consumer_account_notation->notation_date = date_format(date_create($consumer_account_notation->notation_date), 'm/d/Y');
             }
             $data['consumer_account_notations'] = $consumer_account_notations;
             $data['consumer_statuses'] = DB::table('consumer_status')->get();
+			$data['team_members'] = DB::table('users')->where('role_id','!=','0')->get();
             return view('consumer/consumers-edit',$data);
         }
         
@@ -1486,6 +1761,16 @@ class ConsumerController extends Controller
 
             return response()->json(['success' => 1]);
         }
+    }
+    
+    public function ConsumerSuspend(Request $request,$consumer_id)
+    {
+        DB::table('consumers')->where('id',$consumer_id)->update([
+                                    'status' => '54',
+                                    
+                                    
+                                ]);
+        return redirect()->route('consumers-listing');
     }
     
     

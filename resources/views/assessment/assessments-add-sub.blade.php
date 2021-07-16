@@ -28,7 +28,9 @@
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-md-12 page-background">
-                              <h1 class="page-title">New Assessments</h1>
+                              <h1 class="page-title">
+							  @if($subtype_id=='1')Annual Assessment @else Reassessment @endif For #{{$assessment_id}}
+							  </h1>
                            </div>
                         </div>
                      </div>
@@ -41,48 +43,19 @@
                            <div class="col-md-8 consumer-section">
                               <div class="card card-primary">
                                  <div class="card-body">
-                                    <!--
-                                    <div class="form-group">
-		                     				<select class="form-control assessment_id" name="assessment">
-                                                <option value="">Select assessment</option>
-                                                @foreach($assessment_types  as $assessment_type)
-			                                    <option value="{{$assessment_type->id}}">{{$assessment_type->title}}</option>
-                                                @endforeach
-			                                    
-			                                </select>
-		                     			</div>
-                                        -->
+                                 
                                     
-                                    
-                                        <div class="form-group row">
-                                          <label class="col-md-3 col-form-label">Assessment Type<span class="required-mark">*</span></label>
-                                          <div class="col-md-9">
-                                             <select  class="form-control droupdown mobile-drop common-selectbox assessment_type" name="assessment_type">
-                                                <option value="">Select Assessment Type</option>
-                                       @if($type_id=='1' )
-                                          <option  value="1">Initial Intake Assessment </option>
-                                       @endif	
-                                       @if($type_id=='1'  || $type_id=='2' )
-                                          <option  value="2">CANS Assessment </option>
-                                       @endif	
-                                            </select>
-                                          </div>
-                                       </div>  
+                                         
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Consumer Name<span class="required-mark">*</span></label>
+                                       
                                        <div class="col-md-9">
-                                          <select @if($consumer_id) disabled @endif class="form-control droupdown mobile-drop common-selectbox consumername" name="consumername">
-                                             <option value="">Select Consumer</option>
-                                             @foreach($consumers  as $consumer)
-                                             <option {{$consumer_id==$consumer->id ? "selected" : ""}} value="{{$consumer->id}}">{{$consumer->fname}} {{$consumer->lname}}</option>
-                                             @endforeach
-                                         </select>
+                                          
                                          <div class="view-part-consumer">
-                                             <a href="#view_consumenr_details" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Consumer Details</a>
-                                             <span>|</span>
-                                             <a href="#view_auth_details" data-toggle="modal" class="common-button-addmore clickonviewauthdet"><i class="fa fa-cogs view-user"></i>View Authorizations</a>
-                                         </div>
-                                            <div class="modal add-spent-time-popup fade" id="view_consumenr_details" role="dialog">
+                                             <a href="#view_assessment_details" data="{{$assessment_id}}" data-toggle="modal" class="common-button-addmore  clickonviewconsumerdet"><i class="fa fa-user view-user"></i>View Assessments Details</a>
+											 <span>|</span>
+                                             <a href="#view_all_assessment_details" data="{{$assessment_id}}" data-toggle="modal" class="common-button-addmore  clickonviewalldet"><i class="fa fa-user view-user"></i>View Assessments Details</a>
+                                          </div>
+                                            <div class="modal add-spent-time-popup fade" id="view_assessment_details" role="dialog">
                                                <div class="modal-dialog">
                                                  <div class="modal-content">
                                                  <!--
@@ -99,8 +72,8 @@
                                                  </div>
                                                </div>
                                              </div>
-                                             
-                                             <div class="modal add-spent-time-popup fade" id="view_auth_details" role="dialog">
+											 
+											 <div class="modal add-spent-time-popup fade" id="view_all_assessment_details" role="dialog">
                                                <div class="modal-dialog">
                                                  <div class="modal-content">
                                                  <!--
@@ -108,7 +81,7 @@
                                                        <i class="fa fa-close delete-button close-model" data-dismiss="modal"></i>
                                                     </div>
                                                     -->
-                                                    <div class="modal-body  authdetailsData">
+                                                    <div class="modal-body  clickonviewalldet">
                                                          
                                                     </div>
                                                     <div class="modal-footer">
@@ -118,13 +91,14 @@
                                                </div>
                                              </div>
                                              
+ 
                                           
                                        </div>
                                     </div>
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Assessment #</label>
                                        <div class="col-md-9">
-                                          <input type="text" name="assessment" class="form-control assessment_no" disabled value="ASMT-00000<?php echo $assessment_id;?>">
+                                          <input type="text" name="assessment" class="form-control assessment_no" disabled value="ASMT-00000<?php echo $sub_assessment_id;?>">
                                        </div>
                                     </div>                              
                                     <div class="form-group row">
@@ -974,20 +948,20 @@ $(function () {
         $('html').on('click', '.clickonviewconsumerdet', function (e) {
             //.consumerdetailsData
             $('.consumerdetailsData').html('');
-            var consumername = $('.consumername').val();
-            var url = "{{ route('getconsumerbyid') }}";
+            var assessment_id = $(this).attr('data');
+            var url = "{{ route('getassessmentbyid') }}";
             $.ajax({
                 url: url,
                 type: "POST",
-                data: {consumer_id:consumername},
+                data: {assessment_id:assessment_id},
                 success: function (data) {
                      console.log(data);
                      if(data.success='1'){
-                        var  htmlData = '<h2>'+data.consumers.salutation+' '+data.consumers.fname+' '+data.consumers.lname+'</h2>';
-                        htmlData += '<p>DOB: '+data.consumers.dob+'</p>';
-                        htmlData += '<p>Email: '+data.consumers.email+'</p>';
-                        htmlData += '<p>Record NO: '+data.consumers.record_no+'</p>';
-                        htmlData += '<p>Case Name: '+data.consumers.case_name+'</p>';
+                        var  htmlData = '<h2>'+data.assessments.assessment_no+'</h2>';
+                        htmlData += '<p>DOB: '+data.assessments.assessment_no+'</p>';
+                        htmlData += '<p>Email: '+data.assessments.assessment_no+'</p>';
+                        htmlData += '<p>Record NO: '+data.assessments.assessment_no+'</p>';
+                        htmlData += '<p>Case Name: '+data.assessments.assessment_no+'</p>';
                         $('.consumerdetailsData').html(htmlData);
                         
                      }else{
@@ -1008,9 +982,6 @@ $(function () {
         $('html').on('click', '.saveassessment', function (e) {
             
             
-            var assessment_type = $('.assessment_type').val();
-            var consumername = $('.consumername').val();
-            var assessment_id = $('.assessment_id').val();
             var assessment_no = $('.assessment_no').val();
             var location_name = $('.location_name').val();
             var communication = $('.communication').val();
@@ -1031,13 +1002,7 @@ $(function () {
             $('.errorclass').html('');
             var validation_array= [];
             
-            if(assessment_type ==null ||  assessment_type==''){
-               validation_array.push('Please select Assessment Type');               
-            }
-
-            if(consumername==null ||  consumername==''){
-               validation_array.push('Please select Consumer');               
-            }           
+         
             
             if(assessment_no==null ||  assessment_no==''){
                validation_array.push('Please enter Assessment no');
@@ -1149,10 +1114,8 @@ $(function () {
             
             
             var dataValues = { 
-                              type_id:'{{$type_id}}',
-                              assessment_type:assessment_type,
-                              consumername: consumername,
-                              assessment_id: assessment_id,            
+							  parent_assessment_id_id:'{{$assessment_id}}',	
+                              subtype_id:'{{$subtype_id}}',
                               assessment_no: assessment_no,
                               location_name: location_name,            
                               communication: communication,
@@ -1179,7 +1142,7 @@ $(function () {
             options = JSON.stringify(dataValues);
             formData.append('options', options);
             
-            var url = "{{ url('assessments-add/') }}/{{$type_id}}/0";
+            var url = "{{ url('assessments-add-sub/') }}/{{$assessment_id}}/{{$subtype_id}}";
             $.ajax({
                 url: url,
                 type: "POST",

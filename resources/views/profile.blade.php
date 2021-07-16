@@ -38,12 +38,12 @@
                                              <div class="row salutions">
                                                 <div class="col-md-3 short-col">
                                                    <select class="form-control droupdown mobile-drop" name="salution">
-                                                   <option value="">Salutation</option>
-                                                   <option <?php if($user->salution=='Mr') { echo "selected";}?> value="Mr">Mr.</option>
-                                                   <option <?php if($user->salution=='Mrs') { echo "selected";}?> value="Mrs">Mrs.</option>
-                                                   <option <?php if($user->salution=='Ms') { echo "selected";}?> value="Ms">Ms.</option>
-                                                   <option <?php if($user->salution=='Miss') { echo "selected";}?> value="Miss">Miss.</option>
-                                                   <option <?php if($user->salution=='Dr') { echo "selected";}?> value="Dr">Dr.</option>
+                                                   <option disabled value="">Salutation</option>
+                                                   <option <?php if($user->salutation=='Mr') { echo "selected";}?> value="Mr">Mr.</option>
+                                                   <option <?php if($user->salutation=='Mrs') { echo "selected";}?> value="Mrs">Mrs.</option>
+                                                   <option <?php if($user->salutation=='Ms') { echo "selected";}?> value="Ms">Ms.</option>
+                                                   <option <?php if($user->salutation=='Miss') { echo "selected";}?> value="Miss">Miss.</option>
+                                                   <option <?php if($user->salutation=='Dr') { echo "selected";}?> value="Dr">Dr.</option>
                                                 </select>                                             
                                                 </div>
                                                 <div class="col-md-4">
@@ -56,6 +56,7 @@
                                              </div>
                                           </div>
                                        </div>
+
                                        <div class="form-group row">
                                           <label for="inputPassword3" class="col-md-3 col-form-label">Login</label>
                                           <div class="col-md-9 time-add">
@@ -66,6 +67,7 @@
                                              </select>
                                           </div>
                                        </div>
+									   
                                        <!-- <div class="form-group row">
                                           <label for="inputPassword3" class="col-md-3 col-form-label">Avatar</label>
                                           <div class="col-md-9 time-add">
@@ -75,7 +77,7 @@
                                        <div class="form-group row">
                                           <label for="inputPassword3" class="col-md-3 col-form-label">Email Address</label>
                                           <div class="col-md-9 time-add">
-                                             <input type="email" class="form-control width-add" name="email" placeholder="" value="{{$user->email}}">
+                                             <input type="email" class="form-control width-add" name="email" placeholder="" value="{{$user->email}}" disabled>
                                           </div>
                                        </div>
                                        <div class="form-group row">

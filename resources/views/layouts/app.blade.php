@@ -135,10 +135,12 @@
                            <option value="employee">Employees</option>
                            <option value="consumer">Consumers</option>
                          </select> -->
-                         <ul class="selectbox-tag search-box-dropdown">
+                         <ul class="selectbox-tag search-box-dropdown serchfordata">
                             <li class="selectedvalue">Select</li>
-                            <li data-value="value 1"><i class="fa fa-check check-icons"></i>Employees</li>
-                            <li data-value="value 2"><i class="fa fa-check check-icons"></i>Consumers</li>
+                            <li data-value="employee"><i class="fa fa-check check-icons"></i>Employees</li>
+                            <li data-value="consumer"><i class="fa fa-check check-icons"></i>Consumers</li>
+                            <li data-value="assessment"><i class="fa fa-check check-icons"></i>Assessments</li>
+                            <li data-value="authorization"><i class="fa fa-check check-icons"></i>Authorizations</li>
                         </ul>
                          <ul id="live-search" class="search-fill-data">
                            
@@ -199,6 +201,146 @@
                         </div>
                      </li>
                      <?php } ?>
+                     
+                     <?php
+                      if (isset($permissions['role']) || isset($permissions['certificate_type'])  || isset($permissions['notation_type']) 
+                          || (isset($role_id) && $role_id=='0') ){
+                      ?>
+                      <li class="sub-menu-dropdown">
+                         <a href="javascript:void(0);" class="nav-link">
+                            <i class="fa fa-gear setting-icon"></i>
+                         </a>
+                         <ul class="setting-menu-dropdown">
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['role']) && in_array("read", $permissions['role'])  || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('roles') }}">
+                                  <p>Roles</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['certificate_type']) && in_array("read", $permissions['certificate_type']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('certificate-types') }}">
+                                  <p>Certification Types</p>
+                               </a>
+                            </li>
+                             <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['notation_type']) && in_array("read", $permissions['notation_type']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('notation-types') }}">
+                                  <p>Notation Types</p>
+                               </a>
+                            </li>
+                             <?php 
+                               } 
+                            ?>
+                            
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['consumer_note_types']) && in_array("read", $permissions['consumer_note_types']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('consumer-note-types') }}">
+                                  <p>Consumer Note Types</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['reaction']) && in_array("read", $permissions['reaction']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('reactions') }}">
+                                  <p>Reactions</p>
+                               </a>
+                            </li>
+                            
+                            <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['race']) && in_array("read", $permissions['race']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('races') }}">
+                                  <p>Races</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            
+                            
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['ethnicity']) && in_array("read", $permissions['ethnicity']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('ethnicities') }}">
+                                  <p>Ethnicities</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['language']) && in_array("read", $permissions['language']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('languages') }}">
+                                  <p>Languages</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            <?php
+                               //$permissions['role']
+                               if (isset($permissions['service']) && in_array("read", $permissions['service']) || (isset($role_id) && $role_id=='0'))
+                               {
+                            ?>
+                            <li>
+                               <a href="{{ route('services') }}">
+                                  <p>Services</p>
+                               </a>
+                            </li>
+                            <?php 
+                               } 
+                            ?>
+                            
+                            
+                         </ul>
+                      </li>
+                      
+                      
+                      <?php } ?>
+                      
+                      
                      <li class="profile-drop">
                         <img src="{{asset('images/user.png')}}" alt="User Avatar" class="img-circle user-icon" id="user-add-icon">
                         <ul id="drop-down-profile">
@@ -236,6 +378,7 @@
                   //if(isset($role_id) && $role_id=='0'){
                   ?>
                   <?php
+                  /*
                   if (isset($permissions['role']) || isset($permissions['certificate_type'])  || isset($permissions['notation_type']) 
                       || (isset($role_id) && $role_id=='0') ){
                   ?>
@@ -440,9 +583,9 @@
                   </li>
                   
                   
-                  <?php } ?>
+                  <?php } */ ?>
                   
-                  <li class="nav-item has-treeview {{ request()->is('employee-listing') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('employee-listing','employee-add','employee-edit/*','employee-details/*') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('employee-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Employees</p>
@@ -450,7 +593,7 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview {{ request()->is('consumers-listing') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('consumers-listing','consumers-add','consumers-edit/*','consumers-details/*') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('consumers-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Consumers</p>
@@ -458,14 +601,14 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview {{ request()->is('assessments-listing') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('assessments-listing','assessments-add/*/*','assessments-edit/*','assessments-details/*') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('assessments-listing') }}" class="nav-link">
                         <i class="fa fa-anchor"></i>
                         <p>Assessments</p>
                      </a>
                   </li> 
                                    
-                  <li class="nav-item has-treeview {{ request()->is('authorizations-listing') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('authorizations-listing','authorizations-add/*','authorizations-edit/*','authorizations-details/*') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('authorizations-listing') }}" class="nav-link">
                         <i class="fa fa-check-square-o"></i>
                         <p>Authorizations</p>
@@ -1074,14 +1217,9 @@ $(document).ready(function() {
      $("html").on("click",".selected",function(){
       $(".search-box-dropdown").removeClass("open-selectbox");
      });  
-     $("html").on('change',".serchfordata", function(){
-         var  selecttype = $(this).val();
-         if(selecttype=='employee'){
-             var urlredirect = "{{ url('') }}/employee-details/";
-         }else if(selecttype=='consumer'){
-             var urlredirect = "{{ url('') }}/consumers-details/";
-         }
-
+     
+     
+     function getsearchData(selecttype,urlredirect){
          var url = "{{ url('') }}/"+selecttype+'-list';
          $.ajax({
              url: url,
@@ -1092,7 +1230,7 @@ $(document).ready(function() {
                  var htmlData = '';
                  $('.search-fill-data').html('');
                  for(var i=0;i<data.length;i++){
-                     htmlData += '<li><a href="'+urlredirect+data[i].id+'">'+data[i].fname+' '+data[i].lname+'</a></li>';
+                     htmlData += '<li><a href="'+urlredirect+data[i].id+'">'+data[i].name+'</a></li>';
                  }
                  $('.search-fill-data').html(htmlData);
 
@@ -1101,6 +1239,26 @@ $(document).ready(function() {
                  console.log('Error:', data);
              }
          });
+     }
+     //$("html").on('change',".serchfordata", function(){
+      $("html").on('click',".serchfordata li", function(){
+         //$('.serchfordata').children('li.selected').attr('data-value');
+         //var  selecttype = $(this).val();
+         var  selecttype = $(this).attr('data-value');
+         if(selecttype=='employee'){
+             var urlredirect = "{{ url('') }}/employee-details/";
+             getsearchData(selecttype,urlredirect);
+         }else if(selecttype=='consumer'){
+             var urlredirect = "{{ url('') }}/consumers-details/";
+             getsearchData(selecttype,urlredirect);
+         }else if(selecttype=='assessment'){
+             var urlredirect = "{{ url('') }}/assessments-details/";
+             getsearchData(selecttype,urlredirect);
+         }else if(selecttype=='authorization'){
+             var urlredirect = "{{ url('') }}/authorizations-details/";
+             getsearchData(selecttype,urlredirect);
+         }
+
          
      
            
@@ -1116,14 +1274,7 @@ $(document).ready(function() {
       $(this).addClass('active_menu_add');
    });
 
-   $(document).ready(function(){
-     $(".sub-menu a").click(function () {
-        $(this).parent(".sub-menu").children(".sub-menu-dropdpwn").slideToggle('100');
-        $(this).find(".down-icon").toggleClass("fa-angle-up fa-angle-down");
-     });
-   });
-   
-   
+      
    $('html').on("click",".btn-spent-edit",function(){
      $(this).parent().parent().parent().parent().slideUp();
      $(this).parent().parent().parent().parent().next().slideDown();
@@ -1150,6 +1301,11 @@ $(document).ready(function() {
   });
      
 });
+
+$('html').on('click', '.sub-menu-dropdown', function() {
+  $('.setting-menu-dropdown').toggleClass('show-setting');
+});
+
 </script>
 </body>
 </html>

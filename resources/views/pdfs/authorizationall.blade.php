@@ -14,8 +14,7 @@ $total_authorizations = sizeof($authorizations);
     <tr>
         <th>Auth No</th>
         <th>Services</th>
-        <th>Approve Date</th>
-        <th>Expiry Date</th>
+
         <th>Record No</th>
         
 
@@ -25,8 +24,6 @@ $total_authorizations = sizeof($authorizations);
     <tr>
         <td>{{$authorizations[$i]['auth_no']}}</td>
         <td>{{$authorizations[$i]['services']}}</td>
-        <td>{{$authorizations[$i]['approve_date']}}</td>
-        <td>{{$authorizations[$i]['expiry_date']}}</td>
         <td>{{$authorizations[$i]['record_no']}}</td>
 
      

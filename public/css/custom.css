@@ -70,6 +70,7 @@ ul.droup-down-box li {
     list-style-type: none;
     display: inline-block;
     padding: 12px 10px 16px 3px;
+    position: relative;
 }
 
 .form-group.select {
@@ -99,6 +100,7 @@ ul.nav.nav-pills.nav-sidebar.flex-column {
 li.nav-item.has-treeview a.nav-link {
     width: 200px;
     color: #fff;
+    display: flex;
 }
 
 li.nav-item.has-treeview a.nav-link:hover {
@@ -216,15 +218,8 @@ section.content-header.consumer {
 .content-header .page-background .page-title {
     margin-top: 12px;
     margin-bottom: 8px;
+    color: #777;
 }
-
-
-/*section.content {
-
-    padding: 50px 17px 42px 17px;
-
-}*/
-
 button.btn.btn-info {
     padding: 6px 18px;
     border-radius: 3px;
@@ -238,7 +233,7 @@ button.btn.btn-info {
     height: 32px;
     font-weight: 400;
     line-height: 1.5;
-    color: #495057;
+    color: #333;
     background-color: #fff;
     background-clip: padding-box;
     border: 0.5px solid #ced4da;
@@ -249,7 +244,7 @@ button.btn.btn-info {
 
 select.form-control.droupdown {
     /*padding: 0px 6px;*/
-    color: #999999;
+    color: #333;
 }
 
 .col-form-label {
@@ -440,7 +435,7 @@ select.form-control.active-status.apprroved {
 }
 
 .form-group.row.tool-box {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 input.form-control.form-control-navbar {
@@ -549,9 +544,11 @@ a.ui-datepicker-prev.ui-corner-all:hover {
     top: 1px;
     left: 2px;
 }
+
 td.ui-datepicker-current-day a {
     color: #fff !important;
 }
+
 a.ui-datepicker-next.ui-corner-all:hover {
     background: transparent;
     border: 0px;
@@ -887,13 +884,13 @@ tr.tr-payer-info td.delete-section {
 }
 
 tr.tr-payer-info td {
-    width: 25%;
+    width: 20%;
 }
 
 span.note-only {
     display: block;
     color: #707070;
-    margin: 10px 7px;
+    margin: 10px 0px;
 }
 
 #contact-persons {
@@ -903,11 +900,12 @@ span.note-only {
 .table-scrollbar {
     overflow-x: scroll;
     scroll-behavior: smooth;
+    margin-bottom: 10px;
 }
 
 .table-scrollbar::-webkit-scrollbar {
-    border: 5px solid #d8d6d6;
-    height: 7px;
+    border: 8px solid #d8d6d6;
+    height: 10px;
     border-radius: 10px;
 }
 
@@ -932,11 +930,11 @@ table.table-contact-user tr td:nth-child(12) {
 }
 
 .tr-contact-person td:nth-child(9) {
-    width: 20%;
+    width: 15%;
 }
 
 .tr-contact-person td:nth-child(8) {
-    width: 20%;
+    width: 15%;
 }
 
 tr.tr-account-info td {
@@ -1133,8 +1131,8 @@ ul#drop-down-profile {
     padding: 0;
     display: none;
     position: absolute;
-    top: 67px;
-    right: 28px;
+    top: 63px;
+    right: 10px;
     border: 1px solid #ced4da;
 }
 
@@ -1317,9 +1315,15 @@ section#assessments {
 
 /*#table-general td:before {
 
+
+
     content: "";
 
+
+
     border: 0;
+
+
 
 }*/
 
@@ -1521,26 +1525,33 @@ select.form-control.droupdown.consumer {
 div#header-btn-section {
     text-align: right;
     padding-top: 12px;
+    z-index: 111;
 }
 
 section#assessments {
     display: none;
 }
+
 section#authorizations {
     display: none;
 }
+
 section#service-plans {
     display: none;
 }
+
 section#consumer-notes {
     display: none;
 }
+
 section#invoices {
     display: none;
 }
+
 section.content {
     padding: 20px 0px 0px 3px;
 }
+
 .payer-info {
     padding-left: 12px;
     color: #999999;
@@ -1712,6 +1723,7 @@ section#consumer-note-table {
     padding-right: 0;
     padding-top: 0;
 }
+
 .form-control.new-field-add {
     margin-top: 14px;
 }
@@ -1820,14 +1832,17 @@ ul.dropdown-notes li {
     border-top: 0px;
     border-bottom: 0px;
 }
-ul.dropdown-notes li:first-child{
+
+ul.dropdown-notes li:first-child {
     border-top: 1px solid #ddd;
     border-radius: 8px 8px 0px 0px;
 }
-ul.dropdown-notes li:last-child{
+
+ul.dropdown-notes li:last-child {
     border-bottom: 1px solid #ddd;
     border-radius: 0px 0px 8px 8px;
 }
+
 ul.dropdown-notes li a {
     color: #495057;
 }
@@ -2020,16 +2035,16 @@ tr.tr-life-functions-person td {
 }
 
 .common-table-info th {
-    border: 1px solid #999999;
+    border: 1px solid #ccc;
     padding: 8px 6px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     color: #999999;
-    background: #f7f9fa;
+    background: #f9f9f9;
 }
 
 .common-tr-info td {
-    border: 1px solid #999999;
+    border: 1px solid #ccc;
 }
 
 .common-text-box-new {
@@ -2038,18 +2053,18 @@ tr.tr-life-functions-person td {
 
 .common-tr-info td.delete-section {
     border: 0;
+    position: relative;
+    left: 5px;
 }
 
 .common-button {
-    background: #f7f9fa;
+    background: transparent;
     border: none;
     color: #0e7ee5;
     font-weight: 500;
-    margin-top: 8px;
-    padding: 8px 14px;
+    padding: 0px 14px 0px 0px;
     border-radius: 7px;
     font-size: 14px;
-    margin-bottom: 10px;
 }
 
 .common-icons {
@@ -2125,7 +2140,6 @@ table.authorizations-table-modal {
 
 #assessment-details {
     padding-bottom: 30px;
-    padding-top: 30px;
 }
 
 section.edit-section {
@@ -2140,7 +2154,7 @@ section.edit-section {
 button.btn-edit-print {
     background: #f5f5f5;
     padding: 8px 20px;
-    color: #000;
+    color: #333;
     font-size: 16px;
     border: none;
     border-radius: 3px;
@@ -2152,7 +2166,7 @@ a.btn-edit-print {
     float: left;
     background: #f5f5f5;
     padding: 8px 20px;
-    color: #000;
+    color: #333;
     font-size: 16px;
     border: none;
     border-radius: 3px;
@@ -2407,6 +2421,9 @@ i.fa.fa-caret-down.consumer-down {
 .without-background::placeholder {
     color: #0e7ee5;
 }
+.form-control::placeholder {
+    color: #495057
+}
 
 .new-calendar-spent {
     position: absolute;
@@ -2540,14 +2557,17 @@ label.col-md-5.form-control.without-background.new-label {
     margin-bottom: 0;
     margin-top: 6px;
 }
-
+label.form-control.without-background.new-label {
+    margin-bottom: 0;
+    margin-top: 6px;
+}
 .form-group.row.tool-box.new {
     margin-bottom: 2px;
 }
 
 a.create-new-btn {
     background: #0e7ee5;
-    padding: 8px 29px 8px 14px;
+    padding: 8px 14px 8px 14px;
     color: #fff;
     font-size: 16px;
     border-radius: 4px;
@@ -2643,9 +2663,11 @@ section#contact-persons-assessments {
 .desktop-textbox {
     margin-top: 17px;
 }
+
 p.emaildata {
     margin: 0;
 }
+
 .form-group.row.space-remove {
     margin-bottom: 0;
 }
@@ -2694,10 +2716,11 @@ p.file-name-image {
     margin-bottom: 2px;
     font-weight: 400;
     word-break: break-all;
-    float: right;
-    width: 90%;
 }
-
+.image-show-name {
+    display: flex;
+    margin-left: 30px;
+}
 .image-detais {
     margin: 0px 10px 10px;
 }
@@ -2713,11 +2736,6 @@ div#uploadPreview .image-section:last-child {
 .image-section {
     padding: 5px 10px 5px;
 }
-
-div#uploadPreview {
-    margin-top: 58px;
-}
-
 table.table-contact-person tr td:nth-child(4) {
     width: 130px;
 }
@@ -2825,9 +2843,19 @@ button.multiselect.dropdown-toggle.btn.btn-default:after {
 }
 
 .employee-image {
-    margin-top: 26px !important;
+    margin-left: 30px;
 }
-
+.employee-image .image-section:first-child {
+    margin-top: 18px;
+}
+.image_preview_border:before {
+    content: "";
+    border-left: 2px solid #dfe5eb;
+    height: 96%;
+    display: block;
+    position: absolute;
+    margin-top: 15px;
+}
 .button-close {
     position: absolute;
     color: #0e7ee5;
@@ -2881,12 +2909,12 @@ table#table-general tr th {
 }
 
 .btn-ban:hover {
-    color: #999999;
+    color: #333;
 }
 
 .btn-ban {
     background: #f5f5f5;
-    color: #999999;
+    color: #333;
     border: 0;
     padding: 10px 24px;
     border-radius: 5px;
@@ -3009,14 +3037,17 @@ i.fa.fa-user.user-icon-client {
     right: 46px;
     width: 100%;
     display: none;
-    border: 1px solid #ddd;
     text-align: left;
     z-index: 1111;
     padding: 0;
     background: #fff;
-    border-radius: 4px;
+    padding-top: 6px;
 }
-
+ul.dropdown-details li {
+    border: 1px solid #ddd;
+    padding: 6px 15px;
+    border-radius: 6px;
+}
 ul.dropdown-details li {
     display: block;
     padding: 4px 15px;
@@ -3038,7 +3069,7 @@ ul.dropdown-details li:hover a {
 }
 
 .add-spent-time-popup .modal-dialog {
-    margin: 138px auto 20px;
+    margin: 138px auto 80px;
     width: 80%;
     left: 100px;
 }
@@ -3067,6 +3098,7 @@ span.delete-image {
     color: #0e7ee5;
     font-size: 14px;
     cursor: pointer;
+    margin: 2px 10px;
 }
 
 .acc__panel {
@@ -3247,12 +3279,11 @@ ul.search-fill-data.open-livesearchbox {
 }
 
 i.fa.fa-paperclip.attach-icon-add {
-    margin: 0px 8px 4px 0px;
+    margin: 3px 8px 1px 0px;
     transform: rotate(85deg);
     font-size: 20px;
     font-weight: 600;
-    width: 5%;
-    float: left;
+    position: absolute;
 }
 
 label.lbl-multiple-files:after {
@@ -3345,18 +3376,28 @@ label.qualification-title {
     padding: 0;
     margin: 0;
     position: absolute;
-    z-index: 111;
-    background: #fff;
+    z-index: 111;    
 }
 
 .dropdown-listing li {
     padding: 5px 10px;
     cursor: pointer;
     font-size: 16px;
+    background: #fff;
+    color: #333;
 }
-
+ul.dropdown-listing.add-newlist-dropdown li.droplist {
+    position: fixed;
+    z-index: 1111;
+    background: #fff;
+    width: 100%;
+    margin-top: -19px;
+}
 li.droplist {
     font-size: 28px;
+}
+ul.dropdown-listing.add-newlist-dropdown li.droplist {
+    padding-top: 25px;
 }
 
 .dropdown-listing li:not(.droplist) {
@@ -3368,7 +3409,7 @@ li.droplist {
 
 li.droplist:after {
     content: "";
-    border: solid black;
+    border: solid #777;
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 5px;
@@ -3377,7 +3418,12 @@ li.droplist:after {
     top: -4px;
     left: 20px;
 }
-
+ul.dropdown-listing.add-newlist-dropdown li:nth-child(2){
+    margin-top: 50px;
+}
+ul.dropdown-listing.add-newlist-dropdown {
+    padding-right: 15px;
+}
 ul.dropdown-listing li:nth-child(2) {
     border-top: 1px solid #ced4da;
 }
@@ -3388,6 +3434,7 @@ ul.dropdown-listing li:last-child {
 
 li.droplist {
     padding: 6px 10px 14px 0;
+    color: #777;
 }
 
 .checkbox-qualification {
@@ -3395,58 +3442,73 @@ li.droplist {
     padding-right: 0;
     margin-bottom: 2px;
 }
+
 .modal-content {
     box-shadow: none;
 }
+
 table.table-problems-person.common-table-info {
     margin-bottom: 0;
 }
+
 a.spent-time {
     margin-bottom: 0;
 }
+
 .spent-time-parts {
     width: 100%;
     display: flex;
 }
+
 h6.user-name-title {
     font-size: 16px;
 }
+
 p.spent-date {
     font-size: 16px;
     width: 15%;
     border-right: 2px solid #ced4da;
     margin-right: 10px;
 }
+
 p.spent-time-title {
     font-size: 16px;
     width: 10%;
     border-right: 2px solid #ced4da;
     margin-right: 10px;
 }
+
 p.spent-title {
     width: 55%;
     font-size: 16px;
 }
+
 p.spent-datetime {
     font-size: 16px;
     width: 18%;
 }
+
 p.spent-edit {
     width: 2%;
 }
+
 .spent-time-details {
     margin-bottom: 30px;
 }
+
 .spent-part {
     margin-left: 30px;
 }
-.fa.timer-icon{
+
+.fa.timer-icon {
     color: #0e7ee5;
     display: block;
 }
+
 .sparate-icon {
     position: absolute;
 }
+
 span.border-spent {
     border: 1px solid #ced4da;
     padding: 10px 0px;
@@ -3454,86 +3516,210 @@ span.border-spent {
     top: 15px;
     left: 4px;
 }
+
 .spent-time-display {
     margin-bottom: 20px;
 }
+
 .spent-edit-textbox {
     display: flex;
 }
+
 .spent-edit-textbox .form-control {
     margin-right: 30px;
 }
+
 input.form-control.spent-timetitle {
     width: 35%;
 }
+
 input.form-control.date-spent {
     width: 35%;
 }
+
 .btn-section-spent {
     margin-top: 15px;
 }
-.spent-edit-time{
+
+.spent-edit-time {
     display: none;
 }
+
 ul.nav.nav-pills.nav-sidebar.flex-column {
     overflow-y: scroll;
     height: 80vh;
 }
+
 ul.nav.nav-pills.nav-sidebar.flex-column::-webkit-scrollbar {
     width: 0;
 }
+
 ul.nav.nav-pills.nav-sidebar.flex-column i.down-icon {
     margin-right: 0;
-    float: right;
+    position: absolute;
+    right: 10px;
     transform: rotate(90deg);
 }
+
 ul.nav.nav-pills.nav-sidebar.flex-column i.fa.down-icon.fa-angle-up {
     margin-right: 0;
     float: right;
     transform: rotate(180deg);
 }
+
 .common-button-addmore:hover {
     color: #0e7ee5;
 }
+
 a.common-button-addmore {
     margin-right: 7px;
 }
+
 .modal-footer {
     text-align: left;
 }
-.listing-tabel-section{
+
+.listing-tabel-section {
     height: 77vh;
 }
+
 ul.dropdown-listing.add-newlist-dropdown {
-    height: 75vh;
+    height: 74vh;
     overflow-y: scroll;
+    position: fixed;
 }
+
 ul.dropdown-listing.add-newlist-dropdown::-webkit-scrollbar {
-    display: none;
+    width: 5px;
+    border-radius: 20px;
 }
+
 .dataTables_length {
     margin-top: 12px;
 }
-.new_item_row{
+
+.new_item_row {
     position: relative;
 }
+
 .delete-row-icon {
     padding-left: 15px;
     padding-right: 15px;
 }
+
 .select_box {
     padding-left: 15px;
     padding-right: 15px;
 }
+
 .add-more-services-dropdown .row:first-child {
     margin-top: -15px;
 }
+
 p.passworddata {
     margin: 0;
 }
+
 .edit_delete {
     position: absolute;
     top: 20px;
+}
+.active_menu_add {
+    background: #0e7ee5;
+}
+ul.droup-down-box li.sub-menu-dropdown {
+    padding: 0px 8px 0 0;
+    position: relative;
+    top: 5px;
+}
+ul.setting-menu-dropdown {
+    position: absolute;
+    right: 0;
+    padding: 0;
+    width: 200px;
+    padding-top: 23px;
+    top: 21px;
+    display: none;
+    border-radius: 4px;
+}
+ul.setting-menu-dropdown li {
+    display: block;
+    text-align: left;
+}
+ul.setting-menu-dropdown li p {
+    margin-bottom: 0;
+}
+ul.setting-menu-dropdown li {
+    padding: 6px 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    border-top: 0;
+}
+ul.setting-menu-dropdown li:first-child{
+    border-top: 1px solid #ddd;
+}
+ul.setting-menu-dropdown li:last-child{
+    border-bottom: 1px solid #ddd;
+}
+li.sub-menu-dropdown:hover ul.setting-menu-dropdown {
+    display: block;
+}
+ul.setting-menu-dropdown li a {
+    color: #495057;
+}
+li.sub-menu-dropdown ul.setting-menu-dropdown.show-setting{
+    display: block;
+}
+ul.setting-menu-dropdown li:hover a {
+    color: #fff;
+}
+ul.setting-menu-dropdown li:hover {
+    background: #0e7ee5;
+}
+i.fa.fa-gear.setting-icon {
+    font-size: 22px;
+    color: #0e7ee5;
+}
+.without-background::placeholder {
+    color: #0e7ee5;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: transparent;
+    opacity: 1;
+}
+.payer-info-row td {
+    border-top: 0;
+}
+.modal-dialog.add-team-dialog {
+    margin-top: 346px;
+    margin-bottom: 70px;
+}
+.phone-row-new{
+    width: 97.2%;
+    position: relative;
+}
+.delete_row_add {
+    position: absolute;
+    right: -20px;
+    top: 6px;
+}
+.delete_phone {
+    position: relative;
+    top: 4px;
+    left: 9px;
+}
+table.table-contact-user-employee {
+    width: 1600px;
+}
+table.table-contact-user-employee td {
+    width: 14.28%;
+}
+.employee-image.image-details {
+    margin-left: 5px;
+}
+.employee-image.image-details .image-section:first-child {
+    margin-top: 0;
 }
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
     section.footer-section {
@@ -3619,6 +3805,10 @@ p.passworddata {
     }
 }
 @media screen and (min-width: 1024px) {
+    .cols-space-add{
+        padding-left: 21px;
+        padding-right: 6px;
+    }
     .time-add {
         padding-right: 0px;
     }
@@ -3681,7 +3871,7 @@ p.passworddata {
     .delete-section.new-delete-add {
         position: absolute;
         top: 22px;
-        right: -10px;
+        right: -5px;
     }
     section#services-employee {
         padding-top: 20px;

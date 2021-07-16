@@ -51,7 +51,6 @@ class GeneralController extends Controller
                 'salution' => 'required',
                 'fname' => 'required',
                 'lname' => 'required',
-                'email' => 'required',
                 'country' => 'required',
                 'time' => 'required',
             ]);
@@ -60,12 +59,11 @@ class GeneralController extends Controller
             $salution = $request->input('salution');
             $fname = $request->input('fname');
             $lname = $request->input('lname');
-            $email = $request->input('email');
             $country = $request->input('country');
             $time = $request->input('time');
             DB::table('users')
             ->where('id', $id)
-            ->update(['salution' => $salution,'fname' => $fname,'lname' => $lname,'email' => $email,'country' => $country,'time' => $time,]);
+            ->update(['salutation' => $salution,'fname' => $fname,'lname' => $lname,'country' => $country,'time' => $time,]);
             
             return redirect('/profile');
 

@@ -12,13 +12,13 @@
 @section('detail_layout')
 @endsection
 @section('content')
-	@section('header')
-		@parent
-	@endsection
+  @section('header')
+    @parent
+  @endsection
 
-	@section('sidebar')
-		@parent
-	@endsection 
+  @section('sidebar')
+    @parent
+  @endsection 
     
          <div class="content-wrapper">
             <form id="form-consumer" action="" name="consumer-form">
@@ -87,9 +87,9 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Date of Birth</label>
+                                       <label class="col-md-3 col-form-label">Date of Birth<span class="required-mark">*</span></label>
                                        <div class="col-md-9 time-add">
-                                          <input type="text" name="dob" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="mm-dd-yyyy" autocomplete="off">
+                                          <input type="text" name="dob" class="form-control date-select width-add dob" id="datetimepicker4" placeholder="mm/dd/yyyy" autocomplete="off">
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -101,8 +101,8 @@
                                     <div class="form-group row new-phone">
                                        <label class="col-md-3 col-form-label ">Phone<span class="required-mark">*</span></label>
                                        <div class="col-md-9 new-phone-add">
-                                          <div class="row">
-                                             <div class="col-md-3 short-col">
+                                          <div class="row phone-row-new">
+                                             <div class="col-md-6 short-col">
                                                 <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
                                                    <option value="" >Select</option>
                                                    <option value="Home">Home</option>
@@ -113,10 +113,9 @@
                                                    <option value="Other">Other</option>
                                                 </select>
                                              </div>
-                                             <div class="col-md-8 short-col">
+                                             <div class="col-md-6 short-col">
                                                 <input type="tel" name="cellphone" class="form-control phone"  placeholder="Phone">
                                              </div>
-                                             <div class="col-md-1"></div>
                                           </div>                                             
                                        </div>
                                     </div>
@@ -156,7 +155,7 @@
                                        <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                        <div class="col-md-7">
                                          <select class="form-control active-status apprroved  assigneeval" name="assignee">
-                                             <option value="">Unassigned</option>
+                                             <option value="0">Unassigned</option>
                                              @foreach ($supervisors as $supervisor)
                                                 <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
                                              @endforeach
@@ -164,21 +163,21 @@
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
-                                       <label class="col-md-5 col-form-label assigned-label">Service Date</label>
+                                       <label class="col-md-5 col-form-label assigned-label">Service Date<span class="required-mark">*</span></label>
                                        <div class="col-md-7">
                                           <!-- <label class="services-date">9/15/20</label> -->
                                           <input type="text" name="services-date" class="form-control date-select without-background servicedate" placeholder="No Service Date" autocomplete="off">
                                        </div>
                                     </div>                                    
                                     <div class="form-group row tool-box">
-                                       <label class="col-md-5 col-form-label assigned-label">Admission Date</label>
+                                       <label class="col-md-5 col-form-label assigned-label">Admission Date<span class="required-mark">*</span></label>
                                        <div class="col-md-7">
                                           <!-- <label class="services-date">9/15/20</label> -->
                                           <input type="text" name="admission-date" class="form-control date-select without-background admissiondate" placeholder="No Admission Date" autocomplete="off">
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
-                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date</label>
+                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date<span class="required-mark">*</span></label>
                                        <div class="col-md-7">
                                          <input type="text" name="discharge-date" class="form-control date-select without-background dischargedate" placeholder="No Discharge Date" autocomplete="off">
                                        </div>
@@ -230,7 +229,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label required-field">Address<span class="required-mark">*</span></label>
+                                       <label class="col-md-4 col-form-label">Address</label>
                                        <div class="col-md-8 common-textbox">
                                           <textarea name="address" class="form-control baddress" placeholder="Street 1"></textarea>
                                        </div>
@@ -300,7 +299,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label required-field">Address<span class="required-mark">*</span></label>
+                                       <label class="col-md-4 col-form-label">Address</label>
                                        <div class="col-md-8 common-textbox">
                                           <textarea name="address1" class="form-control aaddress" placeholder="Street 1"></textarea>
                                        </div>
@@ -377,7 +376,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Language</label>
+                                       <label class="col-md-4 col-form-label">Language<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  language" name="language">
                                              <option value="" selected="selected" >Select</option>
@@ -388,7 +387,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Race</label>
+                                       <label class="col-md-4 col-form-label">Race<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown  race" name="race">
                                              <option value="" selected="selected" >Select</option>
@@ -399,7 +398,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Marital Status</label>
+                                       <label class="col-md-4 col-form-label">Marital Status<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown marital-status" name="marital-status">
                                              <option value="" selected="selected" >Select</option>
@@ -410,7 +409,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Ethinicity</label>
+                                       <label class="col-md-4 col-form-label">Ethinicity<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown ethinicity" name="ethinicity">
                                              <option value="" selected="selected" >Select</option>
@@ -427,7 +426,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Lead Person</label>
+                                       <label class="col-md-4 col-form-label">Program Supervisor<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown lead-person" name="lead-person">
                                              <option value="" selected="selected" >Select</option>
@@ -438,21 +437,33 @@
                                        </div>
                                     </div>
                                    
-                                    
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">In Crisis</label>
+                                       <label class="col-md-4 col-form-label">Nurse</label>
+                                       <div class="col-md-8 common-textbox">
+                                          <input type="text" name="nurse" class="form-control nurse" placeholder="Nurse">
+                                       </div>
+                                    </div>
+                  <div class="form-group row">
+                                       <label class="col-md-4 col-form-label">Doctor</label>
+                                       <div class="col-md-8 common-textbox">
+                                          <input type="text" name="doctor" class="form-control doctor" placeholder="Doctor">
+                                       </div>
+                                    </div>
+                  
+                                    <div class="form-group row">
+                                       <label class="col-md-4 col-form-label">In Crisis<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="text" name="in-crisis" class="form-control in-crisis" placeholder="In Crisis">
                                        </div>
                                     </div>                                                                           
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Ordering NPI #</label>
+                                       <label class="col-md-4 col-form-label">Ordering NPI #<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <input type="text" name="ordering-npi" class="form-control npi" placeholder="Ordering NPI #">
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Smoker Status</label>
+                                       <label class="col-md-4 col-form-label">Smoker Status<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown smoker-status" name="smoker-status">
                                              <option value="" selected="selected" >Select</option>
@@ -463,7 +474,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Fall Risk</label>
+                                       <label class="col-md-4 col-form-label">Fall Risk<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown fall-risk" name="full-risk">
                                              <option value="" selected="selected" >Select</option>
@@ -473,7 +484,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Hearing Impaired</label>
+                                       <label class="col-md-4 col-form-label">Hearing Impaired<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown hearing_impaired" name="impaired">
                                              <option value="" selected="selected" >Select</option>
@@ -483,7 +494,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Seeing Impaired</label>
+                                       <label class="col-md-4 col-form-label">Seeing Impaired<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown seeing_impaired" name="seeing">
                                              <option value="" selected="selected" >Select</option>
@@ -493,7 +504,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Preferred Hospital</label>
+                                       <label class="col-md-4 col-form-label">Preferred Hospital<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown preferred" name="preferred">
                                              <option value="" selected="selected" >Select</option>
@@ -503,7 +514,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-4 col-form-label">Referral Source</label>
+                                       <label class="col-md-4 col-form-label">Referral Source<span class="required-mark">*</span></label>
                                        <div class="col-md-8 common-textbox">
                                           <textarea name="referral-source" class="form-control referral-source" placeholder=""></textarea>
                                        </div>
@@ -520,7 +531,7 @@
                            <div class="col-md-12">
                               <form class="payer-form">
                                  <div class="table-scrollbar common-scroll">
-                                    <table class="table-payer-info common-table-info">
+                                    <table class="table-payer-info table-payer-info-etc common-table-info">
                                        <tbody>
                                           <tr class="tr-payer-info common-tr-info">
                                              <td>
@@ -546,6 +557,13 @@
                                              </td>
                                              <td>
                                                 <input type="text" name="co-pay" class="form-control custom-payer-field common-text-box-new payercopay" placeholder="Co-pay Amount">
+                                             </td>
+                                             <td class="makeasprm">
+                                                <label class="switch">
+                                                  <input type="radio"   class="primarybx" name="primarybx"><span class="slider  getchkval">
+                                                </label>
+                                                Mark As Primary
+
                                              </td>
                                           </tr>
                                           <tr>
@@ -688,23 +706,11 @@
                               <a href="#myModal" class="btn btn-primary add-member" data-toggle="modal">Add Members...</a>
                               <a id="remove-id" class="team-remove">Remove From Team</a>
                               <div class="check-sec">
-                                 <div class="check-parts">
-                                    <input type="checkbox" name="" class="check-input  teams">
-                                    <label class="lbl-check">Chris Edwards</label>
-                                 </div>
-                                 <div class="check-parts">
-                                    <input type="checkbox" name="" class="check-input teams">
-                                    <label class="lbl-check">Ida Heidi</label>
-                                 </div>
-                                 <div class="check-parts">
-                                    <input type="checkbox" name="" class="check-input teams">
-                                    <label class="lbl-check">Williams Jackson</label>
-                                 </div>
                               </div>
                            </div>
                         </div>
                         <div class="modal fade add-new-team-member" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                           <div class="modal-dialog">
+                           <div class="modal-dialog add-team-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true">x</button> -->
@@ -715,15 +721,16 @@
                                  <form class="team-form" id="submit-form">
                                     <div class="row model-row">
                                        <div class="col-md-4">
-                                          <label class="col-form-label user">User to Employee</label>
+                                          <label class="col-form-label user">Employee</label>
                                        </div>
                                        <div class="col-md-8">
                                            <div class="common-textbox">
-                                             <select name="select" class="form-control droupdown" name="user">
+                                             <select name="select" class="form-control droupdown  selectedemp" name="user">
                                                 <optgroup class="dropdown-title" label="Users">
-                                                <option selected="selected" >Select</option>
-                                                <option value="Stacy Owens">Stacy Owens<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
-                                                <option value="Stacy Owens">Stacy Owens<span class="email-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stacy.owens@focus</span></option>
+                                                <option selected="selected" data="0" value="0" >Select</option>
+                          @foreach ($teams as $team)
+                          <option data="{{$team->id}}" value="{{$team->fname}} {{$team->lname}}">{{$team->fname}} {{$team->lname}}<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$team->email}}</span></option>
+                          @endforeach
                                                 </optgroup>
                                              </select>
                                           </div>
@@ -738,6 +745,7 @@
                               </div>
                            </div>
                        </div>
+                       <div id="scrolltopteam"></div>
                      </div>
                   </section>
                   <section class="contentsection" id="diagnosis">
@@ -980,35 +988,6 @@
    });
 </script>
 <script type="text/javascript">
-   
-
-
-   // Scroolbar scroll
-   var $hs = $('.table-scrollbar');
-   var $sLeft = 0;
-   var $hsw = $hs.outerWidth(true);
-   $( window ).resize(function() {
-     $hsw = $hs.outerWidth(true);
-   });
-   function scrollMap($sLeft) {
-     $hs.scrollLeft($sLeft);
-   }
-   $hs.on('mousewheel', function(e) {
-     var $max = $hsw * 2 + (-e.originalEvent.wheelDeltaY);
-     if ($sLeft > -1){
-       $sLeft = $sLeft + (-e.originalEvent.wheelDeltaY);
-     } else {
-       $sLeft = 0;
-     }
-     if ($sLeft > $max) {
-       $sLeft = $max;
-     }
-     if(($sLeft > 0) && ($sLeft < $max)) {
-       e.preventDefault();
-       e.stopPropagation(); 
-     }
-     scrollMap($sLeft);
-   });
 
    $('#user-add-icon').click(function(){
       $("#drop-down-profile").toggleClass('show');
@@ -1100,12 +1079,12 @@ $(function () {
           }
         });
         
-        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $(document).on('focus','.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate',function(){
            $('.dob,.servicedate,.admissiondate,.dischargedate,.diagnosis-date,.hasDatepicker,.date-type,.notationdate').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
@@ -1182,6 +1161,8 @@ $(function () {
             var ethinicity = $('.ethinicity').val();
             var casename = $('.casename').val();
             var lead_person = $('.lead-person').val();
+            var nurse = $('.nurse').val();
+            var doctor = $('.doctor').val();
             
             var allergies_val = $('.allergies_val').val();
             
@@ -1211,22 +1192,35 @@ $(function () {
                   
               });
             });
+      
+      
+      var team_array= [];
+            $(".teams").each(function(i, value) {
+               
+               team_array.push({
+                  team: $(this).val(), 
+              });
+            });
             
             
             var payerid_array= [];
             $(".payerid").each(function(i, value) {
-               
+                var makeasprimary = 0;
+               if($(this).parent().parent().children('td').find('.primarybx').prop("checked") == true){
+                   var makeasprimary = 1;
+               }
                payerid_array.push({
                   payerid: $(this).val(), 
                   payerpolicyno: $(this).parent().parent().children('td').find('.payerpolicyno').val(),
                   payerinsurancetype: $(this).parent().parent().children('td').find('.payerinsurancetype').val(),
                   payercopay: $(this).parent().parent().children('td').find('.payercopay').val(),
-
+                  makeasprimary: makeasprimary,
                   
               });
             });
             
             
+               
             var contact_type_array= [];
             $(".contact_type").each(function(i, value) {
                
@@ -1317,34 +1311,34 @@ $(function () {
             
 
             if(salutation==null ||  salutation==''){
-               validation_array.push('Please select salutation');
+               validation_array.push('Please select Salutation');
                
             }
             
             
             if(fname==null ||  fname==''){
-               validation_array.push('Please enter first name');
+               validation_array.push('Please enter First Name');
                
             }
 
             
             if(lname==null  ||  lname==''){
-               validation_array.push('Please enter last name');
+               validation_array.push('Please enter Last Name');
                
             }
             
             
             if(gender==null  ||  gender==''){
-               validation_array.push('Please select gender');
+               validation_array.push('Please select Gender');
                
             }  
             
             if(identified==null  ||  identified==''){
-               validation_array.push('Please select identified');               
+               validation_array.push('Please select Identified');               
             }               
             
             if(dob==null   ||  dob==''){
-               validation_array.push('Please select date of birth');               
+               validation_array.push('Please select Date of Birth');               
             }               
             
             
@@ -1362,7 +1356,7 @@ $(function () {
            
             
             if(IsEmail(email)==false || email==''  || email==null){
-               validation_array.push('Please enter valid email address');               
+               validation_array.push('Please enter valid Email Address');               
             }
             
             checkconsumeremail(email,validation_array)
@@ -1377,16 +1371,16 @@ $(function () {
            
             
             if(servicedate==null   ||  servicedate==''){
-               validation_array.push('Please service date');               
+               validation_array.push('Please select Service Date');               
             }
             
             
             if(admissiondate==null   ||  admissiondate==''){
-               validation_array.push('Please admissiondate date');               
+               validation_array.push('Please select Admissiondate Date');               
             }
             
             if(dischargedate==null   ||  dischargedate==''){
-               validation_array.push('Please discharge date');               
+               validation_array.push('Please select Discharge Date');               
             }
             
             
@@ -1398,7 +1392,7 @@ $(function () {
             var validation_billing_array= [];
             if(language==null   ||  language==''){
                othernfo();
-                validation_billing_array.push('Please select language');
+                validation_billing_array.push('Please select Language');
             }
             
             
@@ -1406,31 +1400,31 @@ $(function () {
             
             if(race==null   ||  race==''){
                othernfo();
-               validation_billing_array.push('Please select race');
+               validation_billing_array.push('Please select Race');
             }
             
             
             if(marital_status==null   ||  marital_status==''){
                othernfo();
-               validation_billing_array.push('Please select marital status');
+               validation_billing_array.push('Please select Marital Status');
             }
             
             
             if(ethinicity==null   ||  ethinicity==''){
                othernfo();
-               validation_billing_array.push('Please select ethinicity');
+               validation_billing_array.push('Please select Ethinicity');
             }
             
             
             if(casename==null   ||  casename==''){
                othernfo();
-               validation_billing_array.push('Please enter case name');
+               validation_billing_array.push('Please enter Case Name');
             }
             
             
             if(lead_person==null   ||  lead_person==''){
                othernfo();
-               validation_billing_array.push('Please select lead person');
+               validation_billing_array.push('Please select Program Supervisor');
             }
             
             /*
@@ -1446,27 +1440,27 @@ $(function () {
             
             if(in_crisis==null   ||  in_crisis==''){
                othernfo();
-               validation_billing_array.push('Please select in crisis');
+               validation_billing_array.push('Please select In Crisis');
             }
             
 
             if(npi==null   ||  npi==''){
                othernfo();
-               validation_billing_array.push('Please select npi');
+               validation_billing_array.push('Please select NPI');
             }
             
             
             
             if(smoker_status==null   ||  smoker_status==''){
                othernfo();
-                validation_billing_array.push('Please select smoker status');
+                validation_billing_array.push('Please select Smoker Status');
             }
             
             
             
             if(fall_risk==null   ||  smoker_status==''){
                othernfo();
-               validation_billing_array.push('Please select fall risk');
+               validation_billing_array.push('Please select Fall Risk');
             }
             
             
@@ -1474,26 +1468,26 @@ $(function () {
             
             if(hearing_impaired==null   ||  hearing_impaired==''){
                othernfo();
-               validation_billing_array.push('Please select hearing impaired');
+               validation_billing_array.push('Please select Hearing Impaired');
             }
             
             
             if(seeing_impaired==null   ||  seeing_impaired==''){
                othernfo();
-               validation_billing_array.push('Please select seeing impaired');
+               validation_billing_array.push('Please select Seeing Impaired');
             }
            
             
             if(preferred==null   ||  preferred==''){
                othernfo();
-               validation_billing_array.push('Please select preferred');
+               validation_billing_array.push('Please select Preferred');
             }
             
             
             
             if(referral_source==null   ||  referral_source==''){
                othernfo();
-               validation_billing_array.push('Please select referral source');
+               validation_billing_array.push('Please select Referral Source');
             }
             
             function othernfo(){
@@ -1575,6 +1569,8 @@ $(function () {
                               atypes: atypes,
                               anotes: anotes,            
 
+                              nurse: nurse,            
+                              doctor: doctor,            
                               salutation: salutation,
                               fname: fname,
                               lname: lname,
@@ -1615,6 +1611,7 @@ $(function () {
                               midicationname_array:midicationname_array,
                               allerginame_array:allerginame_array,
                               notationtype_array:notationtype_array,
+                team_array:team_array,
 
                               
                               
@@ -1788,7 +1785,7 @@ $(function () {
                  e.preventDefault();
                  if(x < max_fields){ 
                      x++; 
-                     $(wrapper).append('<div class="row new-row-add"> <div class="col-md-3 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-8 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="col-md-1 short-col"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
+                     $(wrapper).append('<div class="row new-row-add phone-row-new"> <div class="col-md-6 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-6 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
                  }
                else
                {
@@ -1829,7 +1826,7 @@ $(function () {
            var clength = $('.tr-payer-info').length;
               if(clength < max_fields){
               x++; 
-              var htmlData ='<tr class="tr-payer-info common-tr-info">'+
+              var htmlData ='<tr class="tr-payer-info common-tr-info payer-info-row">'+
               '<td> '+
               '<select class="form-control droupdown custom-payer-field common-text-box-new payerid" name="ahena">'+
               '<option value=""  selected="selected">Select Payer Name</option>';    
@@ -1850,6 +1847,7 @@ $(function () {
               '</td>'+
              ' <td> '+
               '<input type="text" name="co-pay" class="form-control custom-payer-field common-text-box-new payercopay" placeholder="Co-pay Amount"></td>'+
+              '<td class="makeasprm"><label class="switch"><input type="radio" class="primarybx" name="primarybx"><span class="slider  getchkval"></span></label></td>'+
               '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>'+
               '</tr>'+
               '<tr><td></td><td></td>'+
@@ -2106,16 +2104,115 @@ $(function () {
              $('.add_form_allergies').hide();
          }
        });
-       
+     
+     
+     
+   $('html').on("click",".btn-add",function(){
+     if(empName!='0'){
+      var empName = $('.selectedemp').val();
+      var empId = $('.selectedemp option:selected').attr('data');
+
+      var htmlData = '<div class="check-parts">'+
+                '<input type="checkbox" value="'+empId+'" name="teams" class="check-input  teams">'+
+                '<label class="lbl-check">'+empName+'</label>'+
+               '</div>';
+      $('.selectedemp option:selected').hide();
+      $('.check-sec').append(htmlData);
+      $('.selectedemp').val('0');
+    }
+     });
+   
+   $('html').on("click",".team-remove",function(){
+     $('.teams').each(function(){
+       if($(this).is(':checked')){
+         var selVal = $(this).val();
+         //$('.selectedemp option=[value='+selVal+']').show();
+         $('.selectedemp option[data="'+selVal+'"]').show();
+         $(this).parent('.check-parts').remove();
+       }
+     });
+   
+     });
+
+
+    $('.team-remove').hide();
+    function hideRemoveOption() {
+      $('.team-remove').hide();
+      if($('.teams:checked').length > 0){  
+      $('.team-remove').show();
+      }
+    }
+    $(document).on("change",".teams",function(){
+      hideRemoveOption();
+    });
+    $(document).on("click",".team-remove",function(){
+      hideRemoveOption();
+    });
+ 
        
    });
    
    
-
+$('html').on('click', '.add-member', function(){
+  var elem = document.getElementById("scrolltopteam");
+  elem.scrollIntoView();
+}); 
 </script>
 <style>
 .errorclass,.errorbillingclass{color:#f00;}
 .errorclass ul li,.errorbillingclass ul li {   list-style: inherit;}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  margin: 1px 4px 1px 10px;
+  padding: 3px 0px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
 @endsection
 @section('end_listing_layout')

@@ -53,12 +53,27 @@
                            </div>
                            <div class="col-md-4">
                               <ul class="new-dropdown-hover add-details-drop">
-                                 <li class="droupdown-hover-add">
-                                    <a href="{{route('authorizations-add', $assessments->consumer_id)}}" class="create-new-btn">Create an Authorization</a>
-                                    
-                                 </li>
-                              </ul>
-                           </div>
+                                  <li class="droupdown-hover-add">
+                                    <a href="javascript:;" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
+                                    <ul class="dropdown-notes">
+                                     <li><a href="{{ url('assessments-add-sub',[$assessments->id,1]) }}">Annual Assessment</a></li>
+                                     <li><a href="{{ url('assessments-add-sub',[$assessments->id,2]) }}">Reassessment</a></li>
+                                     <li>
+                                        <a href="{{route('authorizations-add', $assessments->consumer_id)}}" >Create an Authorization</a>
+                                     </li>
+                                    </ul>
+                                  </li>
+                                  
+                                 </ul>
+                                 <!--
+                                     <ul class="new-dropdown-hover add-details-drop">
+                                        <li class="droupdown-hover-add">
+                                           <a href="{{route('authorizations-add', $assessments->consumer_id)}}" class="create-new-btn">Create an Authorization</a>
+                                           
+                                        </li>
+                                     </ul>
+                              -->
+                                  </div>
                         </div>
                      </div>
                   </section>
@@ -69,7 +84,7 @@
                               <div class="card card-primary">
                                  <div class="card-body">                                    
                                     <div class="form-group row common-row">
-                                       <label class="col-md-12 col-form-label title-details">Initial Intake Assessment</label>
+                                       <label class="col-md-12 col-form-label title-details">{{$assessments->assessment_type}}</label>
                                     </div>
                                     <div class="form-group row common-row">
                                        <label class="col-md-3 col-form-label-assessment common-title-label">Consumer Name</label>
@@ -117,9 +132,10 @@
                                              <input type="text" name="date" class="form-control date-select without-background date-add" value="{{$assessments->assessment_date}}">
                                           </div>
                                        </div>
-                                       <div class="form-group row tool-box">
+                                       <div class="form-group row tool-box new">
                                           <label class="col-md-5 col-form-label assigned-label">State</label>
                                           <div class="col-md-7">
+                                            <label class="form-control without-background new-label">
                                              @if($assessments->status=='0')
                                                  Open
                                              @elseif($assessments->status=='1')
@@ -129,12 +145,15 @@
                                              @elseif($assessments->status=='3')
                                                 In-Progress
                                              @endif
+                                           </label>
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                           <div class="col-md-7">
-                                            {{$assessments->assignee}}
+                                            <label class="form-control without-background new-label">
+                                              {{$assessments->assignee}}
+                                            </label>
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -227,24 +246,25 @@
                                   </tr>
                                </thead>
                                <tbody>
-                               
+                               <?php $a=0; ?>
                                @foreach($assessment_problems as $assessment_problem)
                                  <tr>
                                    <th>{{$assessment_problem->author}}</th>
                                    <th>{{$assessment_problem->strength}}</th>
                                    <th>{{$assessment_problem->score}}</th>
-                                   
+                                   <?php $a +=$assessment_problem->score; ?>
                                  </tr>
                                @endforeach
                                </tbody>
                               </table>
                               
                               
-                              @endif
+                              
                               <div class="box-total">
                                  <label class="total-label">Total Score</label>
-                                 <span class="score-total">3</span>
+                                 <span class="score-total">{{$a}}</span>
                               </div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -413,25 +433,29 @@
                      </div>
                   </section>
                   <section class="contentsection" id="document-details">
-                  <div class="col-md-6">
-                        <div id="uploadPreview" class="employee-image">
-                           @foreach($assessment_documents as $document)
-                              <?php
-                                 $varpath = 'public/files/'.$document->document;
-                              ?>
-                              @if(file_exists($varpath)) 
-                                <div class="image-section"><div class="row"><div class="col-md-10 image-show-name"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div><div class="col-md-2"></div></div></div>
-                              @else
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div id="uploadPreview" class="employee-image image-details">
+                             @foreach($assessment_documents as $document)
+                                <?php
+                                   $varpath = 'public/files/'.$document->document;
+                                ?>
+                                @if(file_exists($varpath)) 
+                                  <div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image"><a target="blank" href="{{url('/public')}}/files/{{$document->document}}">{{$document->document}}</a></p></div></div></div>
+                                @else
+                                  
+                                @endif
                                 
-                              @endif
-                              
-                                    
-                           @endforeach
-                           
+                                      
+                             @endforeach
+                             
 
+                          </div>
+                          
                         </div>
-                        
-                     </div>
+                      </div>
+                    </div>
                   </section>
                </div>
             </form>

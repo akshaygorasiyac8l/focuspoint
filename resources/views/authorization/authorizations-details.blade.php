@@ -127,7 +127,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             ---
+                                             {{$authorization->spent_time}}	
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
@@ -152,7 +152,7 @@
 		                        	</div>
 		                        	<div class="col-md-9">
 		                        		<div class="row">
-		                        			<div class="col-md-6">
+		                        			<div class="col-md-6 time-add-left">
 		                        				<div class="form-group">
 			                                       <label class="col-form-label-assessment common-title-label">Per Week</label>
 			                                       <label class="col-form-label-assessment">{{$authorization->unit_per_week}}</label>
@@ -169,11 +169,11 @@
 		                        </div>
 		                        <div class="row">
 		                        	<div class="col-md-3">
-		                        		<span class="max-unit-title">Total Approved</span>
+		                        		<span class="max-unit-title ">Total Approved</span>
 		                        	</div>
 		                        	<div class="col-md-9">
 		                        		<div class="row">
-		                        			<div class="col-md-4">
+		                        			<div class="col-md-4 time-add-left">
 		                        				<div class="form-group">
 			                                       <label class="col-form-label-assessment common-title-label">Units/Visits</label>
 			                                       <label class="col-form-label-assessment">{{$authorization->total_approved_units}}</label>
