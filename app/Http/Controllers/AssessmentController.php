@@ -30,7 +30,7 @@ class AssessmentController extends Controller
     public function index()
     {
         $data = array();        
-        $data['assessments'] = DB::table('assessments')->get();        
+        $data['assessments'] = DB::table('assessments')->orderBy('id', 'desc')->get();        
         return view('assessment/assessments-listing',$data);
     }
     
@@ -38,7 +38,7 @@ class AssessmentController extends Controller
     public function getAssessmentList()
     {
         if(request()->ajax()) {
-            $datas = DB::table('assessments')->where('parent_assessment_id',0)->get();
+            $datas = DB::table('assessments')->where('parent_assessment_id',0)->orderBy('id', 'desc')->get();
 
             $dataarray =  array();
             $i=0;
@@ -73,7 +73,7 @@ class AssessmentController extends Controller
         
 		
         if(request()->ajax()) {
-            $datas = DB::table('assessments')->where('parent_assessment_id',$request->assessment_id)->where('parent_assessment_id','!=',0)->get();
+            $datas = DB::table('assessments')->where('parent_assessment_id',$request->assessment_id)->where('parent_assessment_id','!=',0)->orderBy('id', 'desc')->get();
             
             $dataarray =  array();
             $i=0;
@@ -150,7 +150,7 @@ class AssessmentController extends Controller
     {
         
         if(request()->ajax()) {
-            $datas = DB::table('assessments')->where('parent_assessment_id',0)->get();
+            $datas = DB::table('assessments')->where('parent_assessment_id',0)->orderBy('id', 'desc')->get();
             
             $dataarray =  array();
             $i=0;

@@ -131,7 +131,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="date" class="form-control date-select without-background date-add" value="{{$assessments->assessment_date}}">
+                                             <input disabled type="text" name="date" class="form-control date-select without-background date-add" value="{{$assessments->assessment_date}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box new">
@@ -161,13 +161,13 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Spent Time</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="spent-time" class="form-control without-background date-add" id="spent-time-add" placeholder="{{$assessments->spent_time}}">
+                                             <input type="text" disabled name="spent-time" class="form-control without-background date-add" id="spent-time-add" placeholder="{{$assessments->spent_time}}">
                                           </div>
                                        </div>
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Due Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="services-date" class="form-control date-select without-background date-add" placeholder="{{$assessments->due_date}}">
+                                             <input type="text" disabled name="services-date" class="form-control date-select without-background date-add" placeholder="@if($assessments->due_date=='')No Due Date @else {{$assessments->due_date}} @endif">
                                           </div>
                                        </div>
                                     </div>

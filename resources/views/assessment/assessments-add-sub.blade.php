@@ -1067,6 +1067,11 @@ $(function () {
    
             $('.errorclass').html('');
             var validation_array= [];
+
+            var sname = $('.sname').val();
+			var district = $('.district').val();
+
+         
             @if($type_id=='1' )
 			var designation = $('.designation').val();
 			var sphone = $('.sphone').val();

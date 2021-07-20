@@ -1,533 +1,533 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <title>New Patient</title>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="css/custom.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
-      <script type="text/javascript" src="js/jquery.min.js"></script>
-   </head>
-   <body>
-      <div class="section">
-         <div class="header">
-            <div class="mobile-section">
-               <div class="logo">
-                  <a href="#" target="_blank">
-                     <img src="images/FocusPoint_Logo.png" alt="logo">
-                  </a>
-               </div>
-               <div class="mobile-menu">
-                  <button onclick="myFunction();"><i class="fa fa-bars" aria-hidden="true"></i></button>
-               </div>
-            </div>
-            
-            <div class="row header-right-section">
-              <div class="col-md-6 search-box">
-                  <form class="form-inline ml-3">
-                     <div class="input-group input-group-sm">                     
-                       <i class="fa fa-caret-down"></i>
-                       <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                     </div>
-                   </form>
-               </div>
-               <div class="col-md-6 drop-box">
-                  <ul class="droup-down-box">
-                     <li class="drop-item-box">
-                        <div class="form-group select dropdown-box">                           
-                           <select class="form-control" style="-webkit-appearance: none;">
-                              <option>Danvile</option>
-                              <option>Danvile 2</option>
-                              <option>Danvile 3</option>
-                           </select>
-                           <i class="fa fa-angle-down"></i>
-                        </div>
-                     </li>
-                     <li class="drop-item-box">
-                        <div class="form-group select dropdown-box">
-                           <select class="form-control" style="-webkit-appearance: none;">
-                              <option>Administration 1</option>
-                              <option>Administration 2</option>
-                              <option>Administration 3</option>
-                           </select>
-                           <i class="fa fa-angle-down"></i>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
-            <nav class="mt-2">
-               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-dashboard"></i>
-                        <p>Dashboard</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview active-menu">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-user"></i>
-                        <p>Consumer</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-anchor"></i>
-                        <p>Assessments</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-book"></i>
-                        <p>Consumer Notes</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-check-square-o"></i>
-                        <p>Authorizations</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-life-ring"></i>
-                        <p>Service Plans</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-database"></i>
-                        <p>Compliances</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-file-text"></i>
-                        <p>Documents</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-file"></i>
-                        <p>Reports</p>
-                     </a>
-                  </li>
-                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                        <i class="fa fa-credit-card"></i>
-                        <p>Billing</p>
-                     </a>
-                  </li>
-               </ul>
-            </nav>
-            <div class="back-box">
-               <button class="back-btn-box"><i class="fa fa-angle-left"></i></button>
-            </div>
-         </aside>
-         <div class="content-wrapper">
-            <div class="background-transperent">
-               <section class="content-header">
-                  <div class="container-fluid">
-                     <div class="row">
-                        <div class="col-sm-12 page-background">
-                           <h1 class="page-title">New Patient</h1>
-                        </div>
-                     </div>
-                  </div>
-               </section>
-               <section class="content">
-                  <div class="container-fluid">
-                     <div class="row">
-                        <div class="col-md-8 consumer-section">
-                           <div class="card card-primary">
-                              <form role="form">
-                                 <div class="card-body">
-                                    <div class="form-group row">
-                                       <label for="inputEmail3" class="col-sm-3 col-form-label">Consumer Name</label>
-                                       <div class="col-sm-3 consumer-sec">
-                                          <select class="form-control droupdown">
-                                             <option>Salutation</option>
-                                             <option>Salutation</option>
-                                             <option>Salutation 2</option>
-                                             <option>Salutation 3</option>
-                                          </select>
-                                       </div>
-                                       <div class="col-sm-3 consumer-sec">
-                                          <input type="email" class="form-control" id="inputEmail3" placeholder="First Name">
-                                       </div>
-                                       <div class="col-sm-3 consumer-sec">
-                                          <input type="email" class="form-control" id="inputEmail3" placeholder="Last Name">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Gender</label>
-                                       <div class="col-sm-9 common-text">
-                                          <select class="form-control droupdown">
-                                             <option>Select Gender</option>
-                                             <option>Male</option>
-                                             <option>Female</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Date of Birth</label>
-                                       <div class="col-sm-9 common-text">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Record No</label>
-                                       <div class="col-sm-9 common-text">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Primary Service</label>
-                                       <div class="col-sm-9 common-text">
-                                          <select class="form-control droupdown">
-                                             <option>Select Primary Service</option>
-                                             <option>Primary Service 2</option>
-                                             <option>Primary Service 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </form>
-                           </div>
-                        </div>
-                        <div class="col-md-4 active-tool-box">
-                        	<div class="active-tool">
-                        		<div class="card-body">
-                                    <div class="form-group row tool-box">
-                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Status</label>
-                                       <div class="col-sm-6">
-                                          <select class="form-control active-status apprroved">
-                                             <option>Active - Approved</option>
-                                             <option>Active</option>
-                                             <option>Approved</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row tool-box">
-                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Assignee</label>
-                                       <div class="col-sm-6">
-                                          <select class="form-control active-status apprroved">
-                                             <option>Unassigned</option>
-                                             <option>Assigned</option>
-                                             <option>Unassigned</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row tool-box">
-                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Service Date</label>
-                                       <div class="col-sm-6">
-                                          <label class="services-date">9/15/20</label>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row tool-box">
-                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Admission Date</label>
-                                       <div class="col-sm-6">
-                                          <label class="services-date">9/15/20</label>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row tool-box">
-                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Discharge Date</label>
-                                       <div class="col-sm-6">
-                                          <label class="services-date">9/15/20</label>
-                                       </div>
-                                    </div>
-                                 </div>
-                        	</div>
-                        </div>
-                     </div>
-                  </div>
-               </section>
-               <section class="tab-section">
-               		<div class="tab-bar">
-               			<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
-			              <li class="nav-item active-tabs">
-			                <a class="nav-link tabs" id="custom-content-below-home-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-home" aria-selected="false" onclick="openTabs(event, 'address')">Address</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-profile-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-profile" aria-selected="false" onclick="openTabs(event, 'other-details')">Other Details</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-messages-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">Payer Info</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Contact Persons</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Diagnosis</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Medications</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Allergies</a>
-			              </li>
-			              <li class="nav-item">
-			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Account Notations</a>
-			              </li>
-			            </ul>
-               		</div>
-               </section>
-               <section class="contentsection active" id="address">
-                  <div class="container-fluid">
-                     <div class="row">
-                        <div class="col-md-6">
-                           <div class="card card-primary">
-                              <form role="form">
-                                 <div class="card-body">
-                                    <div class="form-group row">
-                                       <label for="inputEmail3" class="col-sm-4 col-form-label">SSN</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="SSN">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Country / Region</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Country</option>
-                                             <option>India</option>
-                                             <option>USA</option>
-                                             <option>UK</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Address</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <textarea class="form-control" placeholder="Street 1"></textarea>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label"></label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <textarea class="form-control" placeholder="Street 2"></textarea>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">City</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="City">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">State</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select State</option>
-                                             <option>Gujarat</option>
-                                             <option>Rajasthan</option>
-                                             <option>Panjab</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Zip Code</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Zip Code">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Email Address</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Email Address">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Home Phone</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Home Phone">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Cell Phone</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Cell Phone">
-                                       </div>
-                                    </div>
-                                 </div>
-                              </form>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               	</section>
-               <section class="contentsection" id="other-details">
-                  <div class="container-fluid">
-                     <div class="row">
-                        <div class="col-md-6">
-                           <div class="card card-primary">
-                              <form role="form">
-                                 <div class="card-body">
-                                    <div class="form-group row">
-                                       <label for="inputEmail3" class="col-sm-4 col-form-label">Language</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Language</option>
-                                             <option>Gujarati</option>
-                                             <option>English</option>
-                                             <option>Hindi</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Case Name</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Case Name">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">In Crisis</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="In Crisis">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Lead Person</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Lead Person</option>
-                                             <option>Person 1</option>
-                                             <option>Person 2</option>
-                                             <option>Person 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Nurse</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Nurse</option>
-                                             <option>Nurse 1</option>
-                                             <option>Nurse 2</option>
-                                             <option>Nurse 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Doctor</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Doctor</option>
-                                             <option>Doctor 1</option>
-                                             <option>Doctor 2</option>
-                                             <option>Doctor 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Race</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Race</option>
-                                             <option>Race 1</option>
-                                             <option>Race 2</option>
-                                             <option>Race 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Marital Status</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Marital Status</option>
-                                             <option>Married</option>
-                                             <option>Un Married</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Ethinicity</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Ethinicity</option>
-                                             <option>Ethinicity 1</option>
-                                             <option>Ethinicity 2</option>
-                                             <option>Ethinicity 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Ordering NPI #</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Ordering NPI #">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Smoker Status</label>
-                                       <div class="col-sm-8 common-textbox">
-                                          <select class="form-control droupdown">
-                                             <option>Select Smoker Status</option>
-                                             <option>Smoker Status 1</option>
-                                             <option>Smoker Status 2</option>
-                                             <option>Smoker Status 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </form>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  </section>
-       			<section class="footer-section">
-       				<div class="container-fluid">
-       					<div class="card-footer">
-		                  <button type="submit" class="btn btn-info">Save</button>
-		                  <button type="submit" class="btn btn-default float-right">Cancel</button>
-		                </div>
-       				</div>
-       			</section>
-            </div>
-         </div>
-      </div>
-   </body>
-</html>
-<script type="text/javascript">
-   // Tabs Show JS
-   function openTabs(evt, tabsName) {
-     var i, contentsection, tabs;
-     contentsection = document.getElementsByClassName("contentsection");
-     for (i = 0; i < contentsection.length; i++) {
-       contentsection[i].style.display = "none";
-     }
-     tabs = document.getElementsByClassName("tabs");
-     for (i = 0; i < tabs.length; i++) {
-       tabs[i].className = tabs[i].className.replace(" active", "");
-     }
-     document.getElementById(tabsName).style.display = "block";
-     evt.currentTarget.className += " active";
-   }
-
-   // Tabs active js
-   $('.nav-tabs').on('click', 'li', function() {
-    $('.nav-tabs li.active-tabs').removeClass('active-tabs');
-       $(this).addClass('active-tabs');
-   });
-
-   // Sidebar active menu js
-   $('.nav-sidebar').on('click', 'li', function() {
-    $('.nav-sidebar li.active-menu').removeClass('active-menu');
-       $(this).addClass('active-menu');
-   });
-
-   // Mobile Menu active Js
-   function myFunction() {
-     var x = document.getElementById("sidebar");
-     if (x.className === "main-sidebar") {
-       x.className += " sidebar-hide";
-     } else {
-       x.className = "main-sidebar";
-     }
-   }
-</script>
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>New Patient</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="css/custom.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+   </head>
+   <body>
+      <div class="section">
+         <div class="header">
+            <div class="mobile-section">
+               <div class="logo">
+                  <a href="#" target="_blank">
+                     <img src="images/FocusPoint_Logo.png" alt="logo">
+                  </a>
+               </div>
+               <div class="mobile-menu">
+                  <button onclick="myFunction();"><i class="fa fa-bars" aria-hidden="true"></i></button>
+               </div>
+            </div>
+            
+            <div class="row header-right-section">
+              <div class="col-md-6 search-box">
+                  <form class="form-inline ml-3">
+                     <div class="input-group input-group-sm">                     
+                       <i class="fa fa-caret-down"></i>
+                       <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                     </div>
+                   </form>
+               </div>
+               <div class="col-md-6 drop-box">
+                  <ul class="droup-down-box">
+                     <li class="drop-item-box">
+                        <div class="form-group select dropdown-box">                           
+                           <select class="form-control" style="-webkit-appearance: none;">
+                              <option>Danvile</option>
+                              <option>Danvile 2</option>
+                              <option>Danvile 3</option>
+                           </select>
+                           <i class="fa fa-angle-down"></i>
+                        </div>
+                     </li>
+                     <li class="drop-item-box">
+                        <div class="form-group select dropdown-box">
+                           <select class="form-control" style="-webkit-appearance: none;">
+                              <option>Administration 1</option>
+                              <option>Administration 2</option>
+                              <option>Administration 3</option>
+                           </select>
+                           <i class="fa fa-angle-down"></i>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
+            <nav class="mt-2">
+               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-dashboard"></i>
+                        <p>Dashboard</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview active-menu">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-user"></i>
+                        <p>Consumer</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-anchor"></i>
+                        <p>Assessments</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-book"></i>
+                        <p>Consumer Notes</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-check-square-o"></i>
+                        <p>Authorizations</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-life-ring"></i>
+                        <p>Service Plans</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-database"></i>
+                        <p>Compliances</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-file-text"></i>
+                        <p>Documents</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-file"></i>
+                        <p>Reports</p>
+                     </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                     <a href="#" class="nav-link">
+                        <i class="fa fa-credit-card"></i>
+                        <p>Billing</p>
+                     </a>
+                  </li>
+               </ul>
+            </nav>
+            <div class="back-box">
+               <button class="back-btn-box"><i class="fa fa-angle-left"></i></button>
+            </div>
+         </aside>
+         <div class="content-wrapper">
+            <div class="background-transperent">
+               <section class="content-header">
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-sm-12 page-background">
+                           <h1 class="page-title">New Patient</h1>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <section class="content">
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-md-8 consumer-section">
+                           <div class="card card-primary">
+                              <form role="form">
+                                 <div class="card-body">
+                                    <div class="form-group row">
+                                       <label for="inputEmail3" class="col-sm-3 col-form-label">Consumer Name</label>
+                                       <div class="col-sm-3 consumer-sec">
+                                          <select class="form-control droupdown">
+                                             <option>Salutation</option>
+                                             <option>Salutation</option>
+                                             <option>Salutation 2</option>
+                                             <option>Salutation 3</option>
+                                          </select>
+                                       </div>
+                                       <div class="col-sm-3 consumer-sec">
+                                          <input type="email" class="form-control" id="inputEmail3" placeholder="First Name">
+                                       </div>
+                                       <div class="col-sm-3 consumer-sec">
+                                          <input type="email" class="form-control" id="inputEmail3" placeholder="Last Name">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Gender</label>
+                                       <div class="col-sm-9 common-text">
+                                          <select class="form-control droupdown">
+                                             <option>Select Gender</option>
+                                             <option>Male</option>
+                                             <option>Female</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Date of Birth</label>
+                                       <div class="col-sm-9 common-text">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Record No</label>
+                                       <div class="col-sm-9 common-text">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-3 col-form-label">Primary Service</label>
+                                       <div class="col-sm-9 common-text">
+                                          <select class="form-control droupdown">
+                                             <option>Select Primary Service</option>
+                                             <option>Primary Service 2</option>
+                                             <option>Primary Service 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                        <div class="col-md-4 active-tool-box">
+                        	<div class="active-tool">
+                        		<div class="card-body">
+                                    <div class="form-group row tool-box">
+                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Status</label>
+                                       <div class="col-sm-6">
+                                          <select class="form-control active-status apprroved">
+                                             <option>Active - Approved</option>
+                                             <option>Active</option>
+                                             <option>Approved</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row tool-box">
+                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Assignee</label>
+                                       <div class="col-sm-6">
+                                          <select class="form-control active-status apprroved">
+                                             <option>Unassigned</option>
+                                             <option>Assigned</option>
+                                             <option>Unassigned</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row tool-box">
+                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Service Date</label>
+                                       <div class="col-sm-6">
+                                          <label class="services-date">9/15/20</label>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row tool-box">
+                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Admission Date</label>
+                                       <div class="col-sm-6">
+                                          <label class="services-date">9/15/20</label>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row tool-box">
+                                       <label for="inputPassword3" class="col-sm-6 col-form-label assigned-label">Discharge Date</label>
+                                       <div class="col-sm-6">
+                                          <label class="services-date">9/15/20</label>
+                                       </div>
+                                    </div>
+                                 </div>
+                        	</div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <section class="tab-section">
+               		<div class="tab-bar">
+               			<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+			              <li class="nav-item active-tabs">
+			                <a class="nav-link tabs" id="custom-content-below-home-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-home" aria-selected="false" onclick="openTabs(event, 'address')">Address</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-profile-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-profile" aria-selected="false" onclick="openTabs(event, 'other-details')">Other Details</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-messages-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">Payer Info</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Contact Persons</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Diagnosis</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Medications</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Allergies</a>
+			              </li>
+			              <li class="nav-item">
+			                <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-content-below-settings" aria-selected="true">Account Notations</a>
+			              </li>
+			            </ul>
+               		</div>
+               </section>
+               <section class="contentsection active" id="address">
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="card card-primary">
+                              <form role="form">
+                                 <div class="card-body">
+                                    <div class="form-group row">
+                                       <label for="inputEmail3" class="col-sm-4 col-form-label">SSN</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="SSN">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Country / Region</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Country</option>
+                                             <option>India</option>
+                                             <option>USA</option>
+                                             <option>UK</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Address</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <textarea class="form-control" placeholder="Street 1"></textarea>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label"></label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <textarea class="form-control" placeholder="Street 2"></textarea>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">City</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="City">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">State</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select State</option>
+                                             <option>Gujarat</option>
+                                             <option>Rajasthan</option>
+                                             <option>Panjab</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Zip Code</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Zip Code">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Email Address</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Email Address">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Home Phone</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Home Phone">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Cell Phone</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Cell Phone">
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               	</section>
+               <section class="contentsection" id="other-details">
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="card card-primary">
+                              <form role="form">
+                                 <div class="card-body">
+                                    <div class="form-group row">
+                                       <label for="inputEmail3" class="col-sm-4 col-form-label">Language</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Language</option>
+                                             <option>Gujarati</option>
+                                             <option>English</option>
+                                             <option>Hindi</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Case Name</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Case Name">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">In Crisis</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="In Crisis">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Lead Person</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Lead Person</option>
+                                             <option>Person 1</option>
+                                             <option>Person 2</option>
+                                             <option>Person 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Nurse</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Nurse</option>
+                                             <option>Nurse 1</option>
+                                             <option>Nurse 2</option>
+                                             <option>Nurse 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Doctor</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Doctor</option>
+                                             <option>Doctor 1</option>
+                                             <option>Doctor 2</option>
+                                             <option>Doctor 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Race</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Race</option>
+                                             <option>Race 1</option>
+                                             <option>Race 2</option>
+                                             <option>Race 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Marital Status</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Marital Status</option>
+                                             <option>Married</option>
+                                             <option>Un Married</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Ethinicity</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Ethinicity</option>
+                                             <option>Ethinicity 1</option>
+                                             <option>Ethinicity 2</option>
+                                             <option>Ethinicity 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Ordering NPI #</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <input type="password" class="form-control" id="inputPassword3" placeholder="Ordering NPI #">
+                                       </div>
+                                    </div>
+                                    <div class="form-group row">
+                                       <label for="inputPassword3" class="col-sm-4 col-form-label">Smoker Status</label>
+                                       <div class="col-sm-8 common-textbox">
+                                          <select class="form-control droupdown">
+                                             <option>Select Smoker Status</option>
+                                             <option>Smoker Status 1</option>
+                                             <option>Smoker Status 2</option>
+                                             <option>Smoker Status 3</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  </section>
+       			<section class="footer-section">
+       				<div class="container-fluid">
+       					<div class="card-footer">
+		                  <button type="submit" class="btn btn-info">Save</button>
+		                  <button type="submit" class="btn btn-default float-right">Cancel</button>
+		                </div>
+       				</div>
+       			</section>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
+<script type="text/javascript">
+   // Tabs Show JS
+   function openTabs(evt, tabsName) {
+     var i, contentsection, tabs;
+     contentsection = document.getElementsByClassName("contentsection");
+     for (i = 0; i < contentsection.length; i++) {
+       contentsection[i].style.display = "none";
+     }
+     tabs = document.getElementsByClassName("tabs");
+     for (i = 0; i < tabs.length; i++) {
+       tabs[i].className = tabs[i].className.replace(" active", "");
+     }
+     document.getElementById(tabsName).style.display = "block";
+     evt.currentTarget.className += " active";
+   }
+
+   // Tabs active js
+   $('.nav-tabs').on('click', 'li', function() {
+    $('.nav-tabs li.active-tabs').removeClass('active-tabs');
+       $(this).addClass('active-tabs');
+   });
+
+   // Sidebar active menu js
+   $('.nav-sidebar').on('click', 'li', function() {
+    $('.nav-sidebar li.active-menu').removeClass('active-menu');
+       $(this).addClass('active-menu');
+   });
+
+   // Mobile Menu active Js
+   function myFunction() {
+     var x = document.getElementById("sidebar");
+     if (x.className === "main-sidebar") {
+       x.className += " sidebar-hide";
+     } else {
+       x.className = "main-sidebar";
+     }
+   }
+</script>

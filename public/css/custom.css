@@ -581,13 +581,9 @@ select {
     background-repeat: no-repeat;
 }
 
-select:focus {
+.select_icon{
     background-image: url(../images/down.png) !important;
-    background-position: right 10px top 9px;
-    background-size: 12px 12px;
-    background-repeat: no-repeat;
 }
-
 @media screen and (min-width:769px) {
     .header-right-section {
         margin-left: 200px;
@@ -740,14 +736,13 @@ button.btn-edit {
     padding: 5px 25px;
     border-radius: 3px;
     height: 35px;
-    color: #999999;
+    color: #333;
     width: 100%;
 }
 
 select.form-control.new-tran-field {
     height: 35px;
     border-radius: 2px;
-    color: #999999;
 }
 
 h4.overview-title-sub {
@@ -2768,7 +2763,7 @@ button.multiselect.dropdown-toggle.btn.btn-default {
     text-align: left;
     border-radius: 2px;
     border: 0.5px solid #ced4da;
-    color: #999999;
+    color: #333;
     font-size: 14px;
     background: transparent;
     box-shadow: unset;
@@ -3398,6 +3393,7 @@ li.droplist {
 }
 ul.dropdown-listing.add-newlist-dropdown li.droplist {
     padding-top: 25px;
+    border-bottom: 1px solid #ddd;
 }
 
 .dropdown-listing li:not(.droplist) {
@@ -3700,8 +3696,8 @@ i.fa.fa-gear.setting-icon {
     position: relative;
 }
 .delete_row_add {
-    position: absolute;
-    right: -20px;
+    position: relative;
+    right: -9px;
     top: 6px;
 }
 .delete_phone {
@@ -3721,6 +3717,12 @@ table.table-contact-user-employee td {
 .employee-image.image-details .image-section:first-child {
     margin-top: 0;
 }
+.add-details-drop ul.dropdown-notes {
+    right: 50px;
+}
+.add_phone_edit .row:first-child {
+    margin-top: -17px;
+}
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
     section.footer-section {
         width: 89%;
@@ -3728,6 +3730,9 @@ table.table-contact-user-employee td {
     section#spent-time-section {
         bottom: 70px;
         width: 89%;
+    }
+    .phone-row-new {
+        width: 95.1%;
     }
 }
 @media screen and (min-width: 1600px) and (max-width: 1600px) {
@@ -3738,6 +3743,9 @@ table.table-contact-user-employee td {
         bottom: 70px;
         width: 87%;
     }
+    .phone-row-new {
+        width: 96.1%;
+    }
 }
 @media screen and (min-width: 1440px) and (max-width: 1440px) {
     section.footer-section {
@@ -3746,6 +3754,9 @@ table.table-contact-user-employee td {
     section#spent-time-section {
         bottom: 70px;
         width: 86%;
+    }
+    .phone-row-new {
+        width: 96.8%;
     }
 }
 @media screen and (min-width: 1366px) and (max-width: 1366px) {
@@ -3764,6 +3775,9 @@ table.table-contact-user-employee td {
     section#spent-time-section {
         bottom: 70px;
         width: 84%;
+    }
+    .phone-row-new {
+        width: 97.6%;
     }
 }
 @media screen and (min-width: 1024px) and (max-width: 1100px) {
@@ -3806,8 +3820,8 @@ table.table-contact-user-employee td {
 }
 @media screen and (min-width: 1024px) {
     .cols-space-add{
-        padding-left: 21px;
-        padding-right: 6px;
+        padding-left: 15px;
+        padding-right: 28px;
     }
     .time-add {
         padding-right: 0px;

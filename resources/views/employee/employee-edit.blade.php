@@ -19,7 +19,7 @@
 	@endsection 
     
          <div class="content-wrapper">
-            <form id="form-consumer" name="employee-form" action=""  method="post" enctype="multipart/form-data">
+            <form id="form-consumer" name="employee-form" action=""  method="post" enctype="multipart/form-data" autocomplete="off">
             @csrf
                <div class="background-transperent">
                   <section class="content-header">
@@ -66,7 +66,7 @@
                                        <label class="col-md-3 col-form-label">Gender<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text">
                                           <select class="form-control droupdown width-add gender" name="gender">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              <option {{ $employee->gender =='Male'  ? 'selected' : ''}} value="Male">Male</option>
                                              <option {{ $employee->gender =='Female'  ? 'selected' : ''}} value="Female">Female</option>
                                           </select>
@@ -96,7 +96,7 @@
                                        <label class="col-md-3 col-form-label">Role<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add role_id" name="role_id">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($roles as $role)
                                                 <option {{ $role->id == $employee->role_id ? 'selected' : ''}} value="{{$role->id}}">{{$role->role}}</option>
                                              @endforeach
@@ -104,10 +104,10 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Supervisor<span class="required-mark">*</span></label>
+                                       <label class="col-md-3 col-form-label">Program Supervisor<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add supervisor" name="supervisor">
-                                             <option value="0" selected="selected" disabled="disabled">Select</option>
+                                             <option value="0" selected="selected" >Select</option>
                                              @foreach ($supervisors as $supervisor)
                                                 <option {{ $employee->supervisor ==$supervisor->id  ? 'selected' : ''}} value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
                                              @endforeach
@@ -280,7 +280,7 @@
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown state" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
                                              <option {{ $employee->state ==$state->id  ? 'selected' : ''}} value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
@@ -297,7 +297,7 @@
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown country" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
                                              <option {{ $employee->country ==$country->id  ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
@@ -436,7 +436,7 @@
                                        <tr class="tr-contact-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 <option value="Mr">Mr.</option>
                                                 <option value="Mrs">Mrs.</option>
                                                 <option value="Ms">Ms.</option>
@@ -452,7 +452,7 @@
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new relationship" name="relationship">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($relations as $relation)
                                                 <option value="{{$relation->id}}">{{$relation->title}}</option>
                                                 @endforeach
@@ -494,7 +494,7 @@
                                        <tr class="tr-certification-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new certificate_type" name="certification">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($certfication_types as $certfication_type)
                                                 <option value="{{$certfication_type->id}}">{{$certfication_type->title}}</option>
                                                 @endforeach
@@ -657,7 +657,7 @@ function readImage(file) {
       var n = file.name;
       
       $('#uploadPreview').append('<div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">' + n + '</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
-      
+
     ///};
       /*
       image.onerror= function() {
@@ -667,15 +667,14 @@ function readImage(file) {
   };
 }
 
-$('html').on("click","'.delete-image'",function(){
-		  
-		var result = confirm("Are you sure to delete?");
-		if (result) {
-			$(this).parent().parent().parent().remove();
-		}
-        
-      });
-	  
+$(document).on("click",".delete-image",function(){
+	if (confirm("Are you sure?")) {
+		$(this).parent().parent().parent().remove();
+	}
+});	  
+
+
+
 $("#file-upload").change(function (e) {
   if(this.disabled) {
     return alert('File upload not supported!');
@@ -1115,7 +1114,7 @@ $(function () {
         empData += '<tr class="tr-contact-person common-tr-info">'+
                         '<td> <input type="hidden"  class="editcontacts" value="{{$contact->id}}" />'+
                            '<select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">'+
-                              '<option value="" selected="selected" disabled="disabled">Select</option>'+
+                              '<option value="" selected="selected" >Select</option>'+
                               '<option {{ $contact->relation == "Mr" ? 'selected' : ''}} value="Mr">Mr.</option>'+
                               '<option {{ $contact->relation == "Mrs" ? 'selected' : ''}} value="Mrs">Mrs.</option>'+
                               '<option {{ $contact->relation == "Ms" ? 'selected' : ''}} value="Ms">Ms.</option>'+

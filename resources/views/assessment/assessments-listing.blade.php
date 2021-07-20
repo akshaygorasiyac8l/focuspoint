@@ -74,6 +74,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                   </div>
                                   <div class="modal-body" id="body-consumer">
+									<form id="reset">
                                       <div class="row">
                                         
                                             
@@ -153,11 +154,12 @@
                                             
                                          </div>
                                       </div>
+									  </form>
                                   </div>
                                   <div class="modal-footer">
                                    <div class="btn-section-consumer">
                                       <button type="button" class="btn btn-primary btn-add-search searchbtn" data-dismiss="modal">Search</button>
-                                      <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+                                      <button type="reset" class="btn btn-default btn-cancle resetdata" >Reset</button>
                                    </div>
                                   </div>
                                 </div>
@@ -585,7 +587,9 @@
       
     } );
     
-    
+ $('html').on("click", ".resetdata", function(){
+	document.getElementById("reset").reset();
+});  
     
     
     </script>

@@ -31,8 +31,9 @@ class EmployeeController extends Controller
     public function index()
     {
         $data = array();        
-        $data['employees'] = DB::table('users')->where('role_id','!=',0)->get();
+        $data['employees'] = DB::table('users')->where('role_id','!=',0)->orderBy('id', 'desc')->get();
         $data['roles'] = DB::table('roles')->get();
+		$data['supervisors'] = DB::table('users')->whereIn('role_id',[11,12,15])->get();
         return view('employee/employee-listing',$data);
     }
     
@@ -177,7 +178,7 @@ class EmployeeController extends Controller
     public function getEmployeeList()
     {
         if(request()->ajax()) {
-            $datas = DB::table('users')->where('status',1)->where('role_id','!=',0)->get();
+            $datas = DB::table('users')->where('status',1)->where('role_id','!=',0)->orderBy('id', 'desc')->get();
 
             $dataarray =  array();
             $i=0;
@@ -265,6 +266,7 @@ class EmployeeController extends Controller
             ".$role_query."
             
             and role_id!='0'
+			order by id desc
             ";
             //echo $sql;
             $datas = DB::select($sql);
@@ -315,7 +317,7 @@ class EmployeeController extends Controller
     {
         
         if(request()->ajax()) {
-            $datas = DB::table('users')->where('role_id','!=',0)->get();
+            $datas = DB::table('users')->where('role_id','!=',0)->orderBy('id', 'desc')->get();
             
             $dataarray =  array();
             $i=0;
@@ -630,7 +632,8 @@ class EmployeeController extends Controller
             $data['countries'] = DB::table('countries')->get();
             $data['states'] = DB::table('states')->get();
 
-            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->get();
+            
+			$data['supervisors'] = DB::table('users')->whereIn('role_id',[11,12,15])->get();
             return view('employee/employee-add',$data);
         }
         
@@ -1045,7 +1048,7 @@ class EmployeeController extends Controller
                 $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
             }
             $data['employee'] = $employeedata;
-            $data['supervisors'] = DB::table('users')->where('role_id','!=','0')->where('id','!=',$id)->get();
+            $data['supervisors'] = DB::table('users')->whereIn('role_id',[11,12,15])->get();
             return view('employee/employee-edit',$data);
         }
         
