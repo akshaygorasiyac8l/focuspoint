@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="form-group row new-phone">
                                        <label class="col-md-3 col-form-label ">Phone<span class="required-mark">*</span></label>
-                                       <div class="col-md-9 new-phone-add">
+                                       <div class="col-md-9 new-phone-add add_phone_edit">
                                           @if(count($consumer_phones) >0)
                                           @php
                                           $p = 0
@@ -186,6 +186,7 @@
                                           </select>
                                        </div>
                                     </div>
+									<!--
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                        <div class="col-md-7">
@@ -198,6 +199,7 @@
                                           </select>
                                        </div>
                                     </div>
+									-->
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Service Date<span class="required-mark">*</span></label>
                                        <div class="col-md-7">
@@ -213,7 +215,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
-                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date<span class="required-mark">*</span></label>
+                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date</label>
                                        <div class="col-md-7">
                                          <input type="text" name="discharge-date" value="{{$consumer->discharge_date}}" class="form-control date-select without-background dischargedate" placeholder="No Discharge Date" autocomplete="off">
                                        </div>
@@ -1262,7 +1264,8 @@ $(function () {
             
             var record_no = $('.record_no').val();
             var statusval = $('.statusval').val();
-            var assigneeval = $('.assigneeval').val();
+            //var assigneeval = $('.assigneeval').val();
+			var assigneeval = 0;
             
             
             var servicedate = $('.servicedate').val();
@@ -1521,9 +1524,7 @@ $(function () {
                validation_array.push('Please select Admissiondate Date');               
             }
             
-            if(dischargedate==null   ||  dischargedate==''){
-               validation_array.push('Please select Discharge Date');               
-            }
+            
             
             
        

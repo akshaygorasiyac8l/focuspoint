@@ -11,7 +11,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Hash;
 use Illuminate\Support\Facades\File; 
+use App\Models\User;
 
 class GeneralController extends Controller
 {
@@ -44,26 +46,45 @@ class GeneralController extends Controller
     public function profile(Request $request)
     {
         
-         $id = Auth::id();
+        $id = Auth::id();
         if($request->isMethod('post')){
             
             $this->validate($request, [
                 'salution' => 'required',
                 'fname' => 'required',
                 'lname' => 'required',
-                'country' => 'required',
-                'time' => 'required',
             ]);
             
+			//dd(Hash::make('admim123'));
+			
+
+			
+			
+			$user = User::find($id);
+			$user->salutation = $request->input('salution');
+			$user->fname = $request->input('fname');
+			$user->lname = $request->input('lname');
+			if($request->input('password')!=''){
+				$user->password = Hash::make($request->input('password'));
+			}
+			$user->save();
+				
+			/*
             //dd($request);
             $salution = $request->input('salution');
             $fname = $request->input('fname');
             $lname = $request->input('lname');
-            $country = $request->input('country');
-            $time = $request->input('time');
-            DB::table('users')
-            ->where('id', $id)
-            ->update(['salutation' => $salution,'fname' => $fname,'lname' => $lname,'country' => $country,'time' => $time,]);
+			if($request->input('password')!=''){
+				$password = Hash::make($request->input('password'));
+				DB::table('users')
+				->where('id', $id)
+				->update(['salutation' => $salution,'fname' => $fname,'lname' => $lname,'password' => $password]);
+			}else{
+				DB::table('users')
+				->where('id', $id)
+				->update(['salutation' => $salution,'fname' => $fname,'lname' => $lname]);
+			}
+			*/
             
             return redirect('/profile');
 

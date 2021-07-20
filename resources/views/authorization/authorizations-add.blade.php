@@ -180,7 +180,7 @@
                   <section class="section-max-unit">
                      <div class="container-fluid">
                         <div class="row">
-                           <div class="col-md-7 time-add">
+                           <div class="col-md-8 consumer-section" style="padding-top: 0;">
                               <div class="row">
                                  <div class="col-md-3">
                                     <span class="max-unit-title">Max Units</span>
@@ -233,7 +233,7 @@
                                  </div>
                               </div>                              
                            </div>
-                           <div class="col-md-5"></div>
+                           <div class="col-md-4"></div>
                         </div>
                      </div>
                   </section>

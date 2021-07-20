@@ -33,16 +33,22 @@ class UserController extends Controller
         if($request->isMethod('post')){
             $email = $request->email; 
             $password = $request->password;            
-            $user = DB::table('users')->where('email',$email)->where('status',1)->first();
+            $user = DB::table('users')->where('email',$email)->first();
             
             if($user){
-                if(Hash::check($password ,$user->password)){
-                    Auth::loginUsingId($user->id, TRUE);
-                    //redirect('home');
-                    return response()->json(['message' => 'login Successfully!','class' => 'success']);
-                }else{
-                    return response()->json(['message' => 'Please enter correct Details!','class' => 'error']);
-                }
+				if($user->status=='1'){
+					if(Hash::check($password ,$user->password)){
+						Auth::loginUsingId($user->id, TRUE);
+						//redirect('home');
+						return response()->json(['message' => 'login Successfully!','class' => 'success']);
+					}else{
+						return response()->json(['message' => 'Please enter correct Details!','class' => 'error']);
+					}
+				}else if($user->status=='3'){
+						return response()->json(['message' => 'User are Suspended!','class' => 'error']);
+				}else{
+						return response()->json(['message' => 'User are Inactive!','class' => 'error']);
+				}
             }else{
                 return response()->json(['message' => 'User not found!','class' => 'error']);
             }

@@ -36,7 +36,7 @@ class AuthorizationController extends Controller
     public function getAuthorizationList()
     {
         if(request()->ajax()) {
-            $datas = DB::table('authorizations')->get();
+            $datas = DB::table('authorizations')->orderBy('id', 'desc')->get();
 
             $dataarray =  array();
             $i=0;
@@ -75,7 +75,7 @@ class AuthorizationController extends Controller
     {
         
         if(request()->ajax()) {
-            $datas = DB::table('authorizations')->get();
+            $datas = DB::table('authorizations')->orderBy('id', 'desc')->get();
             
             $dataarray =  array();
             $i=0;

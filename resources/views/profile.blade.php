@@ -5,7 +5,7 @@
 
 @section('content')
          <div class="content-wrapper">
-            <form id="profile-form" action="{{ route('profile') }}" method="POST">
+            <form id="profile-form" action="{{ route('profile') }}" method="POST" autocomplete="off">
             @csrf
             
             
@@ -16,15 +16,7 @@
                
                   <section class="content" id="profile-add">
                      
-                     @if (count($errors) > 0)
-                         <div class="alert alert-danger">
-                             <ul>
-                                 @foreach ($errors->all() as $error)
-                                     <li>{{ $error }}</li>
-                                 @endforeach
-                             </ul>
-                         </div>
-                      @endif
+                     <div class="errorbillingclass"></div>
                       
                       <div class="container-fluid">
                         <div class="row">
@@ -57,29 +49,27 @@
                                           </div>
                                        </div>
 
-                                       <div class="form-group row">
-                                          <label for="inputPassword3" class="col-md-3 col-form-label">Login</label>
-                                          <div class="col-md-9 time-add">
-                                             <select class="form-control droupdown width-add" name="login">
-                                                <option value="">Select</option>
-                                                <option value="1">Login 1</option>
-                                                <option value="2">Login 1</option>
-                                             </select>
-                                          </div>
-                                       </div>
+                                       
 									   
-                                       <!-- <div class="form-group row">
-                                          <label for="inputPassword3" class="col-md-3 col-form-label">Avatar</label>
-                                          <div class="col-md-9 time-add">
-                                             <input type="text" class="form-control width-add" name="avatar" placeholder="">
-                                          </div>
-                                       </div> -->
                                        <div class="form-group row">
                                           <label for="inputPassword3" class="col-md-3 col-form-label">Email Address</label>
                                           <div class="col-md-9 time-add">
                                              <input type="email" class="form-control width-add" name="email" placeholder="" value="{{$user->email}}" disabled>
                                           </div>
                                        </div>
+                                       <div class="form-group row">
+                                          <label for="inputPassword3" class="col-md-3 col-form-label">Change Password</label>
+                                          <div class="col-md-9 time-add">
+                                             <input type="password" class="form-control width-add password" name="password" placeholder="" autocomplete="false">
+                                          </div>
+                                       </div>
+                                       <div class="form-group row">
+                                          <label for="inputPassword34" class="col-md-3 col-form-label">Confirm Password</label>
+                                          <div class="col-md-9 time-add">
+                                             <input type="password" class="form-control width-add confirmpassword" name="confirmpassword" placeholder="" autocomplete="false">
+                                          </div>
+                                       </div>
+									   <!--
                                        <div class="form-group row">
                                           <label for="inputPassword3" class="col-md-3 col-form-label">Local Time Zone</label>
                                           <div class="col-md-9">
@@ -93,6 +83,7 @@
                                              </div>
                                           </div>
                                        </div>
+									   -->
                                     </div>
                                  
                               </div>
@@ -105,7 +96,7 @@
                      <div class="container-fluid">
                         <div class="card-footer">
                            <button type="submit" name="save" class="btn btn-info">Save</button>
-                           <button type="submit" class="btn btn-default float-right">Cancel</button>
+                           <a href="{{route('home')}}" class="btn btn-default float-right">Cancel</a>
                          </div>
                      </div>
                   </section>
@@ -117,4 +108,51 @@
 
 
 @section('script2')
+ @parent
+ <script>
+ $(document).ready(function(){
+	 
+	$( "#profile-form" ).submit(function( event ) {
+		var validation_login_array= [];
+		var password = $('.password').val();
+		var confirmpassword = $('.confirmpassword').val();
+		if(password!=''){
+			var pswlen = password.length;
+			if (pswlen < 8) {
+
+				
+				validation_login_array.push('Please enter Password and length should be 8');
+				
+			}
+			else {
+			   if (password != confirmpassword) {
+				   
+				   validation_login_array.push('Confirm Password does not match');
+				   
+				}               
+
+			}
+			
+			
+			var errorbillingdata = '<ul>';
+			$(validation_login_array).each(function(key,val){
+				errorbillingdata += '<li>'+val+'</li>';
+			});
+			errorbillingdata += '</ul>';
+			$('.errorbillingclass').html(errorbillingdata);
+			
+
+			if(validation_login_array.length > 0){
+				return false;
+			}
+		}
+
+	});
+			
+ });
+ </script>
+ <style>
+.errorclass,.errorbillingclass,.errorotherdata,.erroraddressdata{color:#f00;}
+.errorclass ul li,.errorbillingclass ul li,.errorotherdata ul li,.erroraddressdata ul li {   list-style: inherit;}
+</style>
 @endsection

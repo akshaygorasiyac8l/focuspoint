@@ -74,6 +74,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                   </div>
                                   <div class="modal-body" id="body-consumer">
+								  <form id="reset">
                                       <div class="row">
                                         
                                             
@@ -132,6 +133,7 @@
                                                   </select>
                                                </div>
                                             </div>
+											<!--
                                             <div class="form-group row">
                                                <label class="col-md-3 col-form-label  ">Coordinator</label>
                                                <div class="col-md-9">
@@ -143,6 +145,7 @@
                                                   </select>
                                                </div>
                                             </div>
+											-->
                                                                                        
                                          </div>
                                          <div class="col-md-6">
@@ -199,6 +202,7 @@
                                                   </select>
                                                </div>
                                             </div>
+											<!--
                                             <div class="form-group row">
                                                <label class="col-md-3 col-form-label">Lead</label>
                                                <div class="col-md-9">
@@ -210,14 +214,16 @@
                                                   </select>
                                                </div>
                                             </div>
+											-->
                                             
                                          </div>
                                       </div>
+									  </form>
                                   </div>
                                   <div class="modal-footer">
                                    <div class="btn-section-consumer">
                                       <button type="button" class="btn btn-primary btn-add-search searchbtn" data-dismiss="modal">Search</button>
-                                      <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+                                      <button type="reset" class="btn btn-default btn-cancle resetdata" >Reset</button>
                                    </div>
                                   </div>
                                 </div>
@@ -434,12 +440,12 @@
           var insuranceid = $('.insuranceid').val();
           //mulltiple
           var searchpayer = $('.searchpayer').val();
-          var searchcoordinator = $('.searchcoordinator').val();
+          //var searchcoordinator = $('.searchcoordinator').val();
           var date_of_birth = $('.date-of-birth').val();
           var selrecordno = $('.selrecordno').val();
           var discharge_from_date = $('.discharge-from-date').val();
           var discharge_to_date = $('.discharge-to-date').val();
-          var sellead = $('.sellead').val();
+          //var sellead = $('.sellead').val();
           
           var status = $('.selstatus').val();
           
@@ -457,12 +463,12 @@
                     admission_discharge_date:admission_discharge_date,
                     admission_to_date:admission_to_date,
                     insuranceid:insuranceid,
-                    searchcoordinator:searchcoordinator,
+                    //searchcoordinator:searchcoordinator,
                     date_of_birth:date_of_birth,
                     selrecordno:selrecordno,
                     discharge_from_date:discharge_from_date,
                     discharge_to_date:discharge_to_date,
-                    sellead:sellead,
+                    //sellead:sellead,
                     searchpayer:searchpayer,
                     status:status,
                 },
@@ -594,7 +600,12 @@
     
      $('html').on("click", ".dropdown-listing", function(){
       $('.dropdown-listing').toggleClass('add-newlist-dropdown');
-   });   
+   }); 
+
+
+$('html').on("click", ".resetdata", function(){
+	document.getElementById("reset").reset();
+});   
        
     
     

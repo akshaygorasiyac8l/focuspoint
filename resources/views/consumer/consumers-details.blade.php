@@ -33,7 +33,7 @@
                               </div>
                               <div class="col-md-4 drop-box-control">
                                  <div class="form-group new-transaction">                           
-                                    <select class="form-control new-tran-field new onchnagepage">
+                                    <select class="form-control new-tran-field onchnagepage" style="-webkit-appearance: none;">
                                        <option value="">Select </option>
                                        <!--<option value="1">Assessment</option>-->
                                        <option value="2">Authorization</option>
@@ -42,7 +42,6 @@
                                        <option value="5">Document</option>
                                        <option value="6">Invoice</option>
                                     </select>
-                                    <i class="fa fa-angle-down new-tran"></i>
                                  </div>
                               </div>
                               <div class="col-md-4 drop-box-control">
@@ -131,143 +130,9 @@
                         </div>
                      </div>
                   </div>
-                  <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                     <div class="modal-dialog" id="modal-consumer">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                          </div>
-                          <div class="modal-body" id="body-consumer">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">First Name</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="first-name" class="form-control" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Insurer ID #</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="insurer-id" class="form-control" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Case Name</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="case-name" class="form-control" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Admission Date</label>
-                                       <div class="col-md-9">
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <input type="text" name="admission-date" class="form-control admission-discharge-date" placeholder="mm/dd/yyyy">
-                                                <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
-                                             </div>
-                                             <div class="col-md-1 left-cols">
-                                                <label class="col-form-label">To</label>
-                                             </div>
-                                             <div class="col-md-5 left-cols">
-                                                <input type="text" name="admission-date-to" class="form-control admission-to-date" placeholder="mm/dd/yyyy">
-                                                <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Payer</label>
-                                       <div class="col-md-9">
-                                          <select class="form-control" name="payer">
-                                             <option>Muiti-Select</option>
-                                             <option>Muiti-Select 2</option>
-                                             <option>Muiti-Select 3</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Coordinator</label>
-                                       <div class="col-md-9">
-                                          <select class="form-control" name="coordinator">
-                                             <option>Select</option>
-                                             <option>Select 2</option>
-                                             <option>Select 3</option>
-                                          </select>
-                                       </div>
-                                    </div>                                    
-                                 </div>
-                                 <div class="col-md-6">
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Last Name</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="last-name" class="form-control" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Date of Birth</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="dob" class="form-control date-of-birth" placeholder="mm/dd/yyyy">
-                                          <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Record #</label>
-                                       <div class="col-md-9">
-                                          <input type="text" name="record" class="form-control" placeholder="">
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Discharge Date</label>
-                                       <div class="col-md-9">
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <input type="text" name="discharge" class="form-control discharge-date" placeholder="mm/dd/yyyy">
-                                                <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
-                                             </div>
-                                             <div class="col-md-1 left-cols">
-                                                <label class="col-form-label">To</label>
-                                             </div>
-                                             <div class="col-md-5 left-cols">
-                                                <input type="text" name="to-date" class="form-control discharge-to-date" placeholder="mm/dd/yyyy">
-                                                <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Status</label>
-                                       <div class="col-md-9">
-                                          <select class="form-control" name="status">
-                                             <option>Select Status</option>
-                                             <option>Active</option>
-                                             <option>Inactive</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Lead</label>
-                                       <div class="col-md-9">
-                                          <select class="form-control" name="lead">
-                                             <option>Select Lead</option>
-                                             <option>Select Lead 1</option>
-                                             <option>Select Lead 2</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                          </div>
-                          <div class="modal-footer">
-                           <div class="btn-section-consumer">
-                              <button type="button" class="btn btn-primary btn-add-search" data-dismiss="modal">Search</button>
-                              <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancle</button>
-                           </div>
-                          </div>
-                        </div>
-                     </div>
-                 </div>
-               </section>
+             
+			   
+			   </section>
                <section class="contentsection" id="assessments">
                   <div class="container-fluid">
                      <div class="row">

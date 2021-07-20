@@ -585,7 +585,7 @@
                   
                   <?php } */ ?>
                   
-                  <li class="nav-item has-treeview {{ request()->is('employee-listing','employee-add','employee-edit/*','employee-details/*') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('employee-listing') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('employee-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Employees</p>
@@ -593,7 +593,7 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview {{ request()->is('consumers-listing','consumers-add','consumers-edit/*','consumers-details/*') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('consumers-listing') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('consumers-listing') }}" class="nav-link">
                         <i class="fa fa-user"></i>
                         <p>Consumers</p>
@@ -601,14 +601,14 @@
                   </li>
                   
                   
-                  <li class="nav-item has-treeview {{ request()->is('assessments-listing','assessments-add/*/*','assessments-edit/*','assessments-details/*') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('assessments-listing') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('assessments-listing') }}" class="nav-link">
                         <i class="fa fa-anchor"></i>
                         <p>Assessments</p>
                      </a>
                   </li> 
                                    
-                  <li class="nav-item has-treeview {{ request()->is('authorizations-listing','authorizations-add/*','authorizations-edit/*','authorizations-details/*') ? 'active_menu_add' : '' }}">
+                  <li class="nav-item has-treeview {{ request()->is('authorizations-listing') ? 'active_menu_add' : '' }}">
                      <a href="{{ route('authorizations-listing') }}" class="nav-link">
                         <i class="fa fa-check-square-o"></i>
                         <p>Authorizations</p>
@@ -1306,20 +1306,6 @@ $('html').on('click', '.sub-menu-dropdown', function() {
   $('.setting-menu-dropdown').toggleClass('show-setting');
 });
 
-// Select Arrow Change JS
-$('html').on('click', 'select', function(){
-  $(this).toggleClass('select_icon');
-});
-
-$(document).on('click', "body", function(e){
-  var container = $("select");
-    if (!container.is(e.target) && container.has(e.target).length === 0) 
-    {
-      if ($('select').hasClass('select_icon')){
-        $('select').removeClass('select_icon'); 
-      }
-    }
-});
 </script>
 </body>
 </html>

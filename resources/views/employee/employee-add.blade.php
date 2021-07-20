@@ -21,7 +21,7 @@
 	@endsection 
     
          <div class="content-wrapper">
-            <form id="form-consumer" name="employee-form" action=""  method="post" enctype="multipart/form-data">
+            <form id="form-consumer" name="employee-form" action=""  method="post" enctype="multipart/form-data" autocomplete="off">
             @csrf
                <div class="background-transperent">
                   <section class="content-header">
@@ -78,7 +78,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Email Address<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
-                                          <input type="email" name="email" class="form-control width-add email email-value-get"  placeholder="">
+                                          <input type="email" name="email" class="form-control width-add email email-value-get"  placeholder="" autocomplete="false">
                                           <p style="color:#f00;" class="emaildata"></p>
                                        </div>
                                     </div>
@@ -99,7 +99,7 @@
                                        <label class="col-md-3 col-form-label">Role<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add role_id" name="role_id">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($roles as $role)
                                                 <option value="{{$role->id}}">{{$role->role}}</option>
                                              @endforeach
@@ -107,10 +107,10 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <label class="col-md-3 col-form-label">Supervisor<span class="required-mark">*</span></label>
+                                       <label class="col-md-3 col-form-label">Program Supervisor<span class="required-mark">*</span></label>
                                        <div class="col-md-9 common-text short-col">
                                           <select class="form-control droupdown width-add supervisor" name="supervisor">
-                                             <option value="0" selected="selected" disabled="disabled">Select</option>
+                                             <option value="0" selected="selected" >Select</option>
                                              @foreach ($supervisors as $supervisor)
                                                 <option value="{{$supervisor->id}}">{{$supervisor->fname}} {{$supervisor->lname}}</option>
                                              @endforeach
@@ -299,7 +299,7 @@
                                        <label class="col-md-4 col-form-label">State</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown state" name="state">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($states as $state)
                                              <option value="{{$state->id}}">{{$state->name}}</option>
                                              @endforeach
@@ -316,7 +316,7 @@
                                        <label class="col-md-4 col-form-label">Country</label>
                                        <div class="col-md-8 common-textbox">
                                           <select class="form-control droupdown country" name="country">
-                                             <option value="" selected="selected" disabled="disabled">Select</option>
+                                             <option value="" selected="selected" >Select</option>
                                              @foreach ($countries as $country)
                                              <option value="{{$country->id}}">{{$country->name}}</option>
                                              @endforeach
@@ -456,7 +456,7 @@
                                        <tr class="tr-contact-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new contact_type" name="contact-type">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 <option value="Mr">Mr.</option>
                                                 <option value="Mrs">Mrs.</option>
                                                 <option value="Ms">Ms.</option>
@@ -472,7 +472,7 @@
                                           </td>
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new relationship" name="relationship">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($relations as $relation)
                                                 <option value="{{$relation->id}}">{{$relation->title}}</option>
                                                 @endforeach
@@ -514,7 +514,7 @@
                                        <tr class="tr-certification-person common-tr-info">
                                           <td>
                                              <select class="form-control droupdown custom-contact-field common-text-box-new certificate_type" name="certification">
-                                                <option value="" selected="selected" disabled="disabled">Select</option>
+                                                <option value="" selected="selected" >Select</option>
                                                 @foreach ($certfication_types as $certfication_type)
                                                 <option value="{{$certfication_type->id}}">{{$certfication_type->title}}</option>
                                                 @endforeach
@@ -638,9 +638,9 @@ function readImage(file) {
       var n = file.name;
       //$('#uploadPreview').append('<div class="image-section"><div class="row"><div class="col-md-8"><p class="file-name-image">' + n + '</p></div><div class="col-md-4"><span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i>Delete</span></div></div></div>');
       $('#uploadPreview').append('<div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">' + n + '</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
-      $('.delete-image').click(function(){
-        $(this).parent().parent().parent().remove();
-      });
+
+
+      
     //};
     /*
     image.onerror= function() {
@@ -649,6 +649,16 @@ function readImage(file) {
     */
   };
 }
+
+
+
+$(document).on("click",".delete-image",function(){
+	if (confirm("Are you sure?")) {
+		$(this).parent().parent().parent().remove();
+	}
+});	  
+
+
 $("#file-upload").change(function (e) {
   if(this.disabled) {
     return alert('File upload not supported!');

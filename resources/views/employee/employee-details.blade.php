@@ -116,7 +116,7 @@
                                        </label>
                                     </div>
                                     <div class="form-group row common-row">
-                                       <label class="col-md-3 col-form-label-assessment common-title-label">Supervisor</label>
+                                       <label class="col-md-3 col-form-label-assessment common-title-label">Program Supervisor</label>
                                        <label class="col-md-9 col-form-label-assessment">{{$employee->supervisor_name}}</label>
                                     </div>
                                  </div>

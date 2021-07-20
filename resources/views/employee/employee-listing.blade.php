@@ -64,79 +64,83 @@
                          
                         </div>
                         
-                                                  <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade add-consumer-details" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                              <div class="modal-dialog" id="modal-consumer">
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                   </div>
+								  
                                   <div class="modal-body" id="body-consumer">
-                                      <div class="row">
-                                         <div class="col-md-6">
-                                            <div class="form-group row">
-                                               <label class="col-md-3 col-form-label">First Name</label>
-                                               <div class="col-md-9">
-                                                  <input type="text" name="first-name" class="form-control search_fname" placeholder="">
-                                               </div>
-                                            </div>
-                                            <div class="form-group row">
-                                               <label class="col-md-3 col-form-label">Supervisor</label>
-                                               <div class="col-md-9">
-                                                  <select class="form-control selsupervisor" name="supervisor">
-                                                    
-                                                     <option value="">Select Supervisor</option>
-                                                     @foreach($employees as $employee)
-                                                     <option value="{{$employee->id}}">{{$employee->fname}} {{$employee->lname}}</option>
-                                                     @endforeach
-                                                  </select>
-                                               </div>
-                                            </div>
-                                            <div class="form-group row">
-                                               <label class="col-md-3 col-form-label">Role</label>
-                                               <div class="col-md-9">
-                                                  <select class="form-control selrole_id" name="selrole_id">
-                                                    
-                                                     <option value="">Select Role</option>
-                                                     @foreach($roles as $role)
-                                                     <option value="{{$role->id}}">{{$role->role}} </option>
-                                                     @endforeach
-                                                  </select>
-                                               </div>
-                                            </div>
-                                            
-                                                                      
-                                         </div>
-                                         <div class="col-md-6">
-                                            <div class="form-group row">
-                                               <label class="col-md-3 col-form-label">Last Name</label>
-                                               <div class="col-md-9">
-                                                  <input type="text" name="last-name" class="form-control search_lname" placeholder="">
-                                               </div>
-                                            </div>
-                                            
-                                            
-                                            <div class="form-group row">
-                                               <label class="col-md-3 col-form-label">Status</label>
-                                               <div class="col-md-9">
-                                                  <select class="form-control selstatus" name="selstatus">
-                                                    
-                                                     <option value="">Select Status</option>
-                                                     
-                                                     <option value="0">Inactive</option>
-                                                     <option value="1">Active</option>
-                                                     <option value="3">Suspend</option>
-                                                     
-                                                  </select>
-                                               </div>
-                                            </div>
-                                            
-                                         </div>
-                                      </div>
-                                  </div>
+									  <form action=""  id="reset">
+										  <div class="row">
+											 <div class="col-md-6">
+												<div class="form-group row">
+												   <label class="col-md-3 col-form-label">First Name</label>
+												   <div class="col-md-9">
+													  <input type="text" name="first-name" class="form-control search_fname" placeholder="">
+												   </div>
+												</div>
+												<div class="form-group row">
+												   <label class="col-md-3 col-form-label">Supervisor</label>
+												   <div class="col-md-9">
+													  <select class="form-control selsupervisor" name="supervisor">
+														
+														 <option value="">Select Supervisor</option>
+														 @foreach($supervisors as $employee)
+														 <option value="{{$employee->id}}">{{$employee->fname}} {{$employee->lname}}</option>
+														 @endforeach
+													  </select>
+												   </div>
+												</div>
+												<div class="form-group row">
+												   <label class="col-md-3 col-form-label">Role</label>
+												   <div class="col-md-9">
+													  <select class="form-control selrole_id" name="selrole_id">
+														
+														 <option value="">Select Role</option>
+														 @foreach($roles as $role)
+														 <option value="{{$role->id}}">{{$role->role}} </option>
+														 @endforeach
+													  </select>
+												   </div>
+												</div>
+												
+																		  
+											 </div>
+											 <div class="col-md-6">
+												<div class="form-group row">
+												   <label class="col-md-3 col-form-label">Last Name</label>
+												   <div class="col-md-9">
+													  <input type="text" name="last-name" class="form-control search_lname" placeholder="">
+												   </div>
+												</div>
+												
+												
+												<div class="form-group row">
+												   <label class="col-md-3 col-form-label">Status</label>
+												   <div class="col-md-9">
+													  <select class="form-control selstatus" name="selstatus">
+														
+														 <option value="">Select Status</option>
+														 
+														 <option value="0">Inactive</option>
+														 <option value="1">Active</option>
+														 <option value="3">Suspend</option>
+														 
+													  </select>
+												   </div>
+												</div>
+												
+											 </div>
+										  </div>
+									  </form>
+								  </div>
+                                  
                                   <div class="modal-footer">
                                    <div class="btn-section-consumer">
                                       <button type="button" class="btn btn-primary btn-add-search searchbtn" data-dismiss="modal">Search</button>
-                                      <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+                                      <button type="reset" class="btn btn-default btn-cancle resetdata" >Reset</button>
                                    </div>
                                   </div>
                                 </div>
@@ -244,7 +248,7 @@
             "processing": true,
             "serverSide": true,
             "searching": true,
-            "ordering": false,
+            "ordering": true,
             "ajax": {
                 "url": "{{ route('getemployees') }}",
                 "method": "GET",
@@ -281,6 +285,7 @@
                 
             ],
             "paging": true, // no pagination
+			"order": [[ 6, "desc" ]],
             "language": {
                 "zeroRecords": "Sorry we no data for this substance",
                 "infoFiltered": "",
@@ -639,10 +644,13 @@ $(document).ready(function() {
         
     
 
-    $('html').on("click", ".dropdown-listing", function(){
+   $('html').on("click", ".dropdown-listing", function(){
       $('.dropdown-listing').toggleClass('add-newlist-dropdown');
    });   
-    
+   
+   $('html').on("click", ".resetdata", function(){
+		document.getElementById("reset").reset();
+   });
     
     </script>
        <style>

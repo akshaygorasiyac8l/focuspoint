@@ -5,6 +5,8 @@
    @parent
    
    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-multiselect.css') }}">
+   <script type="text/javascript" src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
 
 @endsection
 @section('listing_layout')
@@ -101,7 +103,7 @@
                                     <div class="form-group row new-phone">
                                        <label class="col-md-3 col-form-label ">Phone<span class="required-mark">*</span></label>
                                        <div class="col-md-9 new-phone-add">
-                                          <div class="row phone-row-new">
+                                          <div class="row">
                                              <div class="col-md-3 short-col">
                                                 <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
                                                    <option value="" >Select</option>
@@ -151,6 +153,7 @@
                                           </select>
                                        </div>
                                     </div>
+									<!--
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Assignee</label>
                                        <div class="col-md-7">
@@ -162,6 +165,7 @@
                                           </select>
                                        </div>
                                     </div>
+									-->
                                     <div class="form-group row tool-box">
                                        <label class="col-md-5 col-form-label assigned-label">Service Date<span class="required-mark">*</span></label>
                                        <div class="col-md-7">
@@ -177,7 +181,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row tool-box">
-                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date<span class="required-mark">*</span></label>
+                                       <label class="col-md-5 col-form-label assigned-label">Discharge Date</label>
                                        <div class="col-md-7">
                                          <input type="text" name="discharge-date" class="form-control date-select without-background dischargedate" placeholder="No Discharge Date" autocomplete="off">
                                        </div>
@@ -1145,7 +1149,8 @@ $(function () {
             
             var record_no = $('.record_no').val();
             var statusval = $('.statusval').val();
-            var assigneeval = $('.assigneeval').val();
+            //var assigneeval = $('.assigneeval').val();
+			var assigneeval = 0;
             
             
             var servicedate = $('.servicedate').val();
@@ -1379,9 +1384,7 @@ $(function () {
                validation_array.push('Please select Admissiondate Date');               
             }
             
-            if(dischargedate==null   ||  dischargedate==''){
-               validation_array.push('Please select Discharge Date');               
-            }
+            
             
             
        
@@ -1785,7 +1788,7 @@ $(function () {
                  e.preventDefault();
                  if(x < max_fields){ 
                      x++; 
-                     $(wrapper).append('<div class="row new-row-add phone-row-new"> <div class="col-md-3 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-8 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
+                     $(wrapper).append('<div class="row new-row-add"> <div class="col-md-3 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-8 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
                  }
                else
                {
@@ -1814,7 +1817,7 @@ $(function () {
    });
    
  // Add Payer Info
-   $(document).ready(function() {
+ $(document).ready(function() {
        var max_fields      = 3;
        var wrapper         = $(".table-payer-info"); 
        var add_button      = $(".add_form_field"); 
@@ -1902,7 +1905,7 @@ $(function () {
 	$('html').on("click",".common-btn-close",function(){
 		$(this).parent().parent().parent().parent().parent().find('.new-dropdown-open').slideUp();
 	});
-	*/
+	*/  
       
 
    // Add Contact Diagnosis
@@ -2161,6 +2164,20 @@ $('html').on('click', '.add-member', function(){
   var elem = document.getElementById("scrolltopteam");
   elem.scrollIntoView();
 }); 
+
+// Multiselect Dropdown Consumer Page JS
+$(document).ready(function() {
+   $('#multiple-checkboxes').multiselect({
+      includeSelectAllOption: true,
+      nonSelectedText: 'Select'
+   });
+});
+$(document).ready(function() {
+   $('#multiple-checkboxes-01').multiselect({
+      includeSelectAllOption: true,
+      nonSelectedText: 'Select'
+   });
+});
 </script>
 <style>
 .errorclass,.errorbillingclass{color:#f00;}

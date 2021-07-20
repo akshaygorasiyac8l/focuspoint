@@ -222,7 +222,7 @@
                                        <div class="form-group row tool-box">
                                           <label class="col-md-5 col-form-label assigned-label">Due Date</label>
                                           <div class="col-md-7">
-                                             <input type="text" name="due-date" class="form-control date-select without-background due_date" value="{{$assessments->due_date}}">
+                                             <input type="text" name="due-date" class="form-control date-select without-background due_date" placeholder="No Due Date" value="{{$assessments->due_date}}">
                                           </div>
                                        </div>
                                     </div>

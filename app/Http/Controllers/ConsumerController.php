@@ -31,7 +31,7 @@ class ConsumerController extends Controller
     public function index()
     {
         $data = array();        
-        $consumers = DB::table('consumers')->get();
+        $consumers = DB::table('consumers')->orderBy('id', 'desc')->get();
         foreach($consumers as $consumer){
             $consumer_payers = DB::table('consumer_payers')->where('consumer_id',$consumer->id)->first();
             if($consumer_payers){
@@ -53,7 +53,7 @@ class ConsumerController extends Controller
     public function getConsumerList()
     {
         if(request()->ajax()) {
-            $datas = DB::table('consumers')->get();
+            $datas = DB::table('consumers')->orderBy('id', 'desc')->get();
 
             $dataarray =  array();
             $i=0;
@@ -85,7 +85,7 @@ class ConsumerController extends Controller
     {
         
         if(request()->ajax()) {
-            $datas = DB::table('consumers')->get();
+            $datas = DB::table('consumers')->orderBy('id', 'desc')->get();
             
             $dataarray =  array();
             $i=0;
@@ -478,16 +478,18 @@ class ConsumerController extends Controller
             if($request->selrecordno!=''){
                 $selrecordno_query = " and c.record_no= '".$request->selrecordno."' ";
             }
-            
+            /*
             $searchcoordinator_query = '';
             if($request->searchcoordinator!=''){
                 $searchcoordinator_query = " and c.lead_person= '".$request->searchcoordinator."' ";
             }
+			
             
             $sellead_query = '';
             if($request->sellead!=''){
                 $sellead_query = " and c.lead_person= '".$request->sellead."' ";
             }
+			*/
             
             
             $admission_date_query = '';
@@ -503,7 +505,8 @@ class ConsumerController extends Controller
             $payer_query = '';
             $payer_query_new = '';
             if($request->searchpayer){
-                $payer_query_a = ',cp.*';0 consumer_payers as cp on   cp.consumer_id = c.id ';  
+                $payer_query_a = ',cp.*';
+                $payer_query  = ' left join consumer_payers as cp on   cp.consumer_id = c.id ';  
                 $payer_query_new = " and cp.payer_id = '".$request->searchpayer."' ";
             }
 
@@ -519,10 +522,8 @@ class ConsumerController extends Controller
             ".$case_query."
             ".$dob_query."
             ".$insuranceid_query."
-            ".$searchcoordinator_query."
             ".$status_query."
             ".$selrecordno_query."
-            ".$sellead_query."
             ".$admission_date_query."
             ".$discharge_date_query."
             ".$payer_query_new."
@@ -624,8 +625,11 @@ class ConsumerController extends Controller
             $admissiondate = $d->admissiondate;
             $admissiondate = $this->changeDateformate($admissiondate);
             
-            $dischargedate = $d->dischargedate;  
-            $dischargedate = $this->changeDateformate($dischargedate);
+			$dischargedate = null;
+			if($d->dischargedate!=''){
+				$dischargedate = $d->dischargedate;  
+				$dischargedate = $this->changeDateformate($dischargedate);
+			}
             
             $language = $d->language;
             $race = $d->race;
@@ -803,23 +807,57 @@ class ConsumerController extends Controller
                 foreach($contact_type_array as $key => $val){
                     
                     if($val->firstname!=''  && $val->lastname!=''){
-						
-                        
+
+                        $relationship = NULL;
+                        if($val->relationship!=''){
+                            $relationship = $val->relationship;
+                        }
+
+                        $phonenumber = NULL;
+                        if($val->phonenumber!=''){
+                            $phonenumber = $val->phonenumber;
+                        }
+
+                        $mobilenumber = NULL;
+                        if($val->mobilenumber!=''){
+                            $mobilenumber = $val->mobilenumber;
+                        }
+
+                        $emailid = NULL;
+                        if($val->emailid!=''){
+                            $emailid = $val->emailid;
+                        }
+
+                        $address_1 = NULL;
+                        if($val->address_1!=''){
+                            $address_1 = $val->address_1;
+                        }
+
+                        $state_id = NULL;
+                        if($val->state_id!=''){
+                            $state_id = $val->state_id;
+                        }
+
+                        $country_id = NULL;
+                        if($val->country_id!=''){
+                            $country_id = $val->country_id;
+                        }
+
                             DB::table('consumer_persons')
                                 ->insert([
                                     'consumer_id' => $id,
                                     'salutation' => $val->contact_type,
                                     'fname' => $val->firstname,
                                     'lname' => $val->lastname,
-                                    'relation' => $val->relationship,
-                                    'phone' => $val->phonenumber,
-                                    'mobile' => $val->mobilenumber,
-                                    'email' => $val->emailid,
-                                    'address1' => $val->address_1,
+                                    'relation' => $relationship,
+                                    'phone' => $phonenumber,
+                                    'mobile' => $mobilenumber,
+                                    'email' => $emailid,
+                                    'address1' => $address_1,
                                     'address2' => $val->address_2,
                                     'city' => $val->city_id,
-                                    'state_id' => $val->state_id,
-                                    'country_id' => $val->country_id,
+                                    'state_id' => $state_id,
+                                    'country_id' => $country_id,
                                     'created_date' => $date,
                                     
                                 ]);
@@ -985,8 +1023,12 @@ class ConsumerController extends Controller
             $admissiondate = $d->admissiondate;
             $admissiondate = $this->changeDateformate($admissiondate);
             
-            $dischargedate = $d->dischargedate;  
-            $dischargedate = $this->changeDateformate($dischargedate);
+			$dischargedate = null;
+			if($d->dischargedate!=''){
+				$dischargedate = $d->dischargedate;  
+				$dischargedate = $this->changeDateformate($dischargedate);
+			}
+			
             
             $language = $d->language;
             $race = $d->race;
