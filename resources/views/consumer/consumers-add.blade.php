@@ -102,7 +102,7 @@
                                        <label class="col-md-3 col-form-label ">Phone<span class="required-mark">*</span></label>
                                        <div class="col-md-9 new-phone-add">
                                           <div class="row phone-row-new">
-                                             <div class="col-md-6 short-col">
+                                             <div class="col-md-3 short-col">
                                                 <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
                                                    <option value="" >Select</option>
                                                    <option value="Home">Home</option>
@@ -113,7 +113,7 @@
                                                    <option value="Other">Other</option>
                                                 </select>
                                              </div>
-                                             <div class="col-md-6 short-col">
+                                             <div class="col-md-8 short-col">
                                                 <input type="tel" name="cellphone" class="form-control phone"  placeholder="Phone">
                                              </div>
                                           </div>                                             
@@ -547,7 +547,7 @@
                                                 <input type="text" name="policy" class="form-control custom-payer-field common-text-box-new payerpolicyno" placeholder="Policy #">
                                              </td>
                                              <td>
-                                                <select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown payerinsurancetype" name="insurance">
+                                                <select data="1" class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">
                                                    <option value="Select Insurance Type" selected="selected" >Select</option>
                                                    <option value="medicaid">Medicaid</option>
                                                    <option value="medicare">Medicare</option>
@@ -566,11 +566,11 @@
 
                                              </td>
                                           </tr>
-                                          <tr>
+                                          <tr  class="forselfpay1">
                                              <td></td>
                                              <td></td>
                                              <td>
-                                                <div class="dropdown-open">
+                                                <div class="new-dropdown-open">
                                                    <div class="row">
                                                       <div class="col-md-12">
                                                          <label class="col-form-label user">Amount</label>
@@ -1785,7 +1785,7 @@ $(function () {
                  e.preventDefault();
                  if(x < max_fields){ 
                      x++; 
-                     $(wrapper).append('<div class="row new-row-add phone-row-new"> <div class="col-md-6 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-6 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
+                     $(wrapper).append('<div class="row new-row-add phone-row-new"> <div class="col-md-3 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-8 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
                  }
                else
                {
@@ -1837,7 +1837,7 @@ $(function () {
               '</td>'+
               '<td><input type="text" name="policy" class="form-control custom-payer-field common-text-box-new payerpolicyno" placeholder="Policy #"></td>'+
               '<td> '+
-              '<select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">'+
+              '<select data="'+x+'" class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">'+
               '<option value="">Select</option>'+
               '<option value="medicaid">Medicaid</option>'+
              ' <option value="medicare">Medicare</option>'+
@@ -1850,7 +1850,7 @@ $(function () {
               '<td class="makeasprm"><label class="switch"><input type="radio" class="primarybx" name="primarybx"><span class="slider  getchkval"></span></label></td>'+
               '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>'+
               '</tr>'+
-              '<tr><td></td><td></td>'+
+              '<tr class="forselfpay'+x+'"><td></td><td></td>'+
               '<td>'+
               '<div class="new-dropdown-open">'+
               '<div class="row"><div class="col-md-12"> <label class="col-form-label user">Amount</label>'+
@@ -1877,17 +1877,7 @@ $(function () {
               
               $(wrapper).append(htmlData); //add input box
               
-              $('html').on('change','.insurance-dropdown-new', function(){
-                $('.new-dropdown-open').slideUp();
-                 $('#' + $(this).val()).slideDown();
-                 if($(this).val() == 'self pay') {
-                   $('.new-dropdown-open').slideDown();
-                 }
-              });
               
-              $('.common-btn-close').click(function(){
-                $('.new-dropdown-open').slideUp();
-             });
            }
          else
          {
@@ -1899,6 +1889,20 @@ $(function () {
            e.preventDefault(); $(this).parent().parent().remove(); x--;
        })
    });   
+   
+   /*
+	$('html').on('change','.insurance-dropdown-new', function(){
+		var selval  = $(this).attr('data');
+		$(this).parent().parent().parent().find('.forselfpay'+selval+' .new-dropdown-open').slideUp();
+		if($(this).val() == 'self pay') {
+			$(this).parent().parent().parent().find('.forselfpay'+selval+' .new-dropdown-open').slideDown();
+		}
+	});
+	
+	$('html').on("click",".common-btn-close",function(){
+		$(this).parent().parent().parent().parent().parent().find('.new-dropdown-open').slideUp();
+	});
+	*/
       
 
    // Add Contact Diagnosis

@@ -60,18 +60,21 @@ class EmployeeController extends Controller
                     $employeedata->termination_date  = date("m/d/Y",strtotime($employeedata->termination_date));
                     $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
                     $data['employee'] = $employeedata;
-                     
+					
+					$to = $employeedata->email;
+                    $subject = 'For Employee ';
+					$subject1 = 'For Admin ';
                     $mailsend_to_employee =  Mail::send('mails.employee_reminder',
-                       $data, function($message)
+                       $data, function($message)use($to,$subject)
                            {
                                $message->from('sarvesh.patel@cre8ivelabs.com');
-                               $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('For Employee ');
+                               $message->to($to, 'Admin')->subject($subject);
                            });
                     $mailsend_to_admin =  Mail::send('mails.admin_employee_reminder',
-                       $data, function($message)
+                       $data, function($message)use($to,$subject1)
                            {
-                               $message->from('sarvesh.patel@cre8ivelabs.com');
-                               $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('For Admin ');
+                               $message->from($to);
+                               $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject($subject1);
                            });
                            
                 }
@@ -1092,11 +1095,15 @@ class EmployeeController extends Controller
         $employeedata->dl_expiration  = date("m/d/Y",strtotime($employeedata->dl_expiration));
         $data['employee'] = $employeedata;
         
+		
+		$to = $employeedata->email;
+		$subject = 'Employee';
+			
        $mailsend =  Mail::send('mails.employee',
-           $data, function($message)
+           $data, function($message)use($to,$subject)
                {
                    $message->from('sarvesh.patel@cre8ivelabs.com');
-                   $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('Employee ');
+                   $message->to($to, 'Admin')->subject($subject);
                });
                
                

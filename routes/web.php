@@ -138,6 +138,7 @@ Route::any('/getTotalSpendtimeByAssessmentId/{id}', [App\Http\Controllers\Assess
 
 Route::any('/assessments-add-sub/{assessment_id}/{subtype_id}', [App\Http\Controllers\AssessmentController::class, 'addSubAssessment'])->name('assessments-add-sub');
 Route::any('/getassessmentbyid', [App\Http\Controllers\AssessmentController::class, 'getAssessmentById'])->name('getassessmentbyid');
+Route::any('/getotherassessments', [App\Http\Controllers\AssessmentController::class, 'getOtherassessments'])->name('getotherassessments');
 
 
 

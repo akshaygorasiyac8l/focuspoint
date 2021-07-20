@@ -99,7 +99,7 @@
                               <h4 class="overview-title-sub">{{$consumer->salutation}}.{{$consumer->fname}} {{$consumer->lname}}</h4>
                               <p>{{$consumer->email}}</p>
                               <p>{{$phone_no}}</p>
-                              <a href="{{route('consumers-delete', $consumer->id)}}" class="deleteconsumer" data="{{$consumer->id}}" >Delete</a>
+                              <a href="javascript:;" class="deleteconsumer" data="{{$consumer->id}}" >Delete</a>
                               <h4 class="address-title">Address</h4>
                               <span class="address-info">{{$authorization_addresses->address1}} <br>
                               @if($authorization_addresses->address2)
@@ -369,7 +369,10 @@
            if(selval=="1"){
                window.location.href = "{{route('consumers-suspended', $consumer->id)}}";
            }else if(selval=="0"){
-               window.location.href = "{{route('consumers-delete', $consumer->id)}}";
+			   var r = confirm("Are you sure Delete??");
+			   if (r == true) {
+				window.location.href = "{{route('consumers-delete', $consumer->id)}}";
+			   }
            }
        });
        
@@ -382,6 +385,12 @@
                window.location.href = "{{route('authorizations-add', $consumer->id)}}";
            }
        });
+	   $("html").on("click",".deleteconsumer",function(){
+			var r = confirm("Are you sure Delete??");
+			if (r == true) {
+				window.location.href = "{{route('consumers-delete', $consumer->id)}}";
+			}
+	   });
    });
    </script>
    
