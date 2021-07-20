@@ -55,7 +55,7 @@
                                     <div class="form-group row">
                                        <label class="col-md-3 col-form-label">Assessment Type<span class="required-mark">*</span></label>
                                        <div class="col-md-9">
-                                          <select  class="form-control droupdown mobile-drop common-selectbox assessment_type" name="assessment_type">
+                                          <select  @if($assessments->parent_assessment_id=='0') @else disabled @endif  class="form-control droupdown mobile-drop common-selectbox assessment_type" name="assessment_type">
                                              <option value="0">Select Assessment Type</option>
                                              @foreach($assessment_types  as $assessment_type)
                                              <option  {{$assessment_type->id==$assessments->assessment_type ? "selected" : ""}} value="{{$assessment_type->id}}">{{$assessment_type->title}} </option>
@@ -231,6 +231,8 @@
                         </div>
                      </div>
                   </section>
+				  
+				 
                   <section class="tab-section">
                      <div class="tab-bar">
                         <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
@@ -251,6 +253,15 @@
                           </li>
                           <li class="nav-item">
                             <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" role="tab" aria-controls="custom-content-below-settings" aria-selected="true" onclick="openTabs(event, 'document-assessment')">Documents</a>
+                          </li>
+						  <li class="nav-item">
+                            <a class="nav-link tabs" id="custom-content-below-settings-tab" data-toggle="pill" role="tab" aria-controls="custom-content-below-settings" aria-selected="true" onclick="openTabs(event, 'school')">
+							@if($assessments->type_id=='Behavioral' )
+								Work
+							@else
+								School
+							@endif
+							</a>
                           </li>
                         </ul>
                      </div>
@@ -551,8 +562,8 @@
                                  <div class="col-md-3 time-add-left">
                                     <select class="form-control droupdown" name="caregiver">
                                        <option value="" selected="selected" >Select</option>
-                                       <option value="">Select Domain1 1</option>
-                                       <option value="">Select Domain1 2</option>
+                                       <option value="">Domain 1</option>
+                                       <option value="">Domain 2</option>
                                     </select>
                                  </div>
                                  <div class="col-md-5"></div>
@@ -638,6 +649,59 @@
                         </div>
                      </div>
                   </section>
+				  <section class="contentsection" id="school"  style="display:none;">
+                     <div class="container-fluid">
+                        <div class="row">
+							<div class="col-md-6">
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">Name</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="sname" class="form-control sname" value="{{$assessments->sname}}">
+								   </div>
+								</div>
+							
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">District</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="district" class="form-control district" value="{{$assessments->district}}">
+								   </div>
+								</div>
+								
+								
+								@if($assessments->type_id=='Behavioral' )
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">Designation</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="designation" class="form-control designation" value="{{$assessments->designation}}">
+								   </div>
+								</div>
+								
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">Phone</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="phone" class="form-control sphone" value="{{$assessments->sphone}}">
+								   </div>
+								</div>
+								@else
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">Grade</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="grade" class="form-control grade" value="{{$assessments->grade}}">
+								   </div>
+								</div>
+								
+								<div class="form-group row">
+								   <label class="col-md-4 col-form-label">Teacher</label>
+								   <div class="col-md-8 common-textbox">
+									  <input type="text" name="teacher" class="form-control teacher" value="{{$assessments->teacher}}">
+								   </div>
+								</div>
+								@endif
+							</div>
+						</div>						
+					</div>
+ 				  </section>
+
              
                   
                   
@@ -1244,6 +1308,20 @@ $(function () {
             var person_desc = $('.person_desc').val();
             var behavior_desc = $('.behavior_desc').val();
             var assessor_desc = $('.assessor_desc').val();
+			
+			
+			var sname = $('.sname').val();
+			var district = $('.district').val();
+			
+			@if($assessments->type_id=='Behavioral' )
+			var designation = $('.designation').val();
+			var sphone = $('.sphone').val();
+			@else
+			var designation = $('.grade').val();
+			var sphone = $('.teacher').val();
+			@endif
+			
+			
             
             
             var assignee  = $('.assignee').val();            
@@ -1437,6 +1515,10 @@ $(function () {
                               person_desc: person_desc, 
                               behavior_desc: behavior_desc, 
                               assessor_desc: assessor_desc,    
+							  sname: sname,                              
+								district: district,                              
+								designation: designation,                              
+								sphone: sphone,  
  
                            };
            

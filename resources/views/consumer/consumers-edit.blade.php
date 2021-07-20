@@ -107,9 +107,9 @@
                                           $p = 0
                                           @endphp
                                           @foreach($consumer_phones as $consumer_phone)
-                                             <div class="row phone-row-new">
+                                             <div class="row ">
                                                 <input type="hidden" class="editphones" value="{{$consumer_phone->id}}">
-                                                <div class="col-md-6 short-col">
+                                                <div class="col-md-3 short-col">
                                                    <select class="form-control droupdown mobile-drop phonetype desktop-textbox
 
 " name="celltype" autocomplete="off">
@@ -122,7 +122,7 @@
                                                       <option {{$consumer_phone->phonetype=='Other' ? 'selected' : ''}} value="Other">Other</option>
                                                    </select>
                                                 </div>
-                                                <div class="col-md-6 short-col">
+                                                <div class="col-md-8 short-col">
                                                    <input type="tel" name="cellphone" class="form-control phone desktop-textbox"  value="{{$consumer_phone->phone}}">
                                                 </div>
                                           @php
@@ -134,8 +134,8 @@
                                              </div>
                                           @endforeach
                                           @else
-                                             <div class="row phone-row-new">
-                                                <div class="col-md-6 short-col">
+                                             <div class="row ">
+                                                <div class="col-md-3 short-col">
                                                    <select class="form-control droupdown mobile-drop phonetype" name="celltype" autocomplete="off">
                                                       <option value="" >Select</option>
                                                       <option value="Home">Home</option>
@@ -146,7 +146,7 @@
                                                       <option value="Other">Other</option>
                                                    </select>
                                                 </div>
-                                                <div class="col-md-6 short-col">
+                                                <div class="col-md-8 short-col">
                                                    <input type="tel" name="cellphone" class="form-control phone"  placeholder="Phone">
                                                 </div>
                                              </div>
@@ -607,12 +607,12 @@
                                  <div class="table-scrollbar common-scroll">
                                     <table class="table-payer-info common-table-info">
                                        <tbody>
-                                       
+									      <?php $p=0; ?>
                                           @foreach($consumer_payers as $consumer_payer)
                                           <tr class="tr-payer-info common-tr-info">
-                                             
+                                             <?php $p++; ?>
                                              <td><input type="hidden" class="editpayers" value="{{$consumer_payer->id}}">
-                                                <select class="form-control droupdown custom-payer-field common-text-box-new payerid" name="ahena">
+                                                <select class="form-control droupdown custom-payer-field common-text-box-new  payerid" name="ahena">
                                                    <option value="" selected="selected" >Select Payer Name</option>
                                                    @foreach ($payers as $payer)
                                                       <option {{ $consumer_payer->payer_id ==$payer->id  ? 'selected' : ''}} value="{{$payer->id}}">{{$payer->title}}</option>
@@ -625,7 +625,7 @@
                                              </td>
                                              <td>
                                              
-                                                <select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown payerinsurancetype" name="insurance">
+                                                <select data="<?php echo $p; ?>" class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">
                                                    <option value="Select Insurance Type" selected="selected" >Select</option>
                                                    <option {{ $consumer_payer->medical_id =='medicaid'  ? 'selected' : ''}} value="medicaid">Medicaid</option>
                                                    <option {{ $consumer_payer->medical_id =='medicare'   ? 'selected' : ''}} value="medicare">Medicare</option>
@@ -645,11 +645,11 @@
                                              </td>
                                              <td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>
                                           </tr>
-                                          <tr>
+                                          <tr class="forselfpay<?php echo $p; ?>">
                                              <td></td>
                                              <td></td>
                                              <td>
-                                                <div class="dropdown-open">
+                                                <div class="new-dropdown-open">
                                                    <div class="row">
                                                       <div class="col-md-12">
                                                          <label class="col-form-label user">Amount</label>
@@ -1911,7 +1911,7 @@ $(function () {
                  e.preventDefault();
                  if(x < max_fields){ 
                      x++; 
-                     $(wrapper).append('<div class="row new-row-add phone-row-new"> <div class="col-md-6 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-6 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
+                     $(wrapper).append('<div class="row new-row-add "> <div class="col-md-3 short-col"> <select class="form-control droupdown mobile-drop phonetype" name="celltype"> <option value="">Select</option> <option value="home">Home</option> <option value="work">Work</option><option value="school">School</option><option value="mobile" selected="selected">Mobile</option><option value="main">Main</option><option value="other">Other</option> </select> </div><div class="col-md-8 short-col"> <input type="tel" name="cellphone" class="form-control mobile-drop phone" placeholder="Phone"> </div><div class="delete_row_add"><i class="fa fa-close delete-button delete"></i></div></div>'); //add input box
                  }
                else
                {
@@ -1945,7 +1945,7 @@ $(function () {
        var wrapper         = $(".table-payer-info"); 
        var add_button      = $(".add_form_field"); 
        
-       var x = 1; 
+       var x = '<?php echo $p+1; ?>'; 
        
    $('html').on("click",".add_form_field",function(e){
            e.preventDefault();
@@ -1963,7 +1963,7 @@ $(function () {
               '</td>'+
               '<td><input type="text" name="policy" class="form-control custom-payer-field common-text-box-new payerpolicyno" placeholder="Policy #"></td>'+
               '<td> '+
-              '<select class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">'+
+              '<select data="'+x+'" class="form-control droupdown custom-payer-field common-text-box-new self-pay-text insurance-dropdown-new payerinsurancetype" name="insurance">'+
               '<option value="">Select</option>'+
               '<option value="medicaid">Medicaid</option>'+
              ' <option value="medicare">Medicare</option>'+
@@ -1976,7 +1976,7 @@ $(function () {
                '<td class="makeasprm"><label class="switch"><input type="radio" class="primarybx" name="primarybx"><span class="slider  getchkval"></span></label></td>'+
                '<td class="delete-section"><i class="fa fa-close delete-button delete"></i></td>'+
               '</tr>'+
-              '<tr><td></td><td></td>'+
+              '<tr class="forselfpay'+x+'"><td></td><td></td>'+
               '<td>'+
               '<div class="new-dropdown-open">'+
               '<div class="row"><div class="col-md-12"> <label class="col-form-label user">Amount</label>'+
@@ -2003,17 +2003,7 @@ $(function () {
               
               $(wrapper).append(htmlData); //add input box
               
-              $('html').on('change','.insurance-dropdown-new', function(){
-                $('.new-dropdown-open').slideUp();
-                 $('#' + $(this).val()).slideDown();
-                 if($(this).val() == 'self pay') {
-                   $('.new-dropdown-open').slideDown();
-                 }
-              });
-              
-              $('.common-btn-close').click(function(){
-                $('.new-dropdown-open').slideUp();
-             });
+
            }
          else
          {
@@ -2285,6 +2275,22 @@ $(function () {
 	  $(document).on("click",".team-remove",function(){
 		  hideRemoveOption();
 	  });
+
+	/*
+	$('html').on('change','.insurance-dropdown-new', function(){
+		var selval  = $(this).attr('data');
+		
+		$(this).parent().parent().parent().find('.forselfpay'+selval+' .new-dropdown-open').slideUp();
+		if($(this).val() == 'self pay') {
+			$(this).parent().parent().parent().find('.forselfpay'+selval+' .new-dropdown-open').slideDown();
+		}
+	});
+	
+	$('html').on("click",".common-btn-close",function(){
+		$(this).parent().parent().parent().parent().parent().find('.new-dropdown-open').slideUp();
+	});
+	*/
+
 
 $('html').on('click', '.add-member', function(){
   var elem = document.getElementById("scrolltopteam");

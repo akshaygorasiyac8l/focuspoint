@@ -503,8 +503,7 @@ class ConsumerController extends Controller
             $payer_query = '';
             $payer_query_new = '';
             if($request->searchpayer){
-                $payer_query_a = ',cp.*';
-                $payer_query  = ' left join consumer_payers as cp on   cp.consumer_id = c.id ';  
+                $payer_query_a = ',cp.*';0 consumer_payers as cp on   cp.consumer_id = c.id ';  
                 $payer_query_new = " and cp.payer_id = '".$request->searchpayer."' ";
             }
 
@@ -611,7 +610,7 @@ class ConsumerController extends Controller
             $fname = $d->fname;
             $lname = $d->lname;
             $gender = $d->gender;
-            $dob = $d->dob;
+            $dob = $this->changeDateformate($d->dob);
             $email = $d->email;
 
             $record_no = $d->record_no;            
@@ -804,6 +803,7 @@ class ConsumerController extends Controller
                 foreach($contact_type_array as $key => $val){
                     
                     if($val->firstname!=''  && $val->lastname!=''){
+						
                         
                             DB::table('consumer_persons')
                                 ->insert([
@@ -971,7 +971,7 @@ class ConsumerController extends Controller
             $fname = $d->fname;
             $lname = $d->lname;
             $gender = $d->gender;
-            $dob = $d->dob;
+            $dob = $this->changeDateformate($d->dob);
             //$email = $d->email;
 
             $record_no = $d->record_no;            
@@ -1125,7 +1125,7 @@ class ConsumerController extends Controller
                     DB::table('consumer_phones')->where('id',$delete_phones[$crc])->delete();
                 }                
             }
-            
+            //dd($d->phonetype_array);
             $phonetype_array = $d->phonetype_array;            
             $count_phonetype_array = sizeof($phonetype_array);
             if($count_phonetype_array > 0 ){

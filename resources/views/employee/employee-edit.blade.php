@@ -657,9 +657,7 @@ function readImage(file) {
       var n = file.name;
       
       $('#uploadPreview').append('<div class="image-section"><div class="row image-preview-row"><i class="fa fa-paperclip attach-icon-add" aria-hidden="true"></i><div class="image-show-name"><p class="file-name-image">' + n + '</p> <span class="delete-image"><i class="fa fa-trash delete" aria-hidden="true"></i></span></div></div></div>');
-      $('.delete-image').click(function(){
-        $(this).parent().parent().parent().remove();
-      });
+      
     ///};
       /*
       image.onerror= function() {
@@ -668,6 +666,16 @@ function readImage(file) {
       */
   };
 }
+
+$('html').on("click","'.delete-image'",function(){
+		  
+		var result = confirm("Are you sure to delete?");
+		if (result) {
+			$(this).parent().parent().parent().remove();
+		}
+        
+      });
+	  
 $("#file-upload").change(function (e) {
   if(this.disabled) {
     return alert('File upload not supported!');

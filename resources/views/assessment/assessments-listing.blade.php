@@ -131,7 +131,7 @@
                                             <div class="form-group row">
                                                <label class="col-md-3 col-form-label">Created Date</label>
                                                <div class="col-md-9">
-                                                  <input type="text" name="created_date" class="form-control created_date" placeholder="mm-dd-yyyy">
+                                                  <input type="text" name="created_date" class="form-control created_date" placeholder="mm/dd/yyyy">
                                                   <i class="fa fa-calendar new-calendar" aria-hidden="true"></i>
                                                </div>
                                             </div>
@@ -182,6 +182,7 @@
                                    <th>Created Date</th>
                                    <th>Total Hours</th>
                                    <th>Status</th>
+								   <th>>></th>
                                </tr>
                             </thead>
           
@@ -210,12 +211,12 @@
         });
         
         
-        $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm-dd-yy" });
+        $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date').datepicker({ changeMonth: true,changeYear: true,dateFormat: "mm/dd/yy" });
         
         $(document).on('focus','.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date',function(){
            $('.admission-discharge-date,.admission-to-date,.date-of-birth,.discharge-from-date,.discharge-to-date,.created_date,.start_date,.end_date').datepicker({
                changeMonth: true,changeYear: true,
-               dateFormat: 'mm-dd-yy',
+               dateFormat: 'mm/dd/yy',
                autoclose: true,
                todayHighlight: true
            });
@@ -304,6 +305,7 @@
                                                     '<th>Created Date</th>'+
                                                     '<th>Total Hours</th>'+
                                                     '<th>Status</th>'+ 
+													'<th>>></th>'+ 
                                                 '</tr>'+
                                             '</thead><tbody class="ticket-records">';
 
@@ -330,6 +332,7 @@
                                 '<td>'+data[i].created_date+'</td>'+
                                 '<td>'+data[i].total_hours+'</td>'+
                                 '<td>'+data[i].status+'</td>'+
+								'<td><a href="javascript:;" value="'+data[i].id+'"   class="showDatas" >>></a>'+
                                 '</tr>';
 
 
@@ -392,6 +395,7 @@
                 {"data": "created_at", "name": "created_at"},
                 {"data": "total_hours", "name": "total_hours"},
                 {"data": "status", "name": "status"},
+                {"data": "arrow", "name": "arrow"},
                 
             ],
             "columnDefs": [
@@ -520,6 +524,63 @@
             });
         
       });
+	  
+	  $('html').on("click",".showDatas",function(){
+		var assessment_id = $(this).attr('value');
+			var url = "{{ route('getotherassessments') }}";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data:  {
+                    assessment_id:assessment_id,
+                },
+                success: function(data)
+                {
+					var htmlData = '';
+                     if(data.success='1'){
+						$('.body_assessment_data').html();
+						if(data.data.length > 0 ){
+							htmlData += '<table class="table">';
+							htmlData += '<tr>';
+							htmlData += '<th>Date</th>';
+							htmlData += '<th>Assessment #</th>';
+							htmlData += '<th>Consumer Name</th>';
+							htmlData += '<th>Payer Name</th>';
+							htmlData += '<th>Assignee Name</th>';
+							htmlData += '<th>Created Date</th>';
+							htmlData += '<th>Total Hours</th>';
+							htmlData += '<th>Type</th>';
+							htmlData += '<th>Status</th>';
+							htmlData += '</tr>';
+							for(var r=0;r<data.data.length;r++){
+								htmlData += '<tr>';
+								htmlData += '<td>'+data.data[r].assessment_date+'</td>';
+								htmlData += '<td><a href="assessments-details/'+data.data[r].id+'">'+data.data[r].assessment_no+'</a></td>';
+								htmlData += '<td>'+data.data[r].consumer+'</td>';
+								htmlData += '<td>'+data.data[r].payer_name+'</td>';
+								htmlData += '<td>'+data.data[r].assignee_name+'</td>';
+								htmlData += '<td>'+data.data[r].created_at+'</td>';
+								htmlData += '<td>'+data.data[r].total_hours+'</td>';
+								htmlData += '<td>'+data.data[r].subtype+'</td>';
+								htmlData += '<td>'+data.data[r].status+'</td>';
+								htmlData += '</tr>';
+							}
+							
+							htmlData += '</table>';
+						}
+						$('.body_assessment_data').html(htmlData);
+						$('#myModalassessments').modal('show');
+                     }else{
+                        alert('Something wrong');
+                        return false;
+                     }
+                },
+                error: function() 
+                {
+                } 
+            });
+	  });
+		//$(this).parent().parent().after(htmlData);
             
       
     } );
@@ -538,6 +599,31 @@
     
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+    <!-- Modal -->
+<div class="modal fade add-consumer-details" id="myModalassessments" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	 <div class="modal-dialog" id="modal-consumer">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+			<h4 class="modal-title">Assessments </h4>
+		  </div>
+		  <div class="modal-body" id="body-assessment_data">
+			  <div class="row body_assessment_data">
+				
+					
+		  
+			  </div>
+		  </div>
+		  <div class="modal-footer">
+		   <div class="btn-section-consumer">
+			  <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal">Cancel</button>
+		   </div>
+		  </div>
+		</div>
+	 </div>
+	</div>
+  
 @endsection
 @section('end_add_layout')   
 @endsection

@@ -56,8 +56,10 @@
                                   <li class="droupdown-hover-add">
                                     <a href="javascript:;" class="btn btn-info" id="header-new-btn">New<i class="fa fa-caret-down dropdown-icon" aria-hidden="true"></i></a>
                                     <ul class="dropdown-notes">
+									@if($assessments->parent_assessment_id=='0')
                                      <li><a href="{{ url('assessments-add-sub',[$assessments->id,1]) }}">Annual Assessment</a></li>
                                      <li><a href="{{ url('assessments-add-sub',[$assessments->id,2]) }}">Reassessment</a></li>
+									 @endif
                                      <li>
                                         <a href="{{route('authorizations-add', $assessments->consumer_id)}}" >Create an Authorization</a>
                                      </li>

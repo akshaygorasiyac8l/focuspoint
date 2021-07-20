@@ -38,7 +38,7 @@
                                              <div class="row salutions">
                                                 <div class="col-md-3 short-col">
                                                    <select class="form-control droupdown mobile-drop" name="salution">
-                                                   <option disabled value="">Salutation</option>
+                                                   <option  value="">Salutation</option>
                                                    <option <?php if($user->salutation=='Mr') { echo "selected";}?> value="Mr">Mr.</option>
                                                    <option <?php if($user->salutation=='Mrs') { echo "selected";}?> value="Mrs">Mrs.</option>
                                                    <option <?php if($user->salutation=='Ms') { echo "selected";}?> value="Ms">Ms.</option>

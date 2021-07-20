@@ -68,7 +68,84 @@ class AssessmentController extends Controller
     
     
 
-    
+    public function getOtherassessments(Request $request)
+    {
+        
+		
+        if(request()->ajax()) {
+            $datas = DB::table('assessments')->where('parent_assessment_id',$request->assessment_id)->where('parent_assessment_id','!=',0)->get();
+            
+            $dataarray =  array();
+            $i=0;
+            
+            foreach($datas as $data){
+                $status = '';
+                if($data->status=='0'){
+                    $status = 'Open';
+                }else if($data->status=='1'){
+                    $status = 'Fixed';
+                }else if($data->status=='2'){
+                    $status = 'Completed';
+                }else if($data->status=='3'){
+                    $status = 'In-Progress';
+                }else{
+                    $status = '-';
+                }
+				
+				
+				if($data->subtype_id=='1'){
+                    $subtype = 'Annual Assessment';
+                }else if($data->subtype_id=='2'){
+                    $subtype = 'Reassessment';
+                }else{
+                    $subtype = '-';
+                }
+                
+                $consumer = DB::table('consumers')->where('id',$data->consumer_id)->first();
+                $name = $consumer->fname.' '.$consumer->lname;
+                
+                $payer_name = '-';
+                $payer = DB::table('consumer_payers')->where('consumer_id',$data->consumer_id)->where('makeasprimary',1)->first();
+                if($payer){
+                    $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
+                    if($payer_data){
+                        $payer_name = $payer_data->title;
+                    }
+                }
+                
+                $assignee_name = 'Unassigned';
+                $assignee = DB::table('users')->where('id',$data->assignee)->first();
+                if($assignee){
+                    $assignee_name = $assignee->fname.' '.$assignee->lname;
+                }
+                $dataarray[$i]= (object) array(
+                                    'id'=>$data->id,       
+                                    'assessment_no'=>$data->assessment_no,
+                                    'location'=>$data->location,
+									'subtype'=>$subtype,
+                                    'consumer'=>$name,
+                                    'communication'=>$data->communication,
+                                    'payer_name'=>$payer_name,
+                                    'assignee_name'=>$assignee_name,
+                                    'assessment_date'=>date('m/d/Y',strtotime($data->assessment_date)),
+                                    'total_hours'=>$this->getTotalSpendtimeByAssessmentId($data->id),
+                                    'created_at'=>date('m/d/Y',strtotime($data->created_date)),
+                                    'status'=>$status,
+                                    );
+
+                
+                $i++;
+            }
+            
+            //$collection = collect($dataarray);
+			
+			
+            return response()->json(['suceess' => '1','data' => $dataarray]);
+            
+
+		}	
+	}		
+	
     public function getAssessments()
     {
         
@@ -140,7 +217,11 @@ class AssessmentController extends Controller
                     $actionBtn = '<input value="'.$row->id.'"  name="empids" type="checkbox" class="add-new-icon" />';
                     return $actionBtn;
                 })
-            ->rawColumns(['assessment_no','chkbox'])
+			->addColumn('arrow', function($row){
+				$actionBtn = '<a href="javascript:;" value="'.$row->id.'"   class="showDatas" >>></a>';
+				return $actionBtn;
+			})
+            ->rawColumns(['assessment_no','chkbox','arrow'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -413,6 +494,43 @@ class AssessmentController extends Controller
             if($d->assessor_desc!=NULL){
                 $assessor_desc = $d->assessor_desc;
             }
+			
+			
+			$sname = NULL;
+            if($d->sname!=NULL){
+                $sname = $d->sname;
+            }
+			$district = NULL;
+            if($d->district!=NULL){
+                $district = $d->district;
+            }
+			
+			if($type_id=='1'){
+				$grade = NULL;
+				$teacher = NULL;
+				$designation = NULL;
+				if($d->designation!=NULL){
+					$designation = $d->designation;
+				}
+				$sphone = NULL;
+				if($d->sphone!=NULL){
+					$sphone = $d->sphone;
+				}
+				
+				
+			}else{
+				$designation = NULL;
+				$sphone = NULL;
+				$grade = NULL;
+				if($d->designation!=NULL){
+					$grade = $d->designation;
+				}
+				$teacher = NULL;
+				if($d->sphone!=NULL){
+					$teacher = $d->sphone;
+				}
+			}
+			
             
             
             $id = DB::table('assessments')
@@ -429,6 +547,12 @@ class AssessmentController extends Controller
                 'record_no' => $record_no,
                 'assessment_date' => $date_add,
                 'assignee' => $assignee,
+                'sname' => $sname,
+                'district' => $district,
+                'grade' => $grade,
+                'teacher' => $teacher,
+                'designation' => $designation,
+                'sphone' => $sphone,
                 'spent_time' => $spent_time,
                 'due_date' => $due_date,                
                 'status' => $status,
@@ -668,6 +792,44 @@ class AssessmentController extends Controller
             if($d->assessor_desc!=NULL){
                 $assessor_desc = $d->assessor_desc;
             }
+			
+			
+			$sname = NULL;
+            if($d->sname!=NULL){
+                $sname = $d->sname;
+            }
+			$district = NULL;
+            if($d->district!=NULL){
+                $district = $d->district;
+            }
+			
+			if($type_id=='1'){
+				$grade = NULL;
+				$teacher = NULL;
+				$designation = NULL;
+				if($d->designation!=NULL){
+					$designation = $d->designation;
+				}
+				$sphone = NULL;
+				if($d->sphone!=NULL){
+					$sphone = $d->sphone;
+				}
+				
+				
+			}else{
+				$designation = NULL;
+				$sphone = NULL;
+				$grade = NULL;
+				if($d->designation!=NULL){
+					$grade = $d->designation;
+				}
+				$teacher = NULL;
+				if($d->sphone!=NULL){
+					$teacher = $d->sphone;
+				}
+			}
+			
+			
             
             
             $id = DB::table('assessments')
@@ -684,6 +846,12 @@ class AssessmentController extends Controller
                 'record_no' => $record_no,
                 'assessment_date' => $date_add,
                 'assignee' => $assignee,
+				'sname' => $sname,
+                'district' => $district,
+                'grade' => $grade,
+                'teacher' => $teacher,
+                'designation' => $designation,
+                'sphone' => $sphone,
                 'spent_time' => $spent_time,
                 'due_date' => $due_date,                
                 'status' => $status,
@@ -849,7 +1017,11 @@ class AssessmentController extends Controller
             
         }else{
             $data = array();      
-            $data['assessment_id'] = $assessment_id;            
+            $data['assessment_id'] = $assessment_id;   
+			$assessments = DB::table('assessments')->where('id', $assessment_id)->first();
+
+            
+			$data['type_id'] = $assessments->type_id; 			
             $data['subtype_id'] = $subtype_id;            
             $data['assessment_types'] = DB::table('assessment_types')->get();
             $data['consumers'] = DB::table('consumers')->get();
@@ -869,7 +1041,8 @@ class AssessmentController extends Controller
         if($request->isMethod('post')){
             $d = json_decode($request->options);
             //dd($d);
-            
+            $assessments = DB::table('assessments')->where('id', $id)->first();
+            $type_id = $assessments->type_id;
             
             $assessment_type = $d->assessment_type;
             $consumername = $d->consumername;
@@ -910,6 +1083,42 @@ class AssessmentController extends Controller
             if($d->assessor_desc!=NULL){
                 $assessor_desc = $d->assessor_desc;
             }
+			
+			
+			$sname = NULL;
+            if($d->sname!=NULL){
+                $sname = $d->sname;
+            }
+			$district = NULL;
+            if($d->district!=NULL){
+                $district = $d->district;
+            }
+			
+			if($type_id=='1'){
+				$grade = NULL;
+				$teacher = NULL;
+				$designation = NULL;
+				if($d->designation!=NULL){
+					$designation = $d->designation;
+				}
+				$sphone = NULL;
+				if($d->sphone!=NULL){
+					$sphone = $d->sphone;
+				}
+				
+				
+			}else{
+				$designation = NULL;
+				$sphone = NULL;
+				$grade = NULL;
+				if($d->designation!=NULL){
+					$grade = $d->designation;
+				}
+				$teacher = NULL;
+				if($d->sphone!=NULL){
+					$teacher = $d->sphone;
+				}
+			}
             
             
             DB::table('assessments')
@@ -924,6 +1133,12 @@ class AssessmentController extends Controller
                 'record_no' => $record_no,
                 'assessment_date' => $date_add,
                 'assignee' => $assignee,
+				'sname' => $sname,
+                'district' => $district,
+                'grade' => $grade,
+                'teacher' => $teacher,
+                'designation' => $designation,
+                'sphone' => $sphone,
                 'spent_time' => $spent_time,
                 'due_date' => $due_date,                
                 'status' => $status,
@@ -1384,15 +1599,22 @@ class AssessmentController extends Controller
         $data = array();
        
         $assessmentdata = DB::table('assessments')->where('id',$id)->first();
+		
+		
+        $consumer_data = DB::table('consumers')->where('id',$assessmentdata->consumer_id)->first();
+		if($consumer_data){
+			//dd($consumer_data->email);
+			
         $data['assessment'] = $assessmentdata;
-        
+        $to = $consumer_data->email;
+		$subject = 'Assessment';
         $mailsend =  Mail::send('mails.assessment',
-           $data, function($message)
+           $data, function($message)use($to,$subject)
                {
                    $message->from('sarvesh.patel@cre8ivelabs.com');
-                   $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('Assessment ');
+                   $message->to($to, 'Admin')->subject($subject);
                });
-               
+		}
                
 
         

@@ -576,59 +576,65 @@ class AuthorizationController extends Controller
         $data = array();
         $data = array();
         $authorizationdata = DB::table('authorizations')->where('id',$id)->first();
-        $status = '';
-        if($authorizationdata->status=='0'){
-            $status = 'Open';
-        }else if($authorizationdata->status=='1'){
-            $status = 'Fixed';
-        }else if($authorizationdata->status=='2'){
-            $status = 'Completed';
-        }else if($authorizationdata->status=='3'){
-            $status = 'In-Progress';
-        }else{
-            $status = '-';
-        }
-        
-        $consumer = DB::table('consumers')->where('id',$authorizationdata->consumer_id)->first();
-        $authorizationdata->consumer_name = $consumer->fname.' '.$consumer->lname;
-        
-        
-        $authorizationdata->payer_name = '-';
-        $payer = DB::table('consumer_payers')->where('consumer_id',$authorizationdata->consumer_id)->first();
-        if($payer){
-            $payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
-            if($payer_data){
-                $authorizationdata->payer_name = $payer_data->title;
-            }
-        }
-        
-        $authorizationdata->service_name = '-';
-        $services = DB::table('services')->where('id',$authorizationdata->services)->first();
-        if($services){
-            $authorizationdata->service_name = $services->title;
-        }
-                
+		
+		$consumer_data = DB::table('consumers')->where('id',$authorizationdata->consumer_id)->first();
+		if($consumer_data){
+			
+			$status = '';
+			if($authorizationdata->status=='0'){
+				$status = 'Open';
+			}else if($authorizationdata->status=='1'){
+				$status = 'Fixed';
+			}else if($authorizationdata->status=='2'){
+				$status = 'Completed';
+			}else if($authorizationdata->status=='3'){
+				$status = 'In-Progress';
+			}else{
+				$status = '-';
+			}
+			
+			$consumer = DB::table('consumers')->where('id',$authorizationdata->consumer_id)->first();
+			$authorizationdata->consumer_name = $consumer->fname.' '.$consumer->lname;
+			
+			
+			$authorizationdata->payer_name = '-';
+			$payer = DB::table('consumer_payers')->where('consumer_id',$authorizationdata->consumer_id)->first();
+			if($payer){
+				$payer_data = DB::table('payers')->where('id',$payer->payer_id)->first();
+				if($payer_data){
+					$authorizationdata->payer_name = $payer_data->title;
+				}
+			}
+			
+			$authorizationdata->service_name = '-';
+			$services = DB::table('services')->where('id',$authorizationdata->services)->first();
+			if($services){
+				$authorizationdata->service_name = $services->title;
+			}
+					
 
-        
-        
-        
-        $authorizationdata->approve_date = date("Y-m-d",strtotime($authorizationdata->approve_date));
-        $authorizationdata->expiry_date  = date("Y-m-d",strtotime($authorizationdata->expiry_date));
-        $authorizationdata->discharge_date  = date("Y-m-d",strtotime($authorizationdata->discharge_date));
-        $data['authorization'] = $authorizationdata;
+			
+			
+			
+			$authorizationdata->approve_date = date("Y-m-d",strtotime($authorizationdata->approve_date));
+			$authorizationdata->expiry_date  = date("Y-m-d",strtotime($authorizationdata->expiry_date));
+			$authorizationdata->discharge_date  = date("Y-m-d",strtotime($authorizationdata->discharge_date));
+			$data['authorization'] = $authorizationdata;
 
-        
-       $mailsend =  Mail::send('mails.authorization',
-           $data, function($message)
-               {
-                   $message->from('sarvesh.patel@cre8ivelabs.com');
-                   $message->to('sarvesh.patel@cre8ivelabs.com', 'Admin')->subject('Authorization ');
-               });
+			$to = $consumer_data->email;
+			$subject = 'Authorization';
+			
+		   $mailsend =  Mail::send('mails.authorization',
+			   $data, function($message)use($to,$subject)
+				   {
+					   $message->from('sarvesh.patel@cre8ivelabs.com');
+					   $message->to($to, 'Admin')->subject($subject);
+				   });
                
                
-
+		}
         
-        //dd($mailsend);
+        
         
         
     }
